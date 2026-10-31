@@ -1,7 +1,7 @@
 {
   "study": "sepsis_ordinal_discharge_destination_prediction_stability",
-  "title": "Predicted-Class Stability and Transport of Discharge-Disposition Models Among ICU Stays With Sepsis at 24, 48, and 72 Hours: A Three-Database Study of Recalibration and Enhanced-Monitoring Trigger Simulation",
-  "title_zh": "脓毒症出院去向预测模型的稳定性与运输：一项包含重校准与复评策略模拟的三数据库研究",
+  "title": "Predicted-Class Stability and Transport of Sepsis Discharge-Disposition Models Across 24-72 Hours: A Three-Database Recalibration and Reassessment Simulation Study",
+  "title_zh": "脓毒症出院去向预测模型的预测类别稳定性与运输：一项24至72小时三数据库重校准与复评模拟研究",
   "research_question": "How stable are discharge-destination predictions at 24, 48, and 72 h after sepsis ICU admission, and do fixed-weight transport, local recalibration, and reassessment triggers behave consistently across three critical-care databases?",
   "database_roles": {
     "mimic4": "contemporary single-center database and one side of the cross-institution replication",

@@ -1,4 +1,4 @@
-# Predicted-Class Stability and Transport of Discharge-Disposition Models Among ICU Stays With Sepsis at 24, 48, and 72 Hours
+# Predicted-Class Stability and Transport of Sepsis Discharge-Disposition Models Across 24-72 Hours: A Three-Database Recalibration and Reassessment Simulation Study
 
 This public repository accompanies a three-database study of predicted
 discharge-destination stability among ICU stays with sepsis. It contains

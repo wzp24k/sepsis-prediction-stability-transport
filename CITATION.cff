@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this code or the aggregate results, please cite this repository and the accompanying manuscript."
 type: software
-title: "Predicted-Class Stability and Transport of Discharge-Disposition Models Among ICU Stays With Sepsis at 24, 48, and 72 Hours"
+title: "Predicted-Class Stability and Transport of Sepsis Discharge-Disposition Models Across 24-72 Hours: A Three-Database Recalibration and Reassessment Simulation Study"
 version: "1.0.0"
 date-released: "2026-10-31"
 repository-code: "https://github.com/wzp24k/sepsis-prediction-stability-transport"
