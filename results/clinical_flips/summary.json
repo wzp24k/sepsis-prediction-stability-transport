@@ -1,0 +1,4305 @@
+{
+  "metadata": {
+    "generated_at_utc": "2026-10-31T05:58:16.287908+00:00",
+    "analysis": "clinical_flip_direction_correctness_and_temporal_penalty",
+    "replicates": 2000,
+    "seed": 20261030,
+    "xgboost_prediction_source": "results/shared_fold/{database}_shared_fold.npz (p24 and p72; one fixed patient-grouped 5-fold partition)",
+    "dg_gru_prediction_source": "results/formal_summary/{database}_ordinal_notemporal_ensemble.npz and results/formal_summary/{database}_ordinal_temporal_ensemble.npz",
+    "alignment": "All three model series are aligned on the exact common ids and checked for identical y/y3 outcomes before analysis.",
+    "class_order": [
+      "home",
+      "facility",
+      "death"
+    ],
+    "complete_landmark_hours": [
+      24,
+      48,
+      72
+    ],
+    "models": {
+      "xgboost": "XGBoost shared-fold OOF",
+      "ordinal_notemporal": "Ordinal DG-GRU, no temporal penalty",
+      "ordinal_temporal": "Ordinal DG-GRU, temporal penalty"
+    },
+    "estimand": "Evaluation-sample uncertainty conditional on already fitted out-of-fold predictions and original folds; models are not retrained within bootstrap replicates.",
+    "bootstrap_unit": {
+      "mimic4": "subject_id (patient)",
+      "eicu": "hospitalid (hospital cluster)"
+    },
+    "correctness_distance": "Absolute distance between the predicted argmax class and the final three-class outcome.",
+    "clinical_major_upgrade": "Primary: any 24 h non-death prediction changing to death at 72 h. Secondary: home-to-facility and any class upgrade.",
+    "multiplicity": "No multiplicity adjustment; exploratory analysis."
+  },
+  "databases": {
+    "mimic4": {
+      "label": "MIMIC-IV",
+      "n": 6823,
+      "bootstrap": {
+        "unit": "subject_id",
+        "clusters": 6254,
+        "replicates": 2000,
+        "seed": 20261030,
+        "cluster_size_median": 1.0,
+        "cluster_size_max": 11
+      },
+      "cohort": {
+        "complete_landmark_ids": 6823,
+        "shared_fold_count": 5,
+        "outcome_counts": {
+          "home": 1175,
+          "facility": 3447,
+          "death": 2201
+        },
+        "source_sizes_before_alignment": {
+          "xgboost_shared_fold": 6823,
+          "ordinal_notemporal": 6823,
+          "ordinal_temporal": 6823
+        },
+        "prediction_provenance": {
+          "xgboost": "results/shared_fold/mimic4_shared_fold.npz: one fixed patient-grouped 5-fold partition shared by all landmarks",
+          "dg_gru": "results/formal_summary/mimic4_ordinal_*_ensemble.npz: three-seed probability ensembles"
+        }
+      },
+      "models": {
+        "xgboost": {
+          "label": "XGBoost shared-fold OOF",
+          "flip_24_72": {
+            "estimate": 0.233182,
+            "ci95": [
+              0.222892,
+              0.242992
+            ],
+            "n": 1591,
+            "denominator_n": 6823
+          },
+          "transition_matrix_rows_24h_columns_72h": [
+            [
+              437,
+              168,
+              43
+            ],
+            [
+              191,
+              3733,
+              654
+            ],
+            [
+              53,
+              482,
+              1062
+            ]
+          ],
+          "transition_composition": {
+            "home_to_facility": {
+              "from": "home",
+              "to": "facility",
+              "count": 168,
+              "cohort_rate": {
+                "estimate": 0.024623,
+                "ci95": [
+                  0.021044,
+                  0.028785
+                ],
+                "n": 168,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.105594,
+                "ci95": [
+                  0.090853,
+                  0.121862
+                ],
+                "n": 168,
+                "denominator_n": 1591
+              }
+            },
+            "home_to_death": {
+              "from": "home",
+              "to": "death",
+              "count": 43,
+              "cohort_rate": {
+                "estimate": 0.006302,
+                "ci95": [
+                  0.004545,
+                  0.008192
+                ],
+                "n": 43,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.027027,
+                "ci95": [
+                  0.019608,
+                  0.034848
+                ],
+                "n": 43,
+                "denominator_n": 1591
+              }
+            },
+            "facility_to_home": {
+              "from": "facility",
+              "to": "home",
+              "count": 191,
+              "cohort_rate": {
+                "estimate": 0.027994,
+                "ci95": [
+                  0.024073,
+                  0.031809
+                ],
+                "n": 191,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.12005,
+                "ci95": [
+                  0.104031,
+                  0.135605
+                ],
+                "n": 191,
+                "denominator_n": 1591
+              }
+            },
+            "facility_to_death": {
+              "from": "facility",
+              "to": "death",
+              "count": 654,
+              "cohort_rate": {
+                "estimate": 0.095852,
+                "ci95": [
+                  0.088902,
+                  0.103053
+                ],
+                "n": 654,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.411062,
+                "ci95": [
+                  0.387531,
+                  0.435232
+                ],
+                "n": 654,
+                "denominator_n": 1591
+              }
+            },
+            "death_to_home": {
+              "from": "death",
+              "to": "home",
+              "count": 53,
+              "cohort_rate": {
+                "estimate": 0.007768,
+                "ci95": [
+                  0.005797,
+                  0.009953
+                ],
+                "n": 53,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.033312,
+                "ci95": [
+                  0.025045,
+                  0.042486
+                ],
+                "n": 53,
+                "denominator_n": 1591
+              }
+            },
+            "death_to_facility": {
+              "from": "death",
+              "to": "facility",
+              "count": 482,
+              "cohort_rate": {
+                "estimate": 0.070643,
+                "ci95": [
+                  0.064487,
+                  0.076733
+                ],
+                "n": 482,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.302954,
+                "ci95": [
+                  0.280678,
+                  0.326626
+                ],
+                "n": 482,
+                "denominator_n": 1591
+              }
+            }
+          },
+          "clinical_major_upgrades": {
+            "major_upgrade_to_death": {
+              "estimate": 0.102154,
+              "ci95": [
+                0.09505,
+                0.109408
+              ],
+              "n": 697,
+              "denominator_n": 6823
+            },
+            "home_to_facility": {
+              "estimate": 0.024623,
+              "ci95": [
+                0.021044,
+                0.028785
+              ],
+              "n": 168,
+              "denominator_n": 6823
+            },
+            "any_upgrade": {
+              "estimate": 0.126777,
+              "ci95": [
+                0.11894,
+                0.134969
+              ],
+              "n": 865,
+              "denominator_n": 6823
+            }
+          },
+          "correctness_relative_to_final_outcome": {
+            "all": {
+              "gain": {
+                "estimate": 0.13264,
+                "ci95": [
+                  0.124832,
+                  0.14054
+                ],
+                "n": 905,
+                "denominator_n": 6823
+              },
+              "loss": {
+                "estimate": 0.095706,
+                "ci95": [
+                  0.08829,
+                  0.102629
+                ],
+                "n": 653,
+                "denominator_n": 6823
+              },
+              "tie": {
+                "estimate": 0.771655,
+                "ci95": [
+                  0.761995,
+                  0.781696
+                ],
+                "n": 5265,
+                "denominator_n": 6823
+              },
+              "correct_upgrade": {
+                "estimate": 0.070057,
+                "ci95": [
+                  0.064175,
+                  0.076127
+                ],
+                "n": 478,
+                "denominator_n": 6823
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.05672,
+                "ci95": [
+                  0.051172,
+                  0.062409
+                ],
+                "n": 387,
+                "denominator_n": 6823
+              },
+              "correct_downgrade": {
+                "estimate": 0.062582,
+                "ci95": [
+                  0.056847,
+                  0.068131
+                ],
+                "n": 427,
+                "denominator_n": 6823
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.043822,
+                "ci95": [
+                  0.038966,
+                  0.048587
+                ],
+                "n": 299,
+                "denominator_n": 6823
+              },
+              "tie_upgrade": {
+                "estimate": 0.001759,
+                "ci95": [
+                  0.000876,
+                  0.002775
+                ],
+                "n": 12,
+                "denominator_n": 6823
+              },
+              "tie_downgrade": {
+                "estimate": 0.003078,
+                "ci95": [
+                  0.00177,
+                  0.004391
+                ],
+                "n": 21,
+                "denominator_n": 6823
+              },
+              "distance24_mean": {
+                "estimate": 0.468855,
+                "ci95": [
+                  0.4555,
+                  0.482185
+                ],
+                "n": 6823
+              },
+              "distance72_mean": {
+                "estimate": 0.428257,
+                "ci95": [
+                  0.414985,
+                  0.441324
+                ],
+                "n": 6823
+              },
+              "distance_change_72_minus_24_mean": {
+                "estimate": -0.040598,
+                "ci95": [
+                  -0.052549,
+                  -0.028647
+                ],
+                "n": 6823
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.028933,
+                "ci95": [
+                  0.025488,
+                  0.032323
+                ],
+                "n": 6823
+              }
+            },
+            "flips": {
+              "gain": {
+                "estimate": 0.568825,
+                "ci95": [
+                  0.545337,
+                  0.593712
+                ],
+                "n": 905,
+                "denominator_n": 1591
+              },
+              "loss": {
+                "estimate": 0.410434,
+                "ci95": [
+                  0.385396,
+                  0.434332
+                ],
+                "n": 653,
+                "denominator_n": 1591
+              },
+              "tie": {
+                "estimate": 0.020742,
+                "ci95": [
+                  0.014212,
+                  0.027795
+                ],
+                "n": 33,
+                "denominator_n": 1591
+              },
+              "correct_upgrade": {
+                "estimate": 0.30044,
+                "ci95": [
+                  0.278923,
+                  0.321786
+                ],
+                "n": 478,
+                "denominator_n": 1591
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.243243,
+                "ci95": [
+                  0.221104,
+                  0.264895
+                ],
+                "n": 387,
+                "denominator_n": 1591
+              },
+              "correct_downgrade": {
+                "estimate": 0.268385,
+                "ci95": [
+                  0.246358,
+                  0.290283
+                ],
+                "n": 427,
+                "denominator_n": 1591
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.187932,
+                "ci95": [
+                  0.168902,
+                  0.207139
+                ],
+                "n": 299,
+                "denominator_n": 1591
+              },
+              "tie_upgrade": {
+                "estimate": 0.007542,
+                "ci95": [
+                  0.003683,
+                  0.011757
+                ],
+                "n": 12,
+                "denominator_n": 1591
+              },
+              "tie_downgrade": {
+                "estimate": 0.013199,
+                "ci95": [
+                  0.007716,
+                  0.01894
+                ],
+                "n": 21,
+                "denominator_n": 1591
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.049879,
+                "ci95": [
+                  0.039648,
+                  0.060085
+                ],
+                "n": 1591
+              }
+            }
+          },
+          "true_class_probability": {
+            "pt_true24_mean": {
+              "estimate": 0.467125,
+              "ci95": [
+                0.462492,
+                0.471842
+              ],
+              "n": 6823
+            },
+            "pt_true72_mean": {
+              "estimate": 0.496058,
+              "ci95": [
+                0.491026,
+                0.501376
+              ],
+              "n": 6823
+            },
+            "pt_true_change_mean": {
+              "estimate": 0.028933,
+              "ci95": [
+                0.025488,
+                0.032323
+              ],
+              "n": 6823
+            },
+            "improved": {
+              "estimate": 0.580976,
+              "ci95": [
+                0.569183,
+                0.592698
+              ],
+              "n": 3964,
+              "denominator_n": 6823
+            },
+            "worsened": {
+              "estimate": 0.419024,
+              "ci95": [
+                0.407302,
+                0.430817
+              ],
+              "n": 2859,
+              "denominator_n": 6823
+            },
+            "unchanged": {
+              "estimate": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 0,
+              "denominator_n": 6823
+            },
+            "among_flips": {
+              "pt_true_change_mean": {
+                "estimate": 0.049879,
+                "ci95": [
+                  0.039648,
+                  0.060085
+                ],
+                "n": 1591
+              },
+              "improved": {
+                "estimate": 0.575739,
+                "ci95": [
+                  0.551011,
+                  0.601296
+                ],
+                "n": 916,
+                "denominator_n": 1591
+              }
+            }
+          },
+          "true_death_subgroup": {
+            "n": 2201,
+            "predicted_class_counts": {
+              "pred24": [
+                83,
+                1245,
+                873
+              ],
+              "pred72": [
+                77,
+                1050,
+                1074
+              ]
+            },
+            "already_death_at24": {
+              "estimate": 0.396638,
+              "ci95": [
+                0.376771,
+                0.417742
+              ],
+              "n": 873,
+              "denominator_n": 2201
+            },
+            "detected_death_at72": {
+              "estimate": 0.48796,
+              "ci95": [
+                0.466422,
+                0.507048
+              ],
+              "n": 1074,
+              "denominator_n": 2201
+            },
+            "missed_death_at72": {
+              "estimate": 0.51204,
+              "ci95": [
+                0.492952,
+                0.533578
+              ],
+              "n": 1127,
+              "denominator_n": 2201
+            },
+            "new_upgrade_to_death": {
+              "estimate": 0.171286,
+              "ci95": [
+                0.155989,
+                0.186816
+              ],
+              "n": 377,
+              "denominator_n": 2201
+            },
+            "any_upgrade": {
+              "estimate": 0.180373,
+              "ci95": [
+                0.165097,
+                0.196606
+              ],
+              "n": 397,
+              "denominator_n": 2201
+            },
+            "retained_death": {
+              "estimate": 0.316674,
+              "ci95": [
+                0.2979,
+                0.336852
+              ],
+              "n": 697,
+              "denominator_n": 2201
+            },
+            "lost_detected_death": {
+              "estimate": 0.079964,
+              "ci95": [
+                0.069386,
+                0.091329
+              ],
+              "n": 176,
+              "denominator_n": 2201
+            }
+          }
+        },
+        "ordinal_notemporal": {
+          "label": "Ordinal DG-GRU, no temporal penalty",
+          "flip_24_72": {
+            "estimate": 0.119889,
+            "ci95": [
+              0.112288,
+              0.127701
+            ],
+            "n": 818,
+            "denominator_n": 6823
+          },
+          "transition_matrix_rows_24h_columns_72h": [
+            [
+              132,
+              42,
+              5
+            ],
+            [
+              66,
+              4175,
+              291
+            ],
+            [
+              3,
+              411,
+              1698
+            ]
+          ],
+          "transition_composition": {
+            "home_to_facility": {
+              "from": "home",
+              "to": "facility",
+              "count": 42,
+              "cohort_rate": {
+                "estimate": 0.006156,
+                "ci95": [
+                  0.004412,
+                  0.008057
+                ],
+                "n": 42,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.051345,
+                "ci95": [
+                  0.037151,
+                  0.066994
+                ],
+                "n": 42,
+                "denominator_n": 818
+              }
+            },
+            "home_to_death": {
+              "from": "home",
+              "to": "death",
+              "count": 5,
+              "cohort_rate": {
+                "estimate": 0.000733,
+                "ci95": [
+                  0.000147,
+                  0.00146
+                ],
+                "n": 5,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.006112,
+                "ci95": [
+                  0.001233,
+                  0.011962
+                ],
+                "n": 5,
+                "denominator_n": 818
+              }
+            },
+            "facility_to_home": {
+              "from": "facility",
+              "to": "home",
+              "count": 66,
+              "cohort_rate": {
+                "estimate": 0.009673,
+                "ci95": [
+                  0.00748,
+                  0.01211
+                ],
+                "n": 66,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.080685,
+                "ci95": [
+                  0.063217,
+                  0.099872
+                ],
+                "n": 66,
+                "denominator_n": 818
+              }
+            },
+            "facility_to_death": {
+              "from": "facility",
+              "to": "death",
+              "count": 291,
+              "cohort_rate": {
+                "estimate": 0.04265,
+                "ci95": [
+                  0.038133,
+                  0.047564
+                ],
+                "n": 291,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.355746,
+                "ci95": [
+                  0.32211,
+                  0.388613
+                ],
+                "n": 291,
+                "denominator_n": 818
+              }
+            },
+            "death_to_home": {
+              "from": "death",
+              "to": "home",
+              "count": 3,
+              "cohort_rate": {
+                "estimate": 0.00044,
+                "ci95": [
+                  0.0,
+                  0.001025
+                ],
+                "n": 3,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.003667,
+                "ci95": [
+                  0.0,
+                  0.008414
+                ],
+                "n": 3,
+                "denominator_n": 818
+              }
+            },
+            "death_to_facility": {
+              "from": "death",
+              "to": "facility",
+              "count": 411,
+              "cohort_rate": {
+                "estimate": 0.060237,
+                "ci95": [
+                  0.054744,
+                  0.066041
+                ],
+                "n": 411,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.502445,
+                "ci95": [
+                  0.468635,
+                  0.537983
+                ],
+                "n": 411,
+                "denominator_n": 818
+              }
+            }
+          },
+          "clinical_major_upgrades": {
+            "major_upgrade_to_death": {
+              "estimate": 0.043383,
+              "ci95": [
+                0.038788,
+                0.048281
+              ],
+              "n": 296,
+              "denominator_n": 6823
+            },
+            "home_to_facility": {
+              "estimate": 0.006156,
+              "ci95": [
+                0.004412,
+                0.008057
+              ],
+              "n": 42,
+              "denominator_n": 6823
+            },
+            "any_upgrade": {
+              "estimate": 0.049538,
+              "ci95": [
+                0.044558,
+                0.054737
+              ],
+              "n": 338,
+              "denominator_n": 6823
+            }
+          },
+          "correctness_relative_to_final_outcome": {
+            "all": {
+              "gain": {
+                "estimate": 0.072402,
+                "ci95": [
+                  0.066384,
+                  0.078699
+                ],
+                "n": 494,
+                "denominator_n": 6823
+              },
+              "loss": {
+                "estimate": 0.047193,
+                "ci95": [
+                  0.042388,
+                  0.052424
+                ],
+                "n": 322,
+                "denominator_n": 6823
+              },
+              "tie": {
+                "estimate": 0.880405,
+                "ci95": [
+                  0.872626,
+                  0.888138
+                ],
+                "n": 6007,
+                "denominator_n": 6823
+              },
+              "correct_upgrade": {
+                "estimate": 0.027114,
+                "ci95": [
+                  0.0233,
+                  0.031009
+                ],
+                "n": 185,
+                "denominator_n": 6823
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.022424,
+                "ci95": [
+                  0.019166,
+                  0.026003
+                ],
+                "n": 153,
+                "denominator_n": 6823
+              },
+              "correct_downgrade": {
+                "estimate": 0.045288,
+                "ci95": [
+                  0.04045,
+                  0.050299
+                ],
+                "n": 309,
+                "denominator_n": 6823
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.025062,
+                "ci95": [
+                  0.021326,
+                  0.028789
+                ],
+                "n": 171,
+                "denominator_n": 6823
+              },
+              "tie_upgrade": {
+                "estimate": 0.000147,
+                "ci95": [
+                  0.0,
+                  0.000442
+                ],
+                "n": 1,
+                "denominator_n": 6823
+              },
+              "tie_downgrade": {
+                "estimate": 0.000147,
+                "ci95": [
+                  0.0,
+                  0.000443
+                ],
+                "n": 1,
+                "denominator_n": 6823
+              },
+              "distance24_mean": {
+                "estimate": 0.494357,
+                "ci95": [
+                  0.480309,
+                  0.508147
+                ],
+                "n": 6823
+              },
+              "distance72_mean": {
+                "estimate": 0.469148,
+                "ci95": [
+                  0.455229,
+                  0.482901
+                ],
+                "n": 6823
+              },
+              "distance_change_72_minus_24_mean": {
+                "estimate": -0.025209,
+                "ci95": [
+                  -0.033812,
+                  -0.017084
+                ],
+                "n": 6823
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.009497,
+                "ci95": [
+                  0.007965,
+                  0.011036
+                ],
+                "n": 6823
+              }
+            },
+            "flips": {
+              "gain": {
+                "estimate": 0.603912,
+                "ci95": [
+                  0.569961,
+                  0.637794
+                ],
+                "n": 494,
+                "denominator_n": 818
+              },
+              "loss": {
+                "estimate": 0.393643,
+                "ci95": [
+                  0.359805,
+                  0.427728
+                ],
+                "n": 322,
+                "denominator_n": 818
+              },
+              "tie": {
+                "estimate": 0.002445,
+                "ci95": [
+                  0.0,
+                  0.00629
+                ],
+                "n": 2,
+                "denominator_n": 818
+              },
+              "correct_upgrade": {
+                "estimate": 0.226161,
+                "ci95": [
+                  0.196838,
+                  0.255847
+                ],
+                "n": 185,
+                "denominator_n": 818
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.187042,
+                "ci95": [
+                  0.160975,
+                  0.214378
+                ],
+                "n": 153,
+                "denominator_n": 818
+              },
+              "correct_downgrade": {
+                "estimate": 0.377751,
+                "ci95": [
+                  0.343748,
+                  0.410201
+                ],
+                "n": 309,
+                "denominator_n": 818
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.209046,
+                "ci95": [
+                  0.18012,
+                  0.236625
+                ],
+                "n": 171,
+                "denominator_n": 818
+              },
+              "tie_upgrade": {
+                "estimate": 0.001222,
+                "ci95": [
+                  0.0,
+                  0.003788
+                ],
+                "n": 1,
+                "denominator_n": 818
+              },
+              "tie_downgrade": {
+                "estimate": 0.001222,
+                "ci95": [
+                  0.0,
+                  0.003837
+                ],
+                "n": 1,
+                "denominator_n": 818
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.025766,
+                "ci95": [
+                  0.017986,
+                  0.03333
+                ],
+                "n": 818
+              }
+            }
+          },
+          "true_class_probability": {
+            "pt_true24_mean": {
+              "estimate": 0.428617,
+              "ci95": [
+                0.424683,
+                0.432839
+              ],
+              "n": 6823
+            },
+            "pt_true72_mean": {
+              "estimate": 0.438114,
+              "ci95": [
+                0.434343,
+                0.442189
+              ],
+              "n": 6823
+            },
+            "pt_true_change_mean": {
+              "estimate": 0.009497,
+              "ci95": [
+                0.007965,
+                0.011036
+              ],
+              "n": 6823
+            },
+            "improved": {
+              "estimate": 0.555621,
+              "ci95": [
+                0.543859,
+                0.567361
+              ],
+              "n": 3791,
+              "denominator_n": 6823
+            },
+            "worsened": {
+              "estimate": 0.444379,
+              "ci95": [
+                0.432639,
+                0.456141
+              ],
+              "n": 3032,
+              "denominator_n": 6823
+            },
+            "unchanged": {
+              "estimate": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 0,
+              "denominator_n": 6823
+            },
+            "among_flips": {
+              "pt_true_change_mean": {
+                "estimate": 0.025766,
+                "ci95": [
+                  0.017986,
+                  0.03333
+                ],
+                "n": 818
+              },
+              "improved": {
+                "estimate": 0.605134,
+                "ci95": [
+                  0.570922,
+                  0.639433
+                ],
+                "n": 495,
+                "denominator_n": 818
+              }
+            }
+          },
+          "true_death_subgroup": {
+            "n": 2201,
+            "predicted_class_counts": {
+              "pred24": [
+                21,
+                1133,
+                1047
+              ],
+              "pred72": [
+                14,
+                1117,
+                1070
+              ]
+            },
+            "already_death_at24": {
+              "estimate": 0.475693,
+              "ci95": [
+                0.454791,
+                0.497296
+              ],
+              "n": 1047,
+              "denominator_n": 2201
+            },
+            "detected_death_at72": {
+              "estimate": 0.486143,
+              "ci95": [
+                0.465399,
+                0.506902
+              ],
+              "n": 1070,
+              "denominator_n": 2201
+            },
+            "missed_death_at72": {
+              "estimate": 0.513857,
+              "ci95": [
+                0.493098,
+                0.534601
+              ],
+              "n": 1131,
+              "denominator_n": 2201
+            },
+            "new_upgrade_to_death": {
+              "estimate": 0.074512,
+              "ci95": [
+                0.064123,
+                0.085913
+              ],
+              "n": 164,
+              "denominator_n": 2201
+            },
+            "any_upgrade": {
+              "estimate": 0.078601,
+              "ci95": [
+                0.067586,
+                0.09045
+              ],
+              "n": 173,
+              "denominator_n": 2201
+            },
+            "retained_death": {
+              "estimate": 0.411631,
+              "ci95": [
+                0.391303,
+                0.431575
+              ],
+              "n": 906,
+              "denominator_n": 2201
+            },
+            "lost_detected_death": {
+              "estimate": 0.064062,
+              "ci95": [
+                0.053835,
+                0.07447
+              ],
+              "n": 141,
+              "denominator_n": 2201
+            }
+          }
+        },
+        "ordinal_temporal": {
+          "label": "Ordinal DG-GRU, temporal penalty",
+          "flip_24_72": {
+            "estimate": 0.115199,
+            "ci95": [
+              0.107737,
+              0.123012
+            ],
+            "n": 786,
+            "denominator_n": 6823
+          },
+          "transition_matrix_rows_24h_columns_72h": [
+            [
+              137,
+              31,
+              5
+            ],
+            [
+              67,
+              4194,
+              295
+            ],
+            [
+              2,
+              386,
+              1706
+            ]
+          ],
+          "transition_composition": {
+            "home_to_facility": {
+              "from": "home",
+              "to": "facility",
+              "count": 31,
+              "cohort_rate": {
+                "estimate": 0.004543,
+                "ci95": [
+                  0.002945,
+                  0.00617
+                ],
+                "n": 31,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.03944,
+                "ci95": [
+                  0.025798,
+                  0.053455
+                ],
+                "n": 31,
+                "denominator_n": 786
+              }
+            },
+            "home_to_death": {
+              "from": "home",
+              "to": "death",
+              "count": 5,
+              "cohort_rate": {
+                "estimate": 0.000733,
+                "ci95": [
+                  0.000147,
+                  0.00146
+                ],
+                "n": 5,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.006361,
+                "ci95": [
+                  0.001287,
+                  0.012346
+                ],
+                "n": 5,
+                "denominator_n": 786
+              }
+            },
+            "facility_to_home": {
+              "from": "facility",
+              "to": "home",
+              "count": 67,
+              "cohort_rate": {
+                "estimate": 0.00982,
+                "ci95": [
+                  0.007625,
+                  0.012263
+                ],
+                "n": 67,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.085242,
+                "ci95": [
+                  0.066581,
+                  0.105002
+                ],
+                "n": 67,
+                "denominator_n": 786
+              }
+            },
+            "facility_to_death": {
+              "from": "facility",
+              "to": "death",
+              "count": 295,
+              "cohort_rate": {
+                "estimate": 0.043236,
+                "ci95": [
+                  0.038377,
+                  0.048252
+                ],
+                "n": 295,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.375318,
+                "ci95": [
+                  0.339926,
+                  0.409387
+                ],
+                "n": 295,
+                "denominator_n": 786
+              }
+            },
+            "death_to_home": {
+              "from": "death",
+              "to": "home",
+              "count": 2,
+              "cohort_rate": {
+                "estimate": 0.000293,
+                "ci95": [
+                  0.0,
+                  0.000738
+                ],
+                "n": 2,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.002545,
+                "ci95": [
+                  0.0,
+                  0.006571
+                ],
+                "n": 2,
+                "denominator_n": 786
+              }
+            },
+            "death_to_facility": {
+              "from": "death",
+              "to": "facility",
+              "count": 386,
+              "cohort_rate": {
+                "estimate": 0.056573,
+                "ci95": [
+                  0.051429,
+                  0.062281
+                ],
+                "n": 386,
+                "denominator_n": 6823
+              },
+              "share_of_flips": {
+                "estimate": 0.491094,
+                "ci95": [
+                  0.457363,
+                  0.528021
+                ],
+                "n": 386,
+                "denominator_n": 786
+              }
+            }
+          },
+          "clinical_major_upgrades": {
+            "major_upgrade_to_death": {
+              "estimate": 0.043969,
+              "ci95": [
+                0.039155,
+                0.04905
+              ],
+              "n": 300,
+              "denominator_n": 6823
+            },
+            "home_to_facility": {
+              "estimate": 0.004543,
+              "ci95": [
+                0.002945,
+                0.00617
+              ],
+              "n": 31,
+              "denominator_n": 6823
+            },
+            "any_upgrade": {
+              "estimate": 0.048512,
+              "ci95": [
+                0.04356,
+                0.053675
+              ],
+              "n": 331,
+              "denominator_n": 6823
+            }
+          },
+          "correctness_relative_to_final_outcome": {
+            "all": {
+              "gain": {
+                "estimate": 0.069764,
+                "ci95": [
+                  0.064151,
+                  0.076369
+                ],
+                "n": 476,
+                "denominator_n": 6823
+              },
+              "loss": {
+                "estimate": 0.045288,
+                "ci95": [
+                  0.040396,
+                  0.050236
+                ],
+                "n": 309,
+                "denominator_n": 6823
+              },
+              "tie": {
+                "estimate": 0.884948,
+                "ci95": [
+                  0.877118,
+                  0.892459
+                ],
+                "n": 6038,
+                "denominator_n": 6823
+              },
+              "correct_upgrade": {
+                "estimate": 0.026088,
+                "ci95": [
+                  0.022402,
+                  0.029966
+                ],
+                "n": 178,
+                "denominator_n": 6823
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.022424,
+                "ci95": [
+                  0.019121,
+                  0.025892
+                ],
+                "n": 153,
+                "denominator_n": 6823
+              },
+              "correct_downgrade": {
+                "estimate": 0.043676,
+                "ci95": [
+                  0.039068,
+                  0.048763
+                ],
+                "n": 298,
+                "denominator_n": 6823
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.02301,
+                "ci95": [
+                  0.019477,
+                  0.026456
+                ],
+                "n": 157,
+                "denominator_n": 6823
+              },
+              "tie_upgrade": {
+                "estimate": 0.000147,
+                "ci95": [
+                  0.0,
+                  0.000442
+                ],
+                "n": 1,
+                "denominator_n": 6823
+              },
+              "tie_downgrade": {
+                "estimate": 0.0,
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "n": 0,
+                "denominator_n": 6823
+              },
+              "distance24_mean": {
+                "estimate": 0.494944,
+                "ci95": [
+                  0.480821,
+                  0.508693
+                ],
+                "n": 6823
+              },
+              "distance72_mean": {
+                "estimate": 0.470468,
+                "ci95": [
+                  0.456332,
+                  0.483768
+                ],
+                "n": 6823
+              },
+              "distance_change_72_minus_24_mean": {
+                "estimate": -0.024476,
+                "ci95": [
+                  -0.033111,
+                  -0.016641
+                ],
+                "n": 6823
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.009753,
+                "ci95": [
+                  0.008264,
+                  0.011253
+                ],
+                "n": 6823
+              }
+            },
+            "flips": {
+              "gain": {
+                "estimate": 0.605598,
+                "ci95": [
+                  0.572358,
+                  0.640424
+                ],
+                "n": 476,
+                "denominator_n": 786
+              },
+              "loss": {
+                "estimate": 0.39313,
+                "ci95": [
+                  0.357866,
+                  0.426416
+                ],
+                "n": 309,
+                "denominator_n": 786
+              },
+              "tie": {
+                "estimate": 0.001272,
+                "ci95": [
+                  0.0,
+                  0.003958
+                ],
+                "n": 1,
+                "denominator_n": 786
+              },
+              "correct_upgrade": {
+                "estimate": 0.226463,
+                "ci95": [
+                  0.197733,
+                  0.256474
+                ],
+                "n": 178,
+                "denominator_n": 786
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.194656,
+                "ci95": [
+                  0.167544,
+                  0.221693
+                ],
+                "n": 153,
+                "denominator_n": 786
+              },
+              "correct_downgrade": {
+                "estimate": 0.379135,
+                "ci95": [
+                  0.344915,
+                  0.413606
+                ],
+                "n": 298,
+                "denominator_n": 786
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.199746,
+                "ci95": [
+                  0.171171,
+                  0.226916
+                ],
+                "n": 157,
+                "denominator_n": 786
+              },
+              "tie_upgrade": {
+                "estimate": 0.001272,
+                "ci95": [
+                  0.0,
+                  0.003958
+                ],
+                "n": 1,
+                "denominator_n": 786
+              },
+              "tie_downgrade": {
+                "estimate": 0.0,
+                "ci95": [
+                  0.0,
+                  0.0
+                ],
+                "n": 0,
+                "denominator_n": 786
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.025679,
+                "ci95": [
+                  0.017994,
+                  0.033351
+                ],
+                "n": 786
+              }
+            }
+          },
+          "true_class_probability": {
+            "pt_true24_mean": {
+              "estimate": 0.428249,
+              "ci95": [
+                0.424325,
+                0.432452
+              ],
+              "n": 6823
+            },
+            "pt_true72_mean": {
+              "estimate": 0.438002,
+              "ci95": [
+                0.434209,
+                0.442073
+              ],
+              "n": 6823
+            },
+            "pt_true_change_mean": {
+              "estimate": 0.009753,
+              "ci95": [
+                0.008264,
+                0.011253
+              ],
+              "n": 6823
+            },
+            "improved": {
+              "estimate": 0.560604,
+              "ci95": [
+                0.548762,
+                0.572874
+              ],
+              "n": 3825,
+              "denominator_n": 6823
+            },
+            "worsened": {
+              "estimate": 0.439396,
+              "ci95": [
+                0.427126,
+                0.451238
+              ],
+              "n": 2998,
+              "denominator_n": 6823
+            },
+            "unchanged": {
+              "estimate": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 0,
+              "denominator_n": 6823
+            },
+            "among_flips": {
+              "pt_true_change_mean": {
+                "estimate": 0.025679,
+                "ci95": [
+                  0.017994,
+                  0.033351
+                ],
+                "n": 786
+              },
+              "improved": {
+                "estimate": 0.605598,
+                "ci95": [
+                  0.572358,
+                  0.640424
+                ],
+                "n": 476,
+                "denominator_n": 786
+              }
+            }
+          },
+          "true_death_subgroup": {
+            "n": 2201,
+            "predicted_class_counts": {
+              "pred24": [
+                21,
+                1141,
+                1039
+              ],
+              "pred72": [
+                15,
+                1117,
+                1069
+              ]
+            },
+            "already_death_at24": {
+              "estimate": 0.472058,
+              "ci95": [
+                0.451314,
+                0.493371
+              ],
+              "n": 1039,
+              "denominator_n": 2201
+            },
+            "detected_death_at72": {
+              "estimate": 0.485688,
+              "ci95": [
+                0.465029,
+                0.506479
+              ],
+              "n": 1069,
+              "denominator_n": 2201
+            },
+            "missed_death_at72": {
+              "estimate": 0.514312,
+              "ci95": [
+                0.493521,
+                0.534971
+              ],
+              "n": 1132,
+              "denominator_n": 2201
+            },
+            "new_upgrade_to_death": {
+              "estimate": 0.073149,
+              "ci95": [
+                0.062831,
+                0.084132
+              ],
+              "n": 161,
+              "denominator_n": 2201
+            },
+            "any_upgrade": {
+              "estimate": 0.076329,
+              "ci95": [
+                0.065589,
+                0.087568
+              ],
+              "n": 168,
+              "denominator_n": 2201
+            },
+            "retained_death": {
+              "estimate": 0.41254,
+              "ci95": [
+                0.392191,
+                0.433426
+              ],
+              "n": 908,
+              "denominator_n": 2201
+            },
+            "lost_detected_death": {
+              "estimate": 0.059518,
+              "ci95": [
+                0.049815,
+                0.069172
+              ],
+              "n": 131,
+              "denominator_n": 2201
+            }
+          }
+        }
+      },
+      "temporal_vs_notemporal": {
+        "direction": "temporal penalty minus no temporal penalty",
+        "flip_rate_notemporal": {
+          "estimate": 0.119889,
+          "ci95": [
+            0.112288,
+            0.127701
+          ],
+          "n": 818,
+          "denominator_n": 6823
+        },
+        "flip_rate_temporal": {
+          "estimate": 0.115199,
+          "ci95": [
+            0.107737,
+            0.123012
+          ],
+          "n": 786,
+          "denominator_n": 6823
+        },
+        "flip_rate_change": {
+          "estimate": -0.00469,
+          "ci95": [
+            -0.008536,
+            -0.000881
+          ],
+          "denominator_n": 6823
+        },
+        "flip_category_decomposition": {
+          "correct_upgrade": {
+            "notemporal": {
+              "estimate": 0.027114,
+              "ci95": [
+                0.0233,
+                0.031009
+              ],
+              "n": 185,
+              "denominator_n": 6823
+            },
+            "temporal": {
+              "estimate": 0.026088,
+              "ci95": [
+                0.022402,
+                0.029966
+              ],
+              "n": 178,
+              "denominator_n": 6823
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.001026,
+              "ci95": [
+                -0.002804,
+                0.000736
+              ],
+              "denominator_n": 6823
+            }
+          },
+          "incorrect_upgrade": {
+            "notemporal": {
+              "estimate": 0.022424,
+              "ci95": [
+                0.019166,
+                0.026003
+              ],
+              "n": 153,
+              "denominator_n": 6823
+            },
+            "temporal": {
+              "estimate": 0.022424,
+              "ci95": [
+                0.019121,
+                0.025892
+              ],
+              "n": 153,
+              "denominator_n": 6823
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": 0.0,
+              "ci95": [
+                -0.002185,
+                0.00206
+              ],
+              "denominator_n": 6823
+            }
+          },
+          "correct_downgrade": {
+            "notemporal": {
+              "estimate": 0.045288,
+              "ci95": [
+                0.04045,
+                0.050299
+              ],
+              "n": 309,
+              "denominator_n": 6823
+            },
+            "temporal": {
+              "estimate": 0.043676,
+              "ci95": [
+                0.039068,
+                0.048763
+              ],
+              "n": 298,
+              "denominator_n": 6823
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.001612,
+              "ci95": [
+                -0.003662,
+                0.000439
+              ],
+              "denominator_n": 6823
+            }
+          },
+          "incorrect_downgrade": {
+            "notemporal": {
+              "estimate": 0.025062,
+              "ci95": [
+                0.021326,
+                0.028789
+              ],
+              "n": 171,
+              "denominator_n": 6823
+            },
+            "temporal": {
+              "estimate": 0.02301,
+              "ci95": [
+                0.019477,
+                0.026456
+              ],
+              "n": 157,
+              "denominator_n": 6823
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.002052,
+              "ci95": [
+                -0.003953,
+                -0.000147
+              ],
+              "denominator_n": 6823
+            }
+          },
+          "tie_upgrade": {
+            "notemporal": {
+              "estimate": 0.000147,
+              "ci95": [
+                0.0,
+                0.000442
+              ],
+              "n": 1,
+              "denominator_n": 6823
+            },
+            "temporal": {
+              "estimate": 0.000147,
+              "ci95": [
+                0.0,
+                0.000442
+              ],
+              "n": 1,
+              "denominator_n": 6823
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 0,
+              "denominator_n": 6823
+            }
+          },
+          "tie_downgrade": {
+            "notemporal": {
+              "estimate": 0.000147,
+              "ci95": [
+                0.0,
+                0.000443
+              ],
+              "n": 1,
+              "denominator_n": 6823
+            },
+            "temporal": {
+              "estimate": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 0,
+              "denominator_n": 6823
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.000147,
+              "ci95": [
+                -0.000443,
+                0.0
+              ],
+              "denominator_n": 6823
+            }
+          },
+          "sum_of_four_primary_category_changes": -0.00469,
+          "upgrades_reduced": 0.001026,
+          "correct_upgrade_share_of_upgrade_reduction": 1.0,
+          "incorrect_upgrade_share_of_upgrade_reduction": -0.0
+        },
+        "true_death_subgroup": {
+          "n": 2201,
+          "already_death_at24": {
+            "notemporal": {
+              "estimate": 0.475693,
+              "ci95": [
+                0.454791,
+                0.497296
+              ],
+              "n": 1047,
+              "denominator_n": 2201
+            },
+            "temporal": {
+              "estimate": 0.472058,
+              "ci95": [
+                0.451314,
+                0.493371
+              ],
+              "n": 1039,
+              "denominator_n": 2201
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.003635,
+              "ci95": [
+                -0.009307,
+                0.001403
+              ],
+              "denominator_n": 2201
+            }
+          },
+          "detected_death_at72": {
+            "notemporal": {
+              "estimate": 0.486143,
+              "ci95": [
+                0.465399,
+                0.506902
+              ],
+              "n": 1070,
+              "denominator_n": 2201
+            },
+            "temporal": {
+              "estimate": 0.485688,
+              "ci95": [
+                0.465029,
+                0.506479
+              ],
+              "n": 1069,
+              "denominator_n": 2201
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.000454,
+              "ci95": [
+                -0.005453,
+                0.004546
+              ],
+              "denominator_n": 2201
+            }
+          },
+          "missed_death_at72": {
+            "notemporal": {
+              "estimate": 0.513857,
+              "ci95": [
+                0.493098,
+                0.534601
+              ],
+              "n": 1131,
+              "denominator_n": 2201
+            },
+            "temporal": {
+              "estimate": 0.514312,
+              "ci95": [
+                0.493521,
+                0.534971
+              ],
+              "n": 1132,
+              "denominator_n": 2201
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": 0.000454,
+              "ci95": [
+                -0.004546,
+                0.005453
+              ],
+              "denominator_n": 2201
+            }
+          },
+          "new_upgrade_to_death": {
+            "notemporal": {
+              "estimate": 0.074512,
+              "ci95": [
+                0.064123,
+                0.085913
+              ],
+              "n": 164,
+              "denominator_n": 2201
+            },
+            "temporal": {
+              "estimate": 0.073149,
+              "ci95": [
+                0.062831,
+                0.084132
+              ],
+              "n": 161,
+              "denominator_n": 2201
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.001363,
+              "ci95": [
+                -0.006379,
+                0.003649
+              ],
+              "denominator_n": 2201
+            }
+          },
+          "any_upgrade": {
+            "notemporal": {
+              "estimate": 0.078601,
+              "ci95": [
+                0.067586,
+                0.09045
+              ],
+              "n": 173,
+              "denominator_n": 2201
+            },
+            "temporal": {
+              "estimate": 0.076329,
+              "ci95": [
+                0.065589,
+                0.087568
+              ],
+              "n": 168,
+              "denominator_n": 2201
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.002272,
+              "ci95": [
+                -0.007533,
+                0.002751
+              ],
+              "denominator_n": 2201
+            }
+          },
+          "retained_death": {
+            "notemporal": {
+              "estimate": 0.411631,
+              "ci95": [
+                0.391303,
+                0.431575
+              ],
+              "n": 906,
+              "denominator_n": 2201
+            },
+            "temporal": {
+              "estimate": 0.41254,
+              "ci95": [
+                0.392191,
+                0.433426
+              ],
+              "n": 908,
+              "denominator_n": 2201
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": 0.000909,
+              "ci95": [
+                -0.004078,
+                0.005851
+              ],
+              "denominator_n": 2201
+            }
+          },
+          "lost_detected_death": {
+            "notemporal": {
+              "estimate": 0.064062,
+              "ci95": [
+                0.053835,
+                0.07447
+              ],
+              "n": 141,
+              "denominator_n": 2201
+            },
+            "temporal": {
+              "estimate": 0.059518,
+              "ci95": [
+                0.049815,
+                0.069172
+              ],
+              "n": 131,
+              "denominator_n": 2201
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.004543,
+              "ci95": [
+                -0.009542,
+                0.000452
+              ],
+              "denominator_n": 2201
+            }
+          }
+        },
+        "suppression_assessment": {
+          "evidence": "directional_but_uncertain",
+          "criteria": "Directional suppression requires fewer new upgrades to death and more missed deaths at 72 h; simultaneous 95% CI exclusion of zero strengthens the assessment.",
+          "interpretation": "Point estimates are consistent with suppression of death recognition, but the paired interval does not establish both components.",
+          "new_upgrade_to_death_change": {
+            "estimate": -0.001363,
+            "ci95": [
+              -0.006379,
+              0.003649
+            ],
+            "denominator_n": 2201
+          },
+          "missed_death_at72_change": {
+            "estimate": 0.000454,
+            "ci95": [
+              -0.004546,
+              0.005453
+            ],
+            "denominator_n": 2201
+          },
+          "lost_detected_death_change": {
+            "estimate": -0.004543,
+            "ci95": [
+              -0.009542,
+              0.000452
+            ],
+            "denominator_n": 2201
+          }
+        }
+      }
+    },
+    "eicu": {
+      "label": "eICU-CRD",
+      "n": 9215,
+      "bootstrap": {
+        "unit": "hospitalid",
+        "clusters": 184,
+        "replicates": 2000,
+        "seed": 20261030,
+        "cluster_size_median": 27.0,
+        "cluster_size_max": 594
+      },
+      "cohort": {
+        "complete_landmark_ids": 9215,
+        "shared_fold_count": 5,
+        "outcome_counts": {
+          "home": 2730,
+          "facility": 4572,
+          "death": 1913
+        },
+        "source_sizes_before_alignment": {
+          "xgboost_shared_fold": 9215,
+          "ordinal_notemporal": 9215,
+          "ordinal_temporal": 9215
+        },
+        "prediction_provenance": {
+          "xgboost": "results/shared_fold/eicu_shared_fold.npz: one fixed patient-grouped 5-fold partition shared by all landmarks",
+          "dg_gru": "results/formal_summary/eicu_ordinal_*_ensemble.npz: three-seed probability ensembles"
+        }
+      },
+      "models": {
+        "xgboost": {
+          "label": "XGBoost shared-fold OOF",
+          "flip_24_72": {
+            "estimate": 0.200217,
+            "ci95": [
+              0.190208,
+              0.21108
+            ],
+            "n": 1845,
+            "denominator_n": 9215
+          },
+          "transition_matrix_rows_24h_columns_72h": [
+            [
+              1323,
+              435,
+              72
+            ],
+            [
+              473,
+              5647,
+              546
+            ],
+            [
+              39,
+              280,
+              400
+            ]
+          ],
+          "transition_composition": {
+            "home_to_facility": {
+              "from": "home",
+              "to": "facility",
+              "count": 435,
+              "cohort_rate": {
+                "estimate": 0.047206,
+                "ci95": [
+                  0.042306,
+                  0.052364
+                ],
+                "n": 435,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.235772,
+                "ci95": [
+                  0.216931,
+                  0.257395
+                ],
+                "n": 435,
+                "denominator_n": 1845
+              }
+            },
+            "home_to_death": {
+              "from": "home",
+              "to": "death",
+              "count": 72,
+              "cohort_rate": {
+                "estimate": 0.007813,
+                "ci95": [
+                  0.005942,
+                  0.009934
+                ],
+                "n": 72,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.039024,
+                "ci95": [
+                  0.030487,
+                  0.048291
+                ],
+                "n": 72,
+                "denominator_n": 1845
+              }
+            },
+            "facility_to_home": {
+              "from": "facility",
+              "to": "home",
+              "count": 473,
+              "cohort_rate": {
+                "estimate": 0.051329,
+                "ci95": [
+                  0.045129,
+                  0.057757
+                ],
+                "n": 473,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.256369,
+                "ci95": [
+                  0.226122,
+                  0.288028
+                ],
+                "n": 473,
+                "denominator_n": 1845
+              }
+            },
+            "facility_to_death": {
+              "from": "facility",
+              "to": "death",
+              "count": 546,
+              "cohort_rate": {
+                "estimate": 0.059251,
+                "ci95": [
+                  0.053206,
+                  0.065357
+                ],
+                "n": 546,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.295935,
+                "ci95": [
+                  0.269491,
+                  0.322109
+                ],
+                "n": 546,
+                "denominator_n": 1845
+              }
+            },
+            "death_to_home": {
+              "from": "death",
+              "to": "home",
+              "count": 39,
+              "cohort_rate": {
+                "estimate": 0.004232,
+                "ci95": [
+                  0.003034,
+                  0.005512
+                ],
+                "n": 39,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.021138,
+                "ci95": [
+                  0.01528,
+                  0.027377
+                ],
+                "n": 39,
+                "denominator_n": 1845
+              }
+            },
+            "death_to_facility": {
+              "from": "death",
+              "to": "facility",
+              "count": 280,
+              "cohort_rate": {
+                "estimate": 0.030385,
+                "ci95": [
+                  0.026363,
+                  0.034741
+                ],
+                "n": 280,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.151762,
+                "ci95": [
+                  0.133614,
+                  0.171201
+                ],
+                "n": 280,
+                "denominator_n": 1845
+              }
+            }
+          },
+          "clinical_major_upgrades": {
+            "major_upgrade_to_death": {
+              "estimate": 0.067065,
+              "ci95": [
+                0.060375,
+                0.073832
+              ],
+              "n": 618,
+              "denominator_n": 9215
+            },
+            "home_to_facility": {
+              "estimate": 0.047206,
+              "ci95": [
+                0.042306,
+                0.052364
+              ],
+              "n": 435,
+              "denominator_n": 9215
+            },
+            "any_upgrade": {
+              "estimate": 0.11427,
+              "ci95": [
+                0.105633,
+                0.12309
+              ],
+              "n": 1053,
+              "denominator_n": 9215
+            }
+          },
+          "correctness_relative_to_final_outcome": {
+            "all": {
+              "gain": {
+                "estimate": 0.112317,
+                "ci95": [
+                  0.105068,
+                  0.119748
+                ],
+                "n": 1035,
+                "denominator_n": 9215
+              },
+              "loss": {
+                "estimate": 0.083342,
+                "ci95": [
+                  0.077016,
+                  0.090065
+                ],
+                "n": 768,
+                "denominator_n": 9215
+              },
+              "tie": {
+                "estimate": 0.804341,
+                "ci95": [
+                  0.79372,
+                  0.814421
+                ],
+                "n": 7412,
+                "denominator_n": 9215
+              },
+              "correct_upgrade": {
+                "estimate": 0.065111,
+                "ci95": [
+                  0.059309,
+                  0.071307
+                ],
+                "n": 600,
+                "denominator_n": 9215
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.049159,
+                "ci95": [
+                  0.04326,
+                  0.054902
+                ],
+                "n": 453,
+                "denominator_n": 9215
+              },
+              "correct_downgrade": {
+                "estimate": 0.047206,
+                "ci95": [
+                  0.043436,
+                  0.051415
+                ],
+                "n": 435,
+                "denominator_n": 9215
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.038741,
+                "ci95": [
+                  0.034467,
+                  0.04356
+                ],
+                "n": 357,
+                "denominator_n": 9215
+              },
+              "tie_upgrade": {
+                "estimate": 0.003039,
+                "ci95": [
+                  0.001863,
+                  0.004327
+                ],
+                "n": 28,
+                "denominator_n": 9215
+              },
+              "tie_downgrade": {
+                "estimate": 0.001519,
+                "ci95": [
+                  0.000725,
+                  0.002448
+                ],
+                "n": 14,
+                "denominator_n": 9215
+              },
+              "distance24_mean": {
+                "estimate": 0.493109,
+                "ci95": [
+                  0.471911,
+                  0.514287
+                ],
+                "n": 9215
+              },
+              "distance72_mean": {
+                "estimate": 0.461856,
+                "ci95": [
+                  0.441353,
+                  0.482374
+                ],
+                "n": 9215
+              },
+              "distance_change_72_minus_24_mean": {
+                "estimate": -0.031253,
+                "ci95": [
+                  -0.040471,
+                  -0.021953
+                ],
+                "n": 9215
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.023643,
+                "ci95": [
+                  0.020708,
+                  0.026333
+                ],
+                "n": 9215
+              }
+            },
+            "flips": {
+              "gain": {
+                "estimate": 0.560976,
+                "ci95": [
+                  0.538843,
+                  0.583255
+                ],
+                "n": 1035,
+                "denominator_n": 1845
+              },
+              "loss": {
+                "estimate": 0.41626,
+                "ci95": [
+                  0.394183,
+                  0.438669
+                ],
+                "n": 768,
+                "denominator_n": 1845
+              },
+              "tie": {
+                "estimate": 0.022764,
+                "ci95": [
+                  0.016085,
+                  0.029939
+                ],
+                "n": 42,
+                "denominator_n": 1845
+              },
+              "correct_upgrade": {
+                "estimate": 0.325203,
+                "ci95": [
+                  0.301369,
+                  0.348123
+                ],
+                "n": 600,
+                "denominator_n": 1845
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.245528,
+                "ci95": [
+                  0.220531,
+                  0.268095
+                ],
+                "n": 453,
+                "denominator_n": 1845
+              },
+              "correct_downgrade": {
+                "estimate": 0.235772,
+                "ci95": [
+                  0.219261,
+                  0.252896
+                ],
+                "n": 435,
+                "denominator_n": 1845
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.193496,
+                "ci95": [
+                  0.172603,
+                  0.216572
+                ],
+                "n": 357,
+                "denominator_n": 1845
+              },
+              "tie_upgrade": {
+                "estimate": 0.015176,
+                "ci95": [
+                  0.009341,
+                  0.021544
+                ],
+                "n": 28,
+                "denominator_n": 1845
+              },
+              "tie_downgrade": {
+                "estimate": 0.007588,
+                "ci95": [
+                  0.003621,
+                  0.012287
+                ],
+                "n": 14,
+                "denominator_n": 1845
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.051284,
+                "ci95": [
+                  0.042284,
+                  0.059792
+                ],
+                "n": 1845
+              }
+            }
+          },
+          "true_class_probability": {
+            "pt_true24_mean": {
+              "estimate": 0.432708,
+              "ci95": [
+                0.42424,
+                0.441696
+              ],
+              "n": 9215
+            },
+            "pt_true72_mean": {
+              "estimate": 0.456351,
+              "ci95": [
+                0.447265,
+                0.465548
+              ],
+              "n": 9215
+            },
+            "pt_true_change_mean": {
+              "estimate": 0.023643,
+              "ci95": [
+                0.020708,
+                0.026333
+              ],
+              "n": 9215
+            },
+            "improved": {
+              "estimate": 0.572762,
+              "ci95": [
+                0.56032,
+                0.584395
+              ],
+              "n": 5278,
+              "denominator_n": 9215
+            },
+            "worsened": {
+              "estimate": 0.427238,
+              "ci95": [
+                0.415605,
+                0.43968
+              ],
+              "n": 3937,
+              "denominator_n": 9215
+            },
+            "unchanged": {
+              "estimate": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 0,
+              "denominator_n": 9215
+            },
+            "among_flips": {
+              "pt_true_change_mean": {
+                "estimate": 0.051284,
+                "ci95": [
+                  0.042284,
+                  0.059792
+                ],
+                "n": 1845
+              },
+              "improved": {
+                "estimate": 0.573984,
+                "ci95": [
+                  0.55089,
+                  0.597383
+                ],
+                "n": 1059,
+                "denominator_n": 1845
+              }
+            }
+          },
+          "true_death_subgroup": {
+            "n": 1913,
+            "predicted_class_counts": {
+              "pred24": [
+                189,
+                1388,
+                336
+              ],
+              "pred72": [
+                137,
+                1209,
+                567
+              ]
+            },
+            "already_death_at24": {
+              "estimate": 0.17564,
+              "ci95": [
+                0.156264,
+                0.196358
+              ],
+              "n": 336,
+              "denominator_n": 1913
+            },
+            "detected_death_at72": {
+              "estimate": 0.296393,
+              "ci95": [
+                0.271807,
+                0.320913
+              ],
+              "n": 567,
+              "denominator_n": 1913
+            },
+            "missed_death_at72": {
+              "estimate": 0.703607,
+              "ci95": [
+                0.679087,
+                0.728193
+              ],
+              "n": 1346,
+              "denominator_n": 1913
+            },
+            "new_upgrade_to_death": {
+              "estimate": 0.177209,
+              "ci95": [
+                0.159719,
+                0.195398
+              ],
+              "n": 339,
+              "denominator_n": 1913
+            },
+            "any_upgrade": {
+              "estimate": 0.213278,
+              "ci95": [
+                0.19344,
+                0.233574
+              ],
+              "n": 408,
+              "denominator_n": 1913
+            },
+            "retained_death": {
+              "estimate": 0.119185,
+              "ci95": [
+                0.103237,
+                0.137391
+              ],
+              "n": 228,
+              "denominator_n": 1913
+            },
+            "lost_detected_death": {
+              "estimate": 0.056456,
+              "ci95": [
+                0.047193,
+                0.066373
+              ],
+              "n": 108,
+              "denominator_n": 1913
+            }
+          }
+        },
+        "ordinal_notemporal": {
+          "label": "Ordinal DG-GRU, no temporal penalty",
+          "flip_24_72": {
+            "estimate": 0.166902,
+            "ci95": [
+              0.15422,
+              0.179674
+            ],
+            "n": 1538,
+            "denominator_n": 9215
+          },
+          "transition_matrix_rows_24h_columns_72h": [
+            [
+              1096,
+              242,
+              16
+            ],
+            [
+              645,
+              5955,
+              232
+            ],
+            [
+              50,
+              353,
+              626
+            ]
+          ],
+          "transition_composition": {
+            "home_to_facility": {
+              "from": "home",
+              "to": "facility",
+              "count": 242,
+              "cohort_rate": {
+                "estimate": 0.026262,
+                "ci95": [
+                  0.022209,
+                  0.03046
+                ],
+                "n": 242,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.157347,
+                "ci95": [
+                  0.136856,
+                  0.177342
+                ],
+                "n": 242,
+                "denominator_n": 1538
+              }
+            },
+            "home_to_death": {
+              "from": "home",
+              "to": "death",
+              "count": 16,
+              "cohort_rate": {
+                "estimate": 0.001736,
+                "ci95": [
+                  0.000751,
+                  0.002949
+                ],
+                "n": 16,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.010403,
+                "ci95": [
+                  0.004578,
+                  0.017462
+                ],
+                "n": 16,
+                "denominator_n": 1538
+              }
+            },
+            "facility_to_home": {
+              "from": "facility",
+              "to": "home",
+              "count": 645,
+              "cohort_rate": {
+                "estimate": 0.069995,
+                "ci95": [
+                  0.062011,
+                  0.078371
+                ],
+                "n": 645,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.419376,
+                "ci95": [
+                  0.384166,
+                  0.451925
+                ],
+                "n": 645,
+                "denominator_n": 1538
+              }
+            },
+            "facility_to_death": {
+              "from": "facility",
+              "to": "death",
+              "count": 232,
+              "cohort_rate": {
+                "estimate": 0.025176,
+                "ci95": [
+                  0.02168,
+                  0.028609
+                ],
+                "n": 232,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.150845,
+                "ci95": [
+                  0.133173,
+                  0.168518
+                ],
+                "n": 232,
+                "denominator_n": 1538
+              }
+            },
+            "death_to_home": {
+              "from": "death",
+              "to": "home",
+              "count": 50,
+              "cohort_rate": {
+                "estimate": 0.005426,
+                "ci95": [
+                  0.004062,
+                  0.007005
+                ],
+                "n": 50,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.03251,
+                "ci95": [
+                  0.025093,
+                  0.041282
+                ],
+                "n": 50,
+                "denominator_n": 1538
+              }
+            },
+            "death_to_facility": {
+              "from": "death",
+              "to": "facility",
+              "count": 353,
+              "cohort_rate": {
+                "estimate": 0.038307,
+                "ci95": [
+                  0.033697,
+                  0.04365
+                ],
+                "n": 353,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.229519,
+                "ci95": [
+                  0.199868,
+                  0.259161
+                ],
+                "n": 353,
+                "denominator_n": 1538
+              }
+            }
+          },
+          "clinical_major_upgrades": {
+            "major_upgrade_to_death": {
+              "estimate": 0.026913,
+              "ci95": [
+                0.023363,
+                0.030472
+              ],
+              "n": 248,
+              "denominator_n": 9215
+            },
+            "home_to_facility": {
+              "estimate": 0.026262,
+              "ci95": [
+                0.022209,
+                0.03046
+              ],
+              "n": 242,
+              "denominator_n": 9215
+            },
+            "any_upgrade": {
+              "estimate": 0.053174,
+              "ci95": [
+                0.047498,
+                0.058817
+              ],
+              "n": 490,
+              "denominator_n": 9215
+            }
+          },
+          "correctness_relative_to_final_outcome": {
+            "all": {
+              "gain": {
+                "estimate": 0.097775,
+                "ci95": [
+                  0.088899,
+                  0.106202
+                ],
+                "n": 901,
+                "denominator_n": 9215
+              },
+              "loss": {
+                "estimate": 0.065979,
+                "ci95": [
+                  0.059846,
+                  0.072539
+                ],
+                "n": 608,
+                "denominator_n": 9215
+              },
+              "tie": {
+                "estimate": 0.836245,
+                "ci95": [
+                  0.823588,
+                  0.848544
+                ],
+                "n": 7706,
+                "denominator_n": 9215
+              },
+              "correct_upgrade": {
+                "estimate": 0.032122,
+                "ci95": [
+                  0.02762,
+                  0.036691
+                ],
+                "n": 296,
+                "denominator_n": 9215
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.021053,
+                "ci95": [
+                  0.01804,
+                  0.024165
+                ],
+                "n": 194,
+                "denominator_n": 9215
+              },
+              "correct_downgrade": {
+                "estimate": 0.065654,
+                "ci95": [
+                  0.059377,
+                  0.071842
+                ],
+                "n": 605,
+                "denominator_n": 9215
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.048074,
+                "ci95": [
+                  0.043062,
+                  0.053472
+                ],
+                "n": 443,
+                "denominator_n": 9215
+              },
+              "tie_upgrade": {
+                "estimate": 0.000651,
+                "ci95": [
+                  0.000114,
+                  0.001335
+                ],
+                "n": 6,
+                "denominator_n": 9215
+              },
+              "tie_downgrade": {
+                "estimate": 0.002496,
+                "ci95": [
+                  0.001449,
+                  0.003539
+                ],
+                "n": 23,
+                "denominator_n": 9215
+              },
+              "distance24_mean": {
+                "estimate": 0.515898,
+                "ci95": [
+                  0.492504,
+                  0.540013
+                ],
+                "n": 9215
+              },
+              "distance72_mean": {
+                "estimate": 0.482908,
+                "ci95": [
+                  0.462977,
+                  0.503518
+                ],
+                "n": 9215
+              },
+              "distance_change_72_minus_24_mean": {
+                "estimate": -0.03299,
+                "ci95": [
+                  -0.041355,
+                  -0.023704
+                ],
+                "n": 9215
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.011515,
+                "ci95": [
+                  0.009336,
+                  0.013385
+                ],
+                "n": 9215
+              }
+            },
+            "flips": {
+              "gain": {
+                "estimate": 0.585826,
+                "ci95": [
+                  0.561623,
+                  0.607523
+                ],
+                "n": 901,
+                "denominator_n": 1538
+              },
+              "loss": {
+                "estimate": 0.395319,
+                "ci95": [
+                  0.371315,
+                  0.421018
+                ],
+                "n": 608,
+                "denominator_n": 1538
+              },
+              "tie": {
+                "estimate": 0.018856,
+                "ci95": [
+                  0.011387,
+                  0.026423
+                ],
+                "n": 29,
+                "denominator_n": 1538
+              },
+              "correct_upgrade": {
+                "estimate": 0.192458,
+                "ci95": [
+                  0.17173,
+                  0.212056
+                ],
+                "n": 296,
+                "denominator_n": 1538
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.126138,
+                "ci95": [
+                  0.110135,
+                  0.143327
+                ],
+                "n": 194,
+                "denominator_n": 1538
+              },
+              "correct_downgrade": {
+                "estimate": 0.393368,
+                "ci95": [
+                  0.368393,
+                  0.419189
+                ],
+                "n": 605,
+                "denominator_n": 1538
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.288036,
+                "ci95": [
+                  0.267511,
+                  0.309662
+                ],
+                "n": 443,
+                "denominator_n": 1538
+              },
+              "tie_upgrade": {
+                "estimate": 0.003901,
+                "ci95": [
+                  0.000688,
+                  0.007844
+                ],
+                "n": 6,
+                "denominator_n": 1538
+              },
+              "tie_downgrade": {
+                "estimate": 0.014954,
+                "ci95": [
+                  0.008792,
+                  0.021114
+                ],
+                "n": 23,
+                "denominator_n": 1538
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.032069,
+                "ci95": [
+                  0.024841,
+                  0.03796
+                ],
+                "n": 1538
+              }
+            }
+          },
+          "true_class_probability": {
+            "pt_true24_mean": {
+              "estimate": 0.410724,
+              "ci95": [
+                0.404346,
+                0.417279
+              ],
+              "n": 9215
+            },
+            "pt_true72_mean": {
+              "estimate": 0.422239,
+              "ci95": [
+                0.41631,
+                0.428251
+              ],
+              "n": 9215
+            },
+            "pt_true_change_mean": {
+              "estimate": 0.011515,
+              "ci95": [
+                0.009336,
+                0.013385
+              ],
+              "n": 9215
+            },
+            "improved": {
+              "estimate": 0.528486,
+              "ci95": [
+                0.516589,
+                0.540407
+              ],
+              "n": 4870,
+              "denominator_n": 9215
+            },
+            "worsened": {
+              "estimate": 0.471514,
+              "ci95": [
+                0.459593,
+                0.483411
+              ],
+              "n": 4345,
+              "denominator_n": 9215
+            },
+            "unchanged": {
+              "estimate": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 0,
+              "denominator_n": 9215
+            },
+            "among_flips": {
+              "pt_true_change_mean": {
+                "estimate": 0.032069,
+                "ci95": [
+                  0.024841,
+                  0.03796
+                ],
+                "n": 1538
+              },
+              "improved": {
+                "estimate": 0.596229,
+                "ci95": [
+                  0.571179,
+                  0.619247
+                ],
+                "n": 917,
+                "denominator_n": 1538
+              }
+            }
+          },
+          "true_death_subgroup": {
+            "n": 1913,
+            "predicted_class_counts": {
+              "pred24": [
+                114,
+                1384,
+                415
+              ],
+              "pred72": [
+                113,
+                1360,
+                440
+              ]
+            },
+            "already_death_at24": {
+              "estimate": 0.216937,
+              "ci95": [
+                0.191194,
+                0.245286
+              ],
+              "n": 415,
+              "denominator_n": 1913
+            },
+            "detected_death_at72": {
+              "estimate": 0.230005,
+              "ci95": [
+                0.202936,
+                0.257757
+              ],
+              "n": 440,
+              "denominator_n": 1913
+            },
+            "missed_death_at72": {
+              "estimate": 0.769995,
+              "ci95": [
+                0.742243,
+                0.797064
+              ],
+              "n": 1473,
+              "denominator_n": 1913
+            },
+            "new_upgrade_to_death": {
+              "estimate": 0.071615,
+              "ci95": [
+                0.060172,
+                0.082368
+              ],
+              "n": 137,
+              "denominator_n": 1913
+            },
+            "any_upgrade": {
+              "estimate": 0.09357,
+              "ci95": [
+                0.07979,
+                0.106641
+              ],
+              "n": 179,
+              "denominator_n": 1913
+            },
+            "retained_death": {
+              "estimate": 0.15839,
+              "ci95": [
+                0.134965,
+                0.182931
+              ],
+              "n": 303,
+              "denominator_n": 1913
+            },
+            "lost_detected_death": {
+              "estimate": 0.058547,
+              "ci95": [
+                0.049856,
+                0.068545
+              ],
+              "n": 112,
+              "denominator_n": 1913
+            }
+          }
+        },
+        "ordinal_temporal": {
+          "label": "Ordinal DG-GRU, temporal penalty",
+          "flip_24_72": {
+            "estimate": 0.159305,
+            "ci95": [
+              0.14774,
+              0.171339
+            ],
+            "n": 1468,
+            "denominator_n": 9215
+          },
+          "transition_matrix_rows_24h_columns_72h": [
+            [
+              1116,
+              229,
+              13
+            ],
+            [
+              622,
+              6007,
+              222
+            ],
+            [
+              48,
+              334,
+              624
+            ]
+          ],
+          "transition_composition": {
+            "home_to_facility": {
+              "from": "home",
+              "to": "facility",
+              "count": 229,
+              "cohort_rate": {
+                "estimate": 0.024851,
+                "ci95": [
+                  0.021052,
+                  0.029051
+                ],
+                "n": 229,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.155995,
+                "ci95": [
+                  0.135298,
+                  0.175904
+                ],
+                "n": 229,
+                "denominator_n": 1468
+              }
+            },
+            "home_to_death": {
+              "from": "home",
+              "to": "death",
+              "count": 13,
+              "cohort_rate": {
+                "estimate": 0.001411,
+                "ci95": [
+                  0.000605,
+                  0.002399
+                ],
+                "n": 13,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.008856,
+                "ci95": [
+                  0.003776,
+                  0.014926
+                ],
+                "n": 13,
+                "denominator_n": 1468
+              }
+            },
+            "facility_to_home": {
+              "from": "facility",
+              "to": "home",
+              "count": 622,
+              "cohort_rate": {
+                "estimate": 0.067499,
+                "ci95": [
+                  0.059572,
+                  0.075437
+                ],
+                "n": 622,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.423706,
+                "ci95": [
+                  0.386475,
+                  0.458366
+                ],
+                "n": 622,
+                "denominator_n": 1468
+              }
+            },
+            "facility_to_death": {
+              "from": "facility",
+              "to": "death",
+              "count": 222,
+              "cohort_rate": {
+                "estimate": 0.024091,
+                "ci95": [
+                  0.021139,
+                  0.027192
+                ],
+                "n": 222,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.151226,
+                "ci95": [
+                  0.133674,
+                  0.169309
+                ],
+                "n": 222,
+                "denominator_n": 1468
+              }
+            },
+            "death_to_home": {
+              "from": "death",
+              "to": "home",
+              "count": 48,
+              "cohort_rate": {
+                "estimate": 0.005209,
+                "ci95": [
+                  0.00357,
+                  0.006937
+                ],
+                "n": 48,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.032698,
+                "ci95": [
+                  0.023138,
+                  0.04273
+                ],
+                "n": 48,
+                "denominator_n": 1468
+              }
+            },
+            "death_to_facility": {
+              "from": "death",
+              "to": "facility",
+              "count": 334,
+              "cohort_rate": {
+                "estimate": 0.036245,
+                "ci95": [
+                  0.031866,
+                  0.041208
+                ],
+                "n": 334,
+                "denominator_n": 9215
+              },
+              "share_of_flips": {
+                "estimate": 0.22752,
+                "ci95": [
+                  0.200336,
+                  0.255563
+                ],
+                "n": 334,
+                "denominator_n": 1468
+              }
+            }
+          },
+          "clinical_major_upgrades": {
+            "major_upgrade_to_death": {
+              "estimate": 0.025502,
+              "ci95": [
+                0.022304,
+                0.028782
+              ],
+              "n": 235,
+              "denominator_n": 9215
+            },
+            "home_to_facility": {
+              "estimate": 0.024851,
+              "ci95": [
+                0.021052,
+                0.029051
+              ],
+              "n": 229,
+              "denominator_n": 9215
+            },
+            "any_upgrade": {
+              "estimate": 0.050353,
+              "ci95": [
+                0.045175,
+                0.055745
+              ],
+              "n": 464,
+              "denominator_n": 9215
+            }
+          },
+          "correctness_relative_to_final_outcome": {
+            "all": {
+              "gain": {
+                "estimate": 0.093869,
+                "ci95": [
+                  0.085459,
+                  0.101829
+                ],
+                "n": 865,
+                "denominator_n": 9215
+              },
+              "loss": {
+                "estimate": 0.062941,
+                "ci95": [
+                  0.057024,
+                  0.069247
+                ],
+                "n": 580,
+                "denominator_n": 9215
+              },
+              "tie": {
+                "estimate": 0.84319,
+                "ci95": [
+                  0.831361,
+                  0.854687
+                ],
+                "n": 7770,
+                "denominator_n": 9215
+              },
+              "correct_upgrade": {
+                "estimate": 0.030602,
+                "ci95": [
+                  0.026327,
+                  0.034819
+                ],
+                "n": 282,
+                "denominator_n": 9215
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.01975,
+                "ci95": [
+                  0.016935,
+                  0.022951
+                ],
+                "n": 182,
+                "denominator_n": 9215
+              },
+              "correct_downgrade": {
+                "estimate": 0.063266,
+                "ci95": [
+                  0.057152,
+                  0.069297
+                ],
+                "n": 583,
+                "denominator_n": 9215
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.045686,
+                "ci95": [
+                  0.040931,
+                  0.050878
+                ],
+                "n": 421,
+                "denominator_n": 9215
+              },
+              "tie_upgrade": {
+                "estimate": 0.000651,
+                "ci95": [
+                  0.000114,
+                  0.001331
+                ],
+                "n": 6,
+                "denominator_n": 9215
+              },
+              "tie_downgrade": {
+                "estimate": 0.001845,
+                "ci95": [
+                  0.00091,
+                  0.002831
+                ],
+                "n": 17,
+                "denominator_n": 9215
+              },
+              "distance24_mean": {
+                "estimate": 0.516007,
+                "ci95": [
+                  0.492787,
+                  0.539588
+                ],
+                "n": 9215
+              },
+              "distance72_mean": {
+                "estimate": 0.483559,
+                "ci95": [
+                  0.463995,
+                  0.504028
+                ],
+                "n": 9215
+              },
+              "distance_change_72_minus_24_mean": {
+                "estimate": -0.032447,
+                "ci95": [
+                  -0.041205,
+                  -0.02308
+                ],
+                "n": 9215
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.0111,
+                "ci95": [
+                  0.009092,
+                  0.012846
+                ],
+                "n": 9215
+              }
+            },
+            "flips": {
+              "gain": {
+                "estimate": 0.589237,
+                "ci95": [
+                  0.562933,
+                  0.612068
+                ],
+                "n": 865,
+                "denominator_n": 1468
+              },
+              "loss": {
+                "estimate": 0.395095,
+                "ci95": [
+                  0.368637,
+                  0.423226
+                ],
+                "n": 580,
+                "denominator_n": 1468
+              },
+              "tie": {
+                "estimate": 0.015668,
+                "ci95": [
+                  0.008244,
+                  0.023894
+                ],
+                "n": 23,
+                "denominator_n": 1468
+              },
+              "correct_upgrade": {
+                "estimate": 0.192098,
+                "ci95": [
+                  0.17028,
+                  0.213109
+                ],
+                "n": 282,
+                "denominator_n": 1468
+              },
+              "incorrect_upgrade": {
+                "estimate": 0.123978,
+                "ci95": [
+                  0.106766,
+                  0.143192
+                ],
+                "n": 182,
+                "denominator_n": 1468
+              },
+              "correct_downgrade": {
+                "estimate": 0.397139,
+                "ci95": [
+                  0.372548,
+                  0.422771
+                ],
+                "n": 583,
+                "denominator_n": 1468
+              },
+              "incorrect_downgrade": {
+                "estimate": 0.286785,
+                "ci95": [
+                  0.266133,
+                  0.309852
+                ],
+                "n": 421,
+                "denominator_n": 1468
+              },
+              "tie_upgrade": {
+                "estimate": 0.004087,
+                "ci95": [
+                  0.00071,
+                  0.008306
+                ],
+                "n": 6,
+                "denominator_n": 1468
+              },
+              "tie_downgrade": {
+                "estimate": 0.01158,
+                "ci95": [
+                  0.005907,
+                  0.017819
+                ],
+                "n": 17,
+                "denominator_n": 1468
+              },
+              "pt_true_change_mean": {
+                "estimate": 0.029636,
+                "ci95": [
+                  0.022622,
+                  0.035483
+                ],
+                "n": 1468
+              }
+            }
+          },
+          "true_class_probability": {
+            "pt_true24_mean": {
+              "estimate": 0.410461,
+              "ci95": [
+                0.404023,
+                0.417044
+              ],
+              "n": 9215
+            },
+            "pt_true72_mean": {
+              "estimate": 0.421561,
+              "ci95": [
+                0.415584,
+                0.427626
+              ],
+              "n": 9215
+            },
+            "pt_true_change_mean": {
+              "estimate": 0.0111,
+              "ci95": [
+                0.009092,
+                0.012846
+              ],
+              "n": 9215
+            },
+            "improved": {
+              "estimate": 0.527401,
+              "ci95": [
+                0.51428,
+                0.540288
+              ],
+              "n": 4860,
+              "denominator_n": 9215
+            },
+            "worsened": {
+              "estimate": 0.472599,
+              "ci95": [
+                0.459712,
+                0.48572
+              ],
+              "n": 4355,
+              "denominator_n": 9215
+            },
+            "unchanged": {
+              "estimate": 0.0,
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "n": 0,
+              "denominator_n": 9215
+            },
+            "among_flips": {
+              "pt_true_change_mean": {
+                "estimate": 0.029636,
+                "ci95": [
+                  0.022622,
+                  0.035483
+                ],
+                "n": 1468
+              },
+              "improved": {
+                "estimate": 0.598093,
+                "ci95": [
+                  0.56988,
+                  0.62383
+                ],
+                "n": 878,
+                "denominator_n": 1468
+              }
+            }
+          },
+          "true_death_subgroup": {
+            "n": 1913,
+            "predicted_class_counts": {
+              "pred24": [
+                115,
+                1388,
+                410
+              ],
+              "pred72": [
+                114,
+                1370,
+                429
+              ]
+            },
+            "already_death_at24": {
+              "estimate": 0.214323,
+              "ci95": [
+                0.187492,
+                0.242875
+              ],
+              "n": 410,
+              "denominator_n": 1913
+            },
+            "detected_death_at72": {
+              "estimate": 0.224255,
+              "ci95": [
+                0.196423,
+                0.25385
+              ],
+              "n": 429,
+              "denominator_n": 1913
+            },
+            "missed_death_at72": {
+              "estimate": 0.775745,
+              "ci95": [
+                0.74615,
+                0.803577
+              ],
+              "n": 1484,
+              "denominator_n": 1913
+            },
+            "new_upgrade_to_death": {
+              "estimate": 0.066388,
+              "ci95": [
+                0.055728,
+                0.076681
+              ],
+              "n": 127,
+              "denominator_n": 1913
+            },
+            "any_upgrade": {
+              "estimate": 0.086775,
+              "ci95": [
+                0.07446,
+                0.098855
+              ],
+              "n": 166,
+              "denominator_n": 1913
+            },
+            "retained_death": {
+              "estimate": 0.157867,
+              "ci95": [
+                0.134281,
+                0.183311
+              ],
+              "n": 302,
+              "denominator_n": 1913
+            },
+            "lost_detected_death": {
+              "estimate": 0.056456,
+              "ci95": [
+                0.047363,
+                0.066254
+              ],
+              "n": 108,
+              "denominator_n": 1913
+            }
+          }
+        }
+      },
+      "temporal_vs_notemporal": {
+        "direction": "temporal penalty minus no temporal penalty",
+        "flip_rate_notemporal": {
+          "estimate": 0.166902,
+          "ci95": [
+            0.15422,
+            0.179674
+          ],
+          "n": 1538,
+          "denominator_n": 9215
+        },
+        "flip_rate_temporal": {
+          "estimate": 0.159305,
+          "ci95": [
+            0.14774,
+            0.171339
+          ],
+          "n": 1468,
+          "denominator_n": 9215
+        },
+        "flip_rate_change": {
+          "estimate": -0.007596,
+          "ci95": [
+            -0.011034,
+            -0.003818
+          ],
+          "denominator_n": 9215
+        },
+        "flip_category_decomposition": {
+          "correct_upgrade": {
+            "notemporal": {
+              "estimate": 0.032122,
+              "ci95": [
+                0.02762,
+                0.036691
+              ],
+              "n": 296,
+              "denominator_n": 9215
+            },
+            "temporal": {
+              "estimate": 0.030602,
+              "ci95": [
+                0.026327,
+                0.034819
+              ],
+              "n": 282,
+              "denominator_n": 9215
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.001519,
+              "ci95": [
+                -0.003353,
+                0.000373
+              ],
+              "denominator_n": 9215
+            }
+          },
+          "incorrect_upgrade": {
+            "notemporal": {
+              "estimate": 0.021053,
+              "ci95": [
+                0.01804,
+                0.024165
+              ],
+              "n": 194,
+              "denominator_n": 9215
+            },
+            "temporal": {
+              "estimate": 0.01975,
+              "ci95": [
+                0.016935,
+                0.022951
+              ],
+              "n": 182,
+              "denominator_n": 9215
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.001302,
+              "ci95": [
+                -0.002657,
+                0.000111
+              ],
+              "denominator_n": 9215
+            }
+          },
+          "correct_downgrade": {
+            "notemporal": {
+              "estimate": 0.065654,
+              "ci95": [
+                0.059377,
+                0.071842
+              ],
+              "n": 605,
+              "denominator_n": 9215
+            },
+            "temporal": {
+              "estimate": 0.063266,
+              "ci95": [
+                0.057152,
+                0.069297
+              ],
+              "n": 583,
+              "denominator_n": 9215
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.002387,
+              "ci95": [
+                -0.004522,
+                -0.000295
+              ],
+              "denominator_n": 9215
+            }
+          },
+          "incorrect_downgrade": {
+            "notemporal": {
+              "estimate": 0.048074,
+              "ci95": [
+                0.043062,
+                0.053472
+              ],
+              "n": 443,
+              "denominator_n": 9215
+            },
+            "temporal": {
+              "estimate": 0.045686,
+              "ci95": [
+                0.040931,
+                0.050878
+              ],
+              "n": 421,
+              "denominator_n": 9215
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.002387,
+              "ci95": [
+                -0.004357,
+                -0.000358
+              ],
+              "denominator_n": 9215
+            }
+          },
+          "tie_upgrade": {
+            "notemporal": {
+              "estimate": 0.000651,
+              "ci95": [
+                0.000114,
+                0.001335
+              ],
+              "n": 6,
+              "denominator_n": 9215
+            },
+            "temporal": {
+              "estimate": 0.000651,
+              "ci95": [
+                0.000114,
+                0.001331
+              ],
+              "n": 6,
+              "denominator_n": 9215
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": 0.0,
+              "ci95": [
+                -0.000315,
+                0.000308
+              ],
+              "denominator_n": 9215
+            }
+          },
+          "tie_downgrade": {
+            "notemporal": {
+              "estimate": 0.002496,
+              "ci95": [
+                0.001449,
+                0.003539
+              ],
+              "n": 23,
+              "denominator_n": 9215
+            },
+            "temporal": {
+              "estimate": 0.001845,
+              "ci95": [
+                0.00091,
+                0.002831
+              ],
+              "n": 17,
+              "denominator_n": 9215
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.000651,
+              "ci95": [
+                -0.001159,
+                -0.000204
+              ],
+              "denominator_n": 9215
+            }
+          },
+          "sum_of_four_primary_category_changes": -0.007595,
+          "upgrades_reduced": 0.002821,
+          "correct_upgrade_share_of_upgrade_reduction": 0.538462,
+          "incorrect_upgrade_share_of_upgrade_reduction": 0.461538
+        },
+        "true_death_subgroup": {
+          "n": 1913,
+          "already_death_at24": {
+            "notemporal": {
+              "estimate": 0.216937,
+              "ci95": [
+                0.191194,
+                0.245286
+              ],
+              "n": 415,
+              "denominator_n": 1913
+            },
+            "temporal": {
+              "estimate": 0.214323,
+              "ci95": [
+                0.187492,
+                0.242875
+              ],
+              "n": 410,
+              "denominator_n": 1913
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.002614,
+              "ci95": [
+                -0.008069,
+                0.003016
+              ],
+              "denominator_n": 1913
+            }
+          },
+          "detected_death_at72": {
+            "notemporal": {
+              "estimate": 0.230005,
+              "ci95": [
+                0.202936,
+                0.257757
+              ],
+              "n": 440,
+              "denominator_n": 1913
+            },
+            "temporal": {
+              "estimate": 0.224255,
+              "ci95": [
+                0.196423,
+                0.25385
+              ],
+              "n": 429,
+              "denominator_n": 1913
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.00575,
+              "ci95": [
+                -0.011182,
+                0.0
+              ],
+              "denominator_n": 1913
+            }
+          },
+          "missed_death_at72": {
+            "notemporal": {
+              "estimate": 0.769995,
+              "ci95": [
+                0.742243,
+                0.797064
+              ],
+              "n": 1473,
+              "denominator_n": 1913
+            },
+            "temporal": {
+              "estimate": 0.775745,
+              "ci95": [
+                0.74615,
+                0.803577
+              ],
+              "n": 1484,
+              "denominator_n": 1913
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": 0.00575,
+              "ci95": [
+                0.0,
+                0.011182
+              ],
+              "denominator_n": 1913
+            }
+          },
+          "new_upgrade_to_death": {
+            "notemporal": {
+              "estimate": 0.071615,
+              "ci95": [
+                0.060172,
+                0.082368
+              ],
+              "n": 137,
+              "denominator_n": 1913
+            },
+            "temporal": {
+              "estimate": 0.066388,
+              "ci95": [
+                0.055728,
+                0.076681
+              ],
+              "n": 127,
+              "denominator_n": 1913
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.005227,
+              "ci95": [
+                -0.01121,
+                0.00066
+              ],
+              "denominator_n": 1913
+            }
+          },
+          "any_upgrade": {
+            "notemporal": {
+              "estimate": 0.09357,
+              "ci95": [
+                0.07979,
+                0.106641
+              ],
+              "n": 179,
+              "denominator_n": 1913
+            },
+            "temporal": {
+              "estimate": 0.086775,
+              "ci95": [
+                0.07446,
+                0.098855
+              ],
+              "n": 166,
+              "denominator_n": 1913
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.006796,
+              "ci95": [
+                -0.013545,
+                0.0
+              ],
+              "denominator_n": 1913
+            }
+          },
+          "retained_death": {
+            "notemporal": {
+              "estimate": 0.15839,
+              "ci95": [
+                0.134965,
+                0.182931
+              ],
+              "n": 303,
+              "denominator_n": 1913
+            },
+            "temporal": {
+              "estimate": 0.157867,
+              "ci95": [
+                0.134281,
+                0.183311
+              ],
+              "n": 302,
+              "denominator_n": 1913
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.000523,
+              "ci95": [
+                -0.004376,
+                0.003907
+              ],
+              "denominator_n": 1913
+            }
+          },
+          "lost_detected_death": {
+            "notemporal": {
+              "estimate": 0.058547,
+              "ci95": [
+                0.049856,
+                0.068545
+              ],
+              "n": 112,
+              "denominator_n": 1913
+            },
+            "temporal": {
+              "estimate": 0.056456,
+              "ci95": [
+                0.047363,
+                0.066254
+              ],
+              "n": 108,
+              "denominator_n": 1913
+            },
+            "change_temporal_minus_notemporal": {
+              "estimate": -0.002091,
+              "ci95": [
+                -0.006293,
+                0.001819
+              ],
+              "denominator_n": 1913
+            }
+          }
+        },
+        "suppression_assessment": {
+          "evidence": "directional_but_uncertain",
+          "criteria": "Directional suppression requires fewer new upgrades to death and more missed deaths at 72 h; simultaneous 95% CI exclusion of zero strengthens the assessment.",
+          "interpretation": "Point estimates are consistent with suppression of death recognition, but the paired interval does not establish both components.",
+          "new_upgrade_to_death_change": {
+            "estimate": -0.005227,
+            "ci95": [
+              -0.01121,
+              0.00066
+            ],
+            "denominator_n": 1913
+          },
+          "missed_death_at72_change": {
+            "estimate": 0.00575,
+            "ci95": [
+              0.0,
+              0.011182
+            ],
+            "denominator_n": 1913
+          },
+          "lost_detected_death_change": {
+            "estimate": -0.002091,
+            "ci95": [
+              -0.006293,
+              0.001819
+            ],
+            "denominator_n": 1913
+          }
+        }
+      }
+    }
+  },
+  "interpretation_boundary": [
+    "The analysis describes stability of fitted predictions, not the effect of retraining an algorithm.",
+    "Facility is a heterogeneous destination group.",
+    "Home, facility, and death are ordinally coded for analysis; this ordering is a modelling assumption.",
+    "A lower flip rate is not sufficient evidence of better prediction."
+  ]
+}

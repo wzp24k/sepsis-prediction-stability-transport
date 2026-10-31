@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this code or the aggregate results, please cite this repository and the accompanying manuscript."
+type: software
+title: "Predicted-Class Stability and Transport of Discharge-Disposition Models Among ICU Stays With Sepsis at 24, 48, and 72 Hours"
+version: "1.0.0"
+date-released: "2026-10-31"
+repository-code: "https://github.com/wzp24k/sepsis-prediction-stability-transport"
+authors:
+  - family-names: Wang
+    given-names: Zhipeng
+    affiliation: "Department of TCM, Zhongda Hospital, Southeast University, Nanjing, China"
+  - family-names: Wang
+    given-names: Luning
+    affiliation: "Department of Rehabilitation Medicine, Zhongda Hospital, Southeast University, Nanjing, China"
+  - family-names: Wang
+    given-names: Changsong
+    affiliation: "Department of TCM, Zhongda Hospital, Southeast University, Nanjing, China"
+  - family-names: Xu
+    given-names: Xiyu
+    affiliation: "School of Medicine, Southeast University, Nanjing, China"
+  - family-names: Zhai
+    given-names: Pengli
+    affiliation: "Jiangbei Campus, Jiangsu Provincial Traditional Chinese Medicine Hospital, Nanjing, China"
+  - family-names: Liu
+    given-names: Zejun
+    affiliation: "Department of TCM, Zhongda Hospital, Southeast University, Nanjing, China"
+  - family-names: Feng
+    given-names: Hui
+    affiliation: "Department of TCM, Zhongda Hospital, Southeast University, Nanjing, China"
+  - family-names: Hou
+    given-names: Qian
+    affiliation: "Department of TCM, Zhongda Hospital, Southeast University, Nanjing, China"
+  - family-names: Guo
+    given-names: Ming
+    affiliation: "Department of TCM, Zhongda Hospital, Southeast University, Nanjing, China"

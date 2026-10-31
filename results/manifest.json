@@ -1,0 +1,141 @@
+﻿{
+    "created":  "2026-10-29",
+    "note":  "Integrity manifest for copied derived data and result artifacts. Templates and source databases are excluded.",
+    "files":  [
+                  {
+                      "path":  "data/processed/eicu/cohort_all.parquet",
+                      "bytes":  675982,
+                      "sha256":  "508c543482c40b9772efa266f93b7e502a0c8e1bba25b66e6b75426cdc966824"
+                  },
+                  {
+                      "path":  "data/processed/eicu/cohort_full72.parquet",
+                      "bytes":  296285,
+                      "sha256":  "b274638cbed5f6cc6d77268dcc87264ee330ac8e0ee54dbb59db4faea29bb2a0"
+                  },
+                  {
+                      "path":  "data/processed/eicu/cohort_v2.parquet",
+                      "bytes":  294085,
+                      "sha256":  "7cb4800bae1e7b325acec2a239ccd3f849cc40ba667bc3598bb8d3f504b77b4d"
+                  },
+                  {
+                      "path":  "data/processed/eicu/cohort_v2_all.parquet",
+                      "bytes":  693184,
+                      "sha256":  "b9db822ead528b00b4dd8773b0bbea1d3ad5185dca3bb0be8165b8adc0767ab2"
+                  },
+                  {
+                      "path":  "data/processed/eicu/design_v3.parquet",
+                      "bytes":  1987485,
+                      "sha256":  "6465fe9438f19af6d1c2dee09a93df261cc3a02be3ba2c4ca12ac2d43c8a7bb4"
+                  },
+                  {
+                      "path":  "data/processed/eicu/labs_full72.parquet",
+                      "bytes":  253879,
+                      "sha256":  "7eaf23f75dc73ebebf049816bc8046d722be95722fec3d42961ee2b042564a24"
+                  },
+                  {
+                      "path":  "data/processed/eicu/labs_v2.parquet",
+                      "bytes":  257349,
+                      "sha256":  "ddda793a6466c639f0e9c1efeb4079db2b2d121cfdfda6c37bcce9f57681b147"
+                  },
+                  {
+                      "path":  "data/processed/eicu/vitals_v2.parquet",
+                      "bytes":  1506657,
+                      "sha256":  "254c5a1bf3b56e190397737bc8f77bfeb6a00671afdaec07d832210f071368a3"
+                  },
+                  {
+                      "path":  "data/processed/mimic4/cohort.parquet",
+                      "bytes":  556025,
+                      "sha256":  "9a7d05a61ecffe65cc71c5235411088445079c58a234f647f361af88dc0e786b"
+                  },
+                  {
+                      "path":  "data/processed/mimic4/design.parquet",
+                      "bytes":  1468840,
+                      "sha256":  "7b8306cb4376324af6b5d1936b18c376d35f5fbc9ac124d7ae39401ff80a5531"
+                  },
+                  {
+                      "path":  "data/processed/mimic4/labs.parquet",
+                      "bytes":  354819,
+                      "sha256":  "655330428908d78bd3bffde77efeb1bc7b9d31288ee83a482b212046f38fef51"
+                  },
+                  {
+                      "path":  "data/processed/mimic4/seq72.npz",
+                      "bytes":  4419632,
+                      "sha256":  "0be12e79ec92dce4cdcdeb4bbbb6683064353882f558eecf395ca24b67d1bf80"
+                  },
+                  {
+                      "path":  "data/processed/mimic4/vitals_feats.parquet",
+                      "bytes":  1239314,
+                      "sha256":  "ea371de230e20d23215e871e283a308098a6021939dd49e23a71b732f6e5950d"
+                  },
+                  {
+                      "path":  "data/processed/mimic4/vitals_raw.parquet",
+                      "bytes":  45277119,
+                      "sha256":  "fe1caebfc04dcdd3de75253701ffee1b9734d160f52a0fbe6a70ffc4baee94cf"
+                  },
+                  {
+                      "path":  "results/comparison/flip_compare.json",
+                      "bytes":  2336,
+                      "sha256":  "a56a9752dbf4220846ba6458a308d21cd2d3d39cdd3bd0e5240210b304dd6a69"
+                  },
+                  {
+                      "path":  "results/comparison/flip_compare.md",
+                      "bytes":  708,
+                      "sha256":  "538061455af73ff05d77ed54fdf5bfeb06c43897bd4cecba3a1dd1a539a8b10b"
+                  },
+                  {
+                      "path":  "results/eicu/flip_replication_report.md",
+                      "bytes":  3561,
+                      "sha256":  "7718b1307e85ab7d004d8b1c699cdcd5e5c0dbd62f809e87408753b03766ee4d"
+                  },
+                  {
+                      "path":  "results/eicu/oof_4class.npz",
+                      "bytes":  886470,
+                      "sha256":  "43f1b51119408baf26b3eb4a51a634a0da62e7c70cf4e89466eb12dbed7338dc"
+                  },
+                  {
+                      "path":  "results/eicu/xgb_3class.json",
+                      "bytes":  458,
+                      "sha256":  "d24e52bc738e97aa17916e38dc7b711dff9048d6ebc0346da4cbcea92a9575fb"
+                  },
+                  {
+                      "path":  "results/eicu/xgb_4class.json",
+                      "bytes":  1175,
+                      "sha256":  "9d54963d091d2f8077e85df26d307fcacd4ec31902197ca2b7bb8aee32095324"
+                  },
+                  {
+                      "path":  "results/mimic4/flip_decomposition.json",
+                      "bytes":  2822,
+                      "sha256":  "97000bf44e94061a712a8790c4ada2a88f0ab24edb9b6e5f99913e06d01e3ada"
+                  },
+                  {
+                      "path":  "results/mimic4/oof_3class.npz",
+                      "bytes":  519518,
+                      "sha256":  "1a3b4f9f59e9dc43bfcf485862ba9282bd9cbd85d5b25e9524716939d967a1da"
+                  },
+                  {
+                      "path":  "results/mimic4/oof_4class.npz",
+                      "bytes":  683270,
+                      "sha256":  "1a1d26f572d43c7ce52dd835c5600825b82366d1d0f8698cbe3790bf95332d99"
+                  },
+                  {
+                      "path":  "results/mimic4/smoke/dggru_smoke_e2_s1_fold1.json",
+                      "bytes":  594,
+                      "sha256":  "248468ffe891bff7ccf5829a61cd15d9b1bc33c991a222f233d2b5cd65caa2fd"
+                  },
+                  {
+                      "path":  "results/mimic4/smoke/dggru_smoke_e2_s1_fold1.npz",
+                      "bytes":  148148,
+                      "sha256":  "13564597e17cd0f1d23b52ae4394f0594f443159727942943f439ba36d718352"
+                  },
+                  {
+                      "path":  "results/mimic4/xgb_3class.json",
+                      "bytes":  1360,
+                      "sha256":  "df34c342ba32a920d7c375e0c923241ff66c5a42bf305051a84e7f3e4b37eb32"
+                  },
+                  {
+                      "path":  "results/mimic4/xgb_4class.json",
+                      "bytes":  803,
+                      "sha256":  "12b01c1722e0696e2bdc71c8d77e0dd2e10057bee78af72b368790455b855780"
+                  }
+              ]
+}

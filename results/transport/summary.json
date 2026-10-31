@@ -1,0 +1,2197 @@
+{
+  "analysis": "fixed-weight cross-database transport validation",
+  "generated_at": "2026-10-31T14:01:34+08:00",
+  "random_seed": 20261029,
+  "xgboost_n_jobs": 16,
+  "hyperparameters": {
+    "objective": "multi:softprob",
+    "num_class": 3,
+    "n_estimators": 300,
+    "max_depth": 4,
+    "learning_rate": 0.06,
+    "subsample": 0.85,
+    "colsample_bytree": 0.8,
+    "tree_method": "hist",
+    "n_jobs": 16,
+    "random_state": 20261029,
+    "eval_metric": "mlogloss"
+  },
+  "outcome": {
+    "column": "y3",
+    "labels": {
+      "0": "home",
+      "1": "facility",
+      "2": "death"
+    },
+    "mapping_compatible": true
+  },
+  "feasibility": {
+    "feasible": true,
+    "exact_common_feature_count": 139,
+    "exact_common_features": [
+      "age",
+      "hr_w1_mean",
+      "hr_w1_min",
+      "hr_w1_max",
+      "hr_w1_last",
+      "hr_w1_count",
+      "rr_w1_mean",
+      "rr_w1_min",
+      "rr_w1_max",
+      "rr_w1_last",
+      "rr_w1_count",
+      "spo2_w1_mean",
+      "spo2_w1_min",
+      "spo2_w1_max",
+      "spo2_w1_last",
+      "spo2_w1_count",
+      "sbp_w1_mean",
+      "sbp_w1_min",
+      "sbp_w1_max",
+      "sbp_w1_last",
+      "sbp_w1_count",
+      "dbp_w1_mean",
+      "dbp_w1_min",
+      "dbp_w1_max",
+      "dbp_w1_last",
+      "dbp_w1_count",
+      "mbp_w1_mean",
+      "mbp_w1_min",
+      "mbp_w1_max",
+      "mbp_w1_last",
+      "mbp_w1_count",
+      "tempf_w1_mean",
+      "tempf_w1_min",
+      "tempf_w1_max",
+      "tempf_w1_last",
+      "tempf_w1_count",
+      "gcs_w1_mean",
+      "gcs_w1_min",
+      "gcs_w1_max",
+      "gcs_w1_last",
+      "gcs_w1_count",
+      "hr_w2_mean",
+      "hr_w2_min",
+      "hr_w2_max",
+      "hr_w2_last",
+      "hr_w2_count",
+      "rr_w2_mean",
+      "rr_w2_min",
+      "rr_w2_max",
+      "rr_w2_last",
+      "rr_w2_count",
+      "spo2_w2_mean",
+      "spo2_w2_min",
+      "spo2_w2_max",
+      "spo2_w2_last",
+      "spo2_w2_count",
+      "sbp_w2_mean",
+      "sbp_w2_min",
+      "sbp_w2_max",
+      "sbp_w2_last",
+      "sbp_w2_count",
+      "dbp_w2_mean",
+      "dbp_w2_min",
+      "dbp_w2_max",
+      "dbp_w2_last",
+      "dbp_w2_count",
+      "mbp_w2_mean",
+      "mbp_w2_min",
+      "mbp_w2_max",
+      "mbp_w2_last",
+      "mbp_w2_count",
+      "tempf_w2_mean",
+      "tempf_w2_min",
+      "tempf_w2_max",
+      "tempf_w2_last",
+      "tempf_w2_count",
+      "gcs_w2_mean",
+      "gcs_w2_min",
+      "gcs_w2_max",
+      "gcs_w2_last",
+      "gcs_w2_count",
+      "hr_w3_mean",
+      "hr_w3_min",
+      "hr_w3_max",
+      "hr_w3_last",
+      "hr_w3_count",
+      "rr_w3_mean",
+      "rr_w3_min",
+      "rr_w3_max",
+      "rr_w3_last",
+      "rr_w3_count",
+      "spo2_w3_mean",
+      "spo2_w3_min",
+      "spo2_w3_max",
+      "spo2_w3_last",
+      "spo2_w3_count",
+      "sbp_w3_mean",
+      "sbp_w3_min",
+      "sbp_w3_max",
+      "sbp_w3_last",
+      "sbp_w3_count",
+      "dbp_w3_mean",
+      "dbp_w3_min",
+      "dbp_w3_max",
+      "dbp_w3_last",
+      "dbp_w3_count",
+      "mbp_w3_mean",
+      "mbp_w3_min",
+      "mbp_w3_max",
+      "mbp_w3_last",
+      "mbp_w3_count",
+      "tempf_w3_mean",
+      "tempf_w3_min",
+      "tempf_w3_max",
+      "tempf_w3_last",
+      "tempf_w3_count",
+      "gcs_w3_mean",
+      "gcs_w3_min",
+      "gcs_w3_max",
+      "gcs_w3_last",
+      "gcs_w3_count",
+      "crea_min",
+      "crea_max",
+      "lac_min",
+      "lac_max",
+      "wbc_min",
+      "wbc_max",
+      "plt_min",
+      "plt_max",
+      "bili_min",
+      "bili_max",
+      "na_min",
+      "na_max",
+      "bun_min",
+      "bun_max",
+      "hgb_min",
+      "hgb_max",
+      "inr_max",
+      "male"
+    ],
+    "landmark_feature_counts": {
+      "24": 59,
+      "48": 99,
+      "72": 139
+    },
+    "landmark_features": {
+      "24": [
+        "age",
+        "male",
+        "crea_min",
+        "crea_max",
+        "lac_min",
+        "lac_max",
+        "wbc_min",
+        "wbc_max",
+        "plt_min",
+        "plt_max",
+        "bili_min",
+        "bili_max",
+        "na_min",
+        "na_max",
+        "bun_min",
+        "bun_max",
+        "hgb_min",
+        "hgb_max",
+        "inr_max",
+        "hr_w1_mean",
+        "hr_w1_min",
+        "hr_w1_max",
+        "hr_w1_last",
+        "hr_w1_count",
+        "rr_w1_mean",
+        "rr_w1_min",
+        "rr_w1_max",
+        "rr_w1_last",
+        "rr_w1_count",
+        "spo2_w1_mean",
+        "spo2_w1_min",
+        "spo2_w1_max",
+        "spo2_w1_last",
+        "spo2_w1_count",
+        "sbp_w1_mean",
+        "sbp_w1_min",
+        "sbp_w1_max",
+        "sbp_w1_last",
+        "sbp_w1_count",
+        "dbp_w1_mean",
+        "dbp_w1_min",
+        "dbp_w1_max",
+        "dbp_w1_last",
+        "dbp_w1_count",
+        "mbp_w1_mean",
+        "mbp_w1_min",
+        "mbp_w1_max",
+        "mbp_w1_last",
+        "mbp_w1_count",
+        "tempf_w1_mean",
+        "tempf_w1_min",
+        "tempf_w1_max",
+        "tempf_w1_last",
+        "tempf_w1_count",
+        "gcs_w1_mean",
+        "gcs_w1_min",
+        "gcs_w1_max",
+        "gcs_w1_last",
+        "gcs_w1_count"
+      ],
+      "48": [
+        "age",
+        "male",
+        "crea_min",
+        "crea_max",
+        "lac_min",
+        "lac_max",
+        "wbc_min",
+        "wbc_max",
+        "plt_min",
+        "plt_max",
+        "bili_min",
+        "bili_max",
+        "na_min",
+        "na_max",
+        "bun_min",
+        "bun_max",
+        "hgb_min",
+        "hgb_max",
+        "inr_max",
+        "hr_w1_mean",
+        "hr_w1_min",
+        "hr_w1_max",
+        "hr_w1_last",
+        "hr_w1_count",
+        "rr_w1_mean",
+        "rr_w1_min",
+        "rr_w1_max",
+        "rr_w1_last",
+        "rr_w1_count",
+        "spo2_w1_mean",
+        "spo2_w1_min",
+        "spo2_w1_max",
+        "spo2_w1_last",
+        "spo2_w1_count",
+        "sbp_w1_mean",
+        "sbp_w1_min",
+        "sbp_w1_max",
+        "sbp_w1_last",
+        "sbp_w1_count",
+        "dbp_w1_mean",
+        "dbp_w1_min",
+        "dbp_w1_max",
+        "dbp_w1_last",
+        "dbp_w1_count",
+        "mbp_w1_mean",
+        "mbp_w1_min",
+        "mbp_w1_max",
+        "mbp_w1_last",
+        "mbp_w1_count",
+        "tempf_w1_mean",
+        "tempf_w1_min",
+        "tempf_w1_max",
+        "tempf_w1_last",
+        "tempf_w1_count",
+        "gcs_w1_mean",
+        "gcs_w1_min",
+        "gcs_w1_max",
+        "gcs_w1_last",
+        "gcs_w1_count",
+        "hr_w2_mean",
+        "hr_w2_min",
+        "hr_w2_max",
+        "hr_w2_last",
+        "hr_w2_count",
+        "rr_w2_mean",
+        "rr_w2_min",
+        "rr_w2_max",
+        "rr_w2_last",
+        "rr_w2_count",
+        "spo2_w2_mean",
+        "spo2_w2_min",
+        "spo2_w2_max",
+        "spo2_w2_last",
+        "spo2_w2_count",
+        "sbp_w2_mean",
+        "sbp_w2_min",
+        "sbp_w2_max",
+        "sbp_w2_last",
+        "sbp_w2_count",
+        "dbp_w2_mean",
+        "dbp_w2_min",
+        "dbp_w2_max",
+        "dbp_w2_last",
+        "dbp_w2_count",
+        "mbp_w2_mean",
+        "mbp_w2_min",
+        "mbp_w2_max",
+        "mbp_w2_last",
+        "mbp_w2_count",
+        "tempf_w2_mean",
+        "tempf_w2_min",
+        "tempf_w2_max",
+        "tempf_w2_last",
+        "tempf_w2_count",
+        "gcs_w2_mean",
+        "gcs_w2_min",
+        "gcs_w2_max",
+        "gcs_w2_last",
+        "gcs_w2_count"
+      ],
+      "72": [
+        "age",
+        "male",
+        "crea_min",
+        "crea_max",
+        "lac_min",
+        "lac_max",
+        "wbc_min",
+        "wbc_max",
+        "plt_min",
+        "plt_max",
+        "bili_min",
+        "bili_max",
+        "na_min",
+        "na_max",
+        "bun_min",
+        "bun_max",
+        "hgb_min",
+        "hgb_max",
+        "inr_max",
+        "hr_w1_mean",
+        "hr_w1_min",
+        "hr_w1_max",
+        "hr_w1_last",
+        "hr_w1_count",
+        "rr_w1_mean",
+        "rr_w1_min",
+        "rr_w1_max",
+        "rr_w1_last",
+        "rr_w1_count",
+        "spo2_w1_mean",
+        "spo2_w1_min",
+        "spo2_w1_max",
+        "spo2_w1_last",
+        "spo2_w1_count",
+        "sbp_w1_mean",
+        "sbp_w1_min",
+        "sbp_w1_max",
+        "sbp_w1_last",
+        "sbp_w1_count",
+        "dbp_w1_mean",
+        "dbp_w1_min",
+        "dbp_w1_max",
+        "dbp_w1_last",
+        "dbp_w1_count",
+        "mbp_w1_mean",
+        "mbp_w1_min",
+        "mbp_w1_max",
+        "mbp_w1_last",
+        "mbp_w1_count",
+        "tempf_w1_mean",
+        "tempf_w1_min",
+        "tempf_w1_max",
+        "tempf_w1_last",
+        "tempf_w1_count",
+        "gcs_w1_mean",
+        "gcs_w1_min",
+        "gcs_w1_max",
+        "gcs_w1_last",
+        "gcs_w1_count",
+        "hr_w2_mean",
+        "hr_w2_min",
+        "hr_w2_max",
+        "hr_w2_last",
+        "hr_w2_count",
+        "rr_w2_mean",
+        "rr_w2_min",
+        "rr_w2_max",
+        "rr_w2_last",
+        "rr_w2_count",
+        "spo2_w2_mean",
+        "spo2_w2_min",
+        "spo2_w2_max",
+        "spo2_w2_last",
+        "spo2_w2_count",
+        "sbp_w2_mean",
+        "sbp_w2_min",
+        "sbp_w2_max",
+        "sbp_w2_last",
+        "sbp_w2_count",
+        "dbp_w2_mean",
+        "dbp_w2_min",
+        "dbp_w2_max",
+        "dbp_w2_last",
+        "dbp_w2_count",
+        "mbp_w2_mean",
+        "mbp_w2_min",
+        "mbp_w2_max",
+        "mbp_w2_last",
+        "mbp_w2_count",
+        "tempf_w2_mean",
+        "tempf_w2_min",
+        "tempf_w2_max",
+        "tempf_w2_last",
+        "tempf_w2_count",
+        "gcs_w2_mean",
+        "gcs_w2_min",
+        "gcs_w2_max",
+        "gcs_w2_last",
+        "gcs_w2_count",
+        "hr_w3_mean",
+        "hr_w3_min",
+        "hr_w3_max",
+        "hr_w3_last",
+        "hr_w3_count",
+        "rr_w3_mean",
+        "rr_w3_min",
+        "rr_w3_max",
+        "rr_w3_last",
+        "rr_w3_count",
+        "spo2_w3_mean",
+        "spo2_w3_min",
+        "spo2_w3_max",
+        "spo2_w3_last",
+        "spo2_w3_count",
+        "sbp_w3_mean",
+        "sbp_w3_min",
+        "sbp_w3_max",
+        "sbp_w3_last",
+        "sbp_w3_count",
+        "dbp_w3_mean",
+        "dbp_w3_min",
+        "dbp_w3_max",
+        "dbp_w3_last",
+        "dbp_w3_count",
+        "mbp_w3_mean",
+        "mbp_w3_min",
+        "mbp_w3_max",
+        "mbp_w3_last",
+        "mbp_w3_count",
+        "tempf_w3_mean",
+        "tempf_w3_min",
+        "tempf_w3_max",
+        "tempf_w3_last",
+        "tempf_w3_count",
+        "gcs_w3_mean",
+        "gcs_w3_min",
+        "gcs_w3_max",
+        "gcs_w3_last",
+        "gcs_w3_count"
+      ]
+    },
+    "excluded_columns": [
+      "admission_type",
+      "admissionheight",
+      "admissionweight",
+      "first_careunit",
+      "gender",
+      "hadm_id",
+      "hospitaladmitsource",
+      "hospitaldischargelocation",
+      "hospitaldischargeoffset",
+      "hospitaldischargestatus",
+      "hospitaldischargeyear",
+      "hospitalid",
+      "intime",
+      "los",
+      "los_h",
+      "outtime",
+      "patientunitstayid",
+      "stay_id",
+      "subject_id",
+      "uniquepid",
+      "unitadmitsource",
+      "unitdischargelocation",
+      "unitdischargeoffset",
+      "unittype",
+      "unitvisitnumber",
+      "y",
+      "y3"
+    ],
+    "cohorts": {
+      "mimic4": {
+        "24": {
+          "n": 12198,
+          "class_counts": {
+            "home": 3225,
+            "facility": 5609,
+            "death": 3364
+          }
+        },
+        "48": {
+          "n": 8980,
+          "class_counts": {
+            "home": 1920,
+            "facility": 4398,
+            "death": 2662
+          }
+        },
+        "72": {
+          "n": 6823,
+          "class_counts": {
+            "home": 1175,
+            "facility": 3447,
+            "death": 2201
+          }
+        },
+        "complete_72h": {
+          "n": 6823,
+          "class_counts": {
+            "home": 1175,
+            "facility": 3447,
+            "death": 2201
+          }
+        }
+      },
+      "eicu": {
+        "24": {
+          "n": 18350,
+          "class_counts": {
+            "home": 7211,
+            "facility": 7979,
+            "death": 3160
+          }
+        },
+        "48": {
+          "n": 12917,
+          "class_counts": {
+            "home": 4425,
+            "facility": 6085,
+            "death": 2407
+          }
+        },
+        "72": {
+          "n": 9215,
+          "class_counts": {
+            "home": 2730,
+            "facility": 4572,
+            "death": 1913
+          }
+        },
+        "complete_72h": {
+          "n": 9215,
+          "class_counts": {
+            "home": 2730,
+            "facility": 4572,
+            "death": 1913
+          }
+        }
+      }
+    },
+    "missingness_by_landmark": {
+      "mimic4": {
+        "24": {
+          "median_feature_missing_percent": 0.6804394162977537,
+          "p90_feature_missing_percent": 1.352680767338908,
+          "max_feature_missing_percent": 29.14412198721102,
+          "top_missing_features_percent": {
+            "bili_max": 29.14412198721102,
+            "bili_min": 29.14412198721102,
+            "lac_min": 18.937530742744713,
+            "lac_max": 18.937530742744713,
+            "inr_max": 12.616822429906541,
+            "wbc_min": 1.352680767338908,
+            "wbc_max": 1.352680767338908,
+            "plt_max": 1.3034923757993113
+          }
+        },
+        "48": {
+          "median_feature_missing_percent": 0.48997772828507796,
+          "p90_feature_missing_percent": 2.8173719376391984,
+          "max_feature_missing_percent": 27.115812917594656,
+          "top_missing_features_percent": {
+            "bili_min": 27.115812917594656,
+            "bili_max": 27.115812917594656,
+            "lac_min": 15.723830734966594,
+            "lac_max": 15.723830734966594,
+            "inr_max": 10.879732739420936,
+            "dbp_w2_max": 2.8173719376391984,
+            "dbp_w2_min": 2.8173719376391984,
+            "dbp_w2_mean": 2.8173719376391984
+          }
+        },
+        "72": {
+          "median_feature_missing_percent": 0.48365821486149785,
+          "p90_feature_missing_percent": 3.5614832185255754,
+          "max_feature_missing_percent": 26.13219991206214,
+          "top_missing_features_percent": {
+            "bili_min": 26.13219991206214,
+            "bili_max": 26.13219991206214,
+            "lac_min": 14.216620255019786,
+            "lac_max": 14.216620255019786,
+            "inr_max": 9.746445844936245,
+            "dbp_w3_max": 3.576139528066833,
+            "dbp_w3_min": 3.576139528066833,
+            "dbp_w3_last": 3.576139528066833
+          }
+        }
+      },
+      "eicu": {
+        "24": {
+          "median_feature_missing_percent": 1.3950953678474114,
+          "p90_feature_missing_percent": 31.42234332425068,
+          "max_feature_missing_percent": 56.80108991825613,
+          "top_missing_features_percent": {
+            "inr_max": 56.80108991825613,
+            "bili_min": 40.84468664850136,
+            "bili_max": 40.84468664850136,
+            "lac_min": 40.463215258855584,
+            "lac_max": 40.463215258855584,
+            "gcs_w1_mean": 31.42234332425068,
+            "gcs_w1_max": 31.42234332425068,
+            "gcs_w1_min": 31.42234332425068
+          }
+        },
+        "48": {
+          "median_feature_missing_percent": 1.0219091120229156,
+          "p90_feature_missing_percent": 31.99659363629326,
+          "max_feature_missing_percent": 53.92893086630023,
+          "top_missing_features_percent": {
+            "inr_max": 53.92893086630023,
+            "bili_min": 39.180924363242234,
+            "bili_max": 39.180924363242234,
+            "lac_min": 38.731903692807926,
+            "lac_max": 38.731903692807926,
+            "gcs_w2_mean": 32.786250677401874,
+            "gcs_w2_min": 32.786250677401874,
+            "gcs_w2_max": 32.786250677401874
+          }
+        },
+        "72": {
+          "median_feature_missing_percent": 0.9875203472599023,
+          "p90_feature_missing_percent": 32.18665219750407,
+          "max_feature_missing_percent": 51.828540423223004,
+          "top_missing_features_percent": {
+            "inr_max": 51.828540423223004,
+            "lac_min": 37.78621812262615,
+            "lac_max": 37.78621812262615,
+            "bili_min": 37.59088442756375,
+            "bili_max": 37.59088442756375,
+            "gcs_w2_last": 33.17417254476397,
+            "gcs_w2_max": 33.17417254476397,
+            "gcs_w2_min": 33.17417254476397
+          }
+        }
+      }
+    },
+    "reason_if_not_feasible": null
+  },
+  "transport": {
+    "mimic4_to_eicu": {
+      "source_database": "mimic4",
+      "target_database": "eicu",
+      "protocol": {
+        "primary": "Fit one fixed-weight model on all source patients with outcome and source duration >= landmark; evaluate all target patients with outcome and target duration >= the same landmark.",
+        "matched_72h": "Fit on source patients with outcome and source duration >=72 h; evaluate target patients with outcome and target duration >=72 h. At 72 h training is identical to primary.",
+        "no_target_fitting": true,
+        "no_source_oof_metrics_reported": true,
+        "fixed_24_to_72_rule": "Train independent fixed landmark models at 24 and 72 h on the source primary cohort; compare their target predictions in the target complete-72h cohort."
+      },
+      "landmarks": {
+        "24": {
+          "feature_count": 59,
+          "features": [
+            "age",
+            "male",
+            "crea_min",
+            "crea_max",
+            "lac_min",
+            "lac_max",
+            "wbc_min",
+            "wbc_max",
+            "plt_min",
+            "plt_max",
+            "bili_min",
+            "bili_max",
+            "na_min",
+            "na_max",
+            "bun_min",
+            "bun_max",
+            "hgb_min",
+            "hgb_max",
+            "inr_max",
+            "hr_w1_mean",
+            "hr_w1_min",
+            "hr_w1_max",
+            "hr_w1_last",
+            "hr_w1_count",
+            "rr_w1_mean",
+            "rr_w1_min",
+            "rr_w1_max",
+            "rr_w1_last",
+            "rr_w1_count",
+            "spo2_w1_mean",
+            "spo2_w1_min",
+            "spo2_w1_max",
+            "spo2_w1_last",
+            "spo2_w1_count",
+            "sbp_w1_mean",
+            "sbp_w1_min",
+            "sbp_w1_max",
+            "sbp_w1_last",
+            "sbp_w1_count",
+            "dbp_w1_mean",
+            "dbp_w1_min",
+            "dbp_w1_max",
+            "dbp_w1_last",
+            "dbp_w1_count",
+            "mbp_w1_mean",
+            "mbp_w1_min",
+            "mbp_w1_max",
+            "mbp_w1_last",
+            "mbp_w1_count",
+            "tempf_w1_mean",
+            "tempf_w1_min",
+            "tempf_w1_max",
+            "tempf_w1_last",
+            "tempf_w1_count",
+            "gcs_w1_mean",
+            "gcs_w1_min",
+            "gcs_w1_max",
+            "gcs_w1_last",
+            "gcs_w1_count"
+          ],
+          "training": {
+            "n": 12198,
+            "class_counts": {
+              "home": 3225,
+              "facility": 5609,
+              "death": 3364
+            },
+            "feature_count": 59
+          },
+          "target_all_reaching_landmark": {
+            "n": 18350,
+            "class_counts": {
+              "home": 7211,
+              "facility": 7979,
+              "death": 3160
+            },
+            "macro_auc": 0.7013657581159398,
+            "accuracy": 0.5211444141689373,
+            "log_loss": 0.9980121821662487,
+            "brier_multiclass": 0.5965032872254639,
+            "ece_top_label_10bin": 0.08375040293922575,
+            "mean_max_probability": 0.6048948171081631,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 0.6593533890538924,
+                "intercept": 0.41187283976534295,
+                "prevalence": 0.3929700272479564,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.5272005715704783,
+                "intercept": -0.23054993065170634,
+                "prevalence": 0.43482288828337873,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.8950160447405057,
+                "intercept": -0.6975187856689956,
+                "prevalence": 0.17220708446866484,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_using_primary_model": {
+            "n": 9215,
+            "class_counts": {
+              "home": 2730,
+              "facility": 4572,
+              "death": 1913
+            },
+            "macro_auc": 0.6453039432313146,
+            "accuracy": 0.5042864894194249,
+            "log_loss": 1.036528725957842,
+            "brier_multiclass": 0.6188879284279456,
+            "ece_top_label_10bin": 0.09216936381127007,
+            "mean_max_probability": 0.5964558532306949,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 0.5504944439172088,
+                "intercept": -0.06257871501715591,
+                "prevalence": 0.2962561041779707,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.384557758929515,
+                "intercept": -0.01615534344792291,
+                "prevalence": 0.4961475854584916,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.5935681138407566,
+                "intercept": -0.7591138194234376,
+                "prevalence": 0.2075963103635377,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_matched_training": {
+            "training": {
+              "n": 6823,
+              "class_counts": {
+                "home": 1175,
+                "facility": 3447,
+                "death": 2201
+              },
+              "feature_count": 59
+            },
+            "metrics": {
+              "n": 9215,
+              "class_counts": {
+                "home": 2730,
+                "facility": 4572,
+                "death": 1913
+              },
+              "macro_auc": 0.6423761487336047,
+              "accuracy": 0.5009224091155724,
+              "log_loss": 1.0624979536664376,
+              "brier_multiclass": 0.624443099174137,
+              "ece_top_label_10bin": 0.08429800469706426,
+              "mean_max_probability": 0.5852204138126367,
+              "class_calibration": {
+                "0": {
+                  "label": "home",
+                  "slope": 0.5484384006550517,
+                  "intercept": 0.08838442706980024,
+                  "prevalence": 0.2962561041779707,
+                  "available": true
+                },
+                "1": {
+                  "label": "facility",
+                  "slope": 0.44954487619317113,
+                  "intercept": -0.04977022679351427,
+                  "prevalence": 0.4961475854584916,
+                  "available": true
+                },
+                "2": {
+                  "label": "death",
+                  "slope": 0.7025428812253152,
+                  "intercept": -0.7570586933408293,
+                  "prevalence": 0.2075963103635377,
+                  "available": true
+                }
+              }
+            }
+          }
+        },
+        "48": {
+          "feature_count": 99,
+          "features": [
+            "age",
+            "male",
+            "crea_min",
+            "crea_max",
+            "lac_min",
+            "lac_max",
+            "wbc_min",
+            "wbc_max",
+            "plt_min",
+            "plt_max",
+            "bili_min",
+            "bili_max",
+            "na_min",
+            "na_max",
+            "bun_min",
+            "bun_max",
+            "hgb_min",
+            "hgb_max",
+            "inr_max",
+            "hr_w1_mean",
+            "hr_w1_min",
+            "hr_w1_max",
+            "hr_w1_last",
+            "hr_w1_count",
+            "rr_w1_mean",
+            "rr_w1_min",
+            "rr_w1_max",
+            "rr_w1_last",
+            "rr_w1_count",
+            "spo2_w1_mean",
+            "spo2_w1_min",
+            "spo2_w1_max",
+            "spo2_w1_last",
+            "spo2_w1_count",
+            "sbp_w1_mean",
+            "sbp_w1_min",
+            "sbp_w1_max",
+            "sbp_w1_last",
+            "sbp_w1_count",
+            "dbp_w1_mean",
+            "dbp_w1_min",
+            "dbp_w1_max",
+            "dbp_w1_last",
+            "dbp_w1_count",
+            "mbp_w1_mean",
+            "mbp_w1_min",
+            "mbp_w1_max",
+            "mbp_w1_last",
+            "mbp_w1_count",
+            "tempf_w1_mean",
+            "tempf_w1_min",
+            "tempf_w1_max",
+            "tempf_w1_last",
+            "tempf_w1_count",
+            "gcs_w1_mean",
+            "gcs_w1_min",
+            "gcs_w1_max",
+            "gcs_w1_last",
+            "gcs_w1_count",
+            "hr_w2_mean",
+            "hr_w2_min",
+            "hr_w2_max",
+            "hr_w2_last",
+            "hr_w2_count",
+            "rr_w2_mean",
+            "rr_w2_min",
+            "rr_w2_max",
+            "rr_w2_last",
+            "rr_w2_count",
+            "spo2_w2_mean",
+            "spo2_w2_min",
+            "spo2_w2_max",
+            "spo2_w2_last",
+            "spo2_w2_count",
+            "sbp_w2_mean",
+            "sbp_w2_min",
+            "sbp_w2_max",
+            "sbp_w2_last",
+            "sbp_w2_count",
+            "dbp_w2_mean",
+            "dbp_w2_min",
+            "dbp_w2_max",
+            "dbp_w2_last",
+            "dbp_w2_count",
+            "mbp_w2_mean",
+            "mbp_w2_min",
+            "mbp_w2_max",
+            "mbp_w2_last",
+            "mbp_w2_count",
+            "tempf_w2_mean",
+            "tempf_w2_min",
+            "tempf_w2_max",
+            "tempf_w2_last",
+            "tempf_w2_count",
+            "gcs_w2_mean",
+            "gcs_w2_min",
+            "gcs_w2_max",
+            "gcs_w2_last",
+            "gcs_w2_count"
+          ],
+          "training": {
+            "n": 8980,
+            "class_counts": {
+              "home": 1920,
+              "facility": 4398,
+              "death": 2662
+            },
+            "feature_count": 99
+          },
+          "target_all_reaching_landmark": {
+            "n": 12917,
+            "class_counts": {
+              "home": 4425,
+              "facility": 6085,
+              "death": 2407
+            },
+            "macro_auc": 0.696848425305066,
+            "accuracy": 0.5287605481148874,
+            "log_loss": 1.0125196107923131,
+            "brier_multiclass": 0.5975946070519378,
+            "ece_top_label_10bin": 0.07045275718442522,
+            "mean_max_probability": 0.5984496604697688,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 0.6160981606214703,
+                "intercept": 0.3008269319048144,
+                "prevalence": 0.342571804598591,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.5832027619271792,
+                "intercept": -0.11271624843019475,
+                "prevalence": 0.4710846171711698,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.9315281736872607,
+                "intercept": -0.7105704646707018,
+                "prevalence": 0.18634357823023923,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_using_primary_model": {
+            "n": 9215,
+            "class_counts": {
+              "home": 2730,
+              "facility": 4572,
+              "death": 1913
+            },
+            "macro_auc": 0.6726460368130714,
+            "accuracy": 0.5196961475854585,
+            "log_loss": 1.021734535969654,
+            "brier_multiclass": 0.6047630186828122,
+            "ece_top_label_10bin": 0.07456091660958337,
+            "mean_max_probability": 0.5942570641950419,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 0.5749167837530466,
+                "intercept": 0.07412952912484967,
+                "prevalence": 0.2962561041779707,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.5137107122624434,
+                "intercept": -0.019772445923815503,
+                "prevalence": 0.4961475854584916,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.7893179013569472,
+                "intercept": -0.702294836393674,
+                "prevalence": 0.2075963103635377,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_matched_training": {
+            "training": {
+              "n": 6823,
+              "class_counts": {
+                "home": 1175,
+                "facility": 3447,
+                "death": 2201
+              },
+              "feature_count": 99
+            },
+            "metrics": {
+              "n": 9215,
+              "class_counts": {
+                "home": 2730,
+                "facility": 4572,
+                "death": 1913
+              },
+              "macro_auc": 0.6597213523130988,
+              "accuracy": 0.5178513293543137,
+              "log_loss": 1.037765611787486,
+              "brier_multiclass": 0.6122018353849277,
+              "ece_top_label_10bin": 0.08332377160219384,
+              "mean_max_probability": 0.6011751009565076,
+              "class_calibration": {
+                "0": {
+                  "label": "home",
+                  "slope": 0.5818387152470663,
+                  "intercept": 0.1515207305096075,
+                  "prevalence": 0.2962561041779707,
+                  "available": true
+                },
+                "1": {
+                  "label": "facility",
+                  "slope": 0.47153519341993994,
+                  "intercept": -0.08962724225134919,
+                  "prevalence": 0.4961475854584916,
+                  "available": true
+                },
+                "2": {
+                  "label": "death",
+                  "slope": 0.7916393521656487,
+                  "intercept": -0.6195925128528895,
+                  "prevalence": 0.2075963103635377,
+                  "available": true
+                }
+              }
+            }
+          }
+        },
+        "72": {
+          "feature_count": 139,
+          "features": [
+            "age",
+            "male",
+            "crea_min",
+            "crea_max",
+            "lac_min",
+            "lac_max",
+            "wbc_min",
+            "wbc_max",
+            "plt_min",
+            "plt_max",
+            "bili_min",
+            "bili_max",
+            "na_min",
+            "na_max",
+            "bun_min",
+            "bun_max",
+            "hgb_min",
+            "hgb_max",
+            "inr_max",
+            "hr_w1_mean",
+            "hr_w1_min",
+            "hr_w1_max",
+            "hr_w1_last",
+            "hr_w1_count",
+            "rr_w1_mean",
+            "rr_w1_min",
+            "rr_w1_max",
+            "rr_w1_last",
+            "rr_w1_count",
+            "spo2_w1_mean",
+            "spo2_w1_min",
+            "spo2_w1_max",
+            "spo2_w1_last",
+            "spo2_w1_count",
+            "sbp_w1_mean",
+            "sbp_w1_min",
+            "sbp_w1_max",
+            "sbp_w1_last",
+            "sbp_w1_count",
+            "dbp_w1_mean",
+            "dbp_w1_min",
+            "dbp_w1_max",
+            "dbp_w1_last",
+            "dbp_w1_count",
+            "mbp_w1_mean",
+            "mbp_w1_min",
+            "mbp_w1_max",
+            "mbp_w1_last",
+            "mbp_w1_count",
+            "tempf_w1_mean",
+            "tempf_w1_min",
+            "tempf_w1_max",
+            "tempf_w1_last",
+            "tempf_w1_count",
+            "gcs_w1_mean",
+            "gcs_w1_min",
+            "gcs_w1_max",
+            "gcs_w1_last",
+            "gcs_w1_count",
+            "hr_w2_mean",
+            "hr_w2_min",
+            "hr_w2_max",
+            "hr_w2_last",
+            "hr_w2_count",
+            "rr_w2_mean",
+            "rr_w2_min",
+            "rr_w2_max",
+            "rr_w2_last",
+            "rr_w2_count",
+            "spo2_w2_mean",
+            "spo2_w2_min",
+            "spo2_w2_max",
+            "spo2_w2_last",
+            "spo2_w2_count",
+            "sbp_w2_mean",
+            "sbp_w2_min",
+            "sbp_w2_max",
+            "sbp_w2_last",
+            "sbp_w2_count",
+            "dbp_w2_mean",
+            "dbp_w2_min",
+            "dbp_w2_max",
+            "dbp_w2_last",
+            "dbp_w2_count",
+            "mbp_w2_mean",
+            "mbp_w2_min",
+            "mbp_w2_max",
+            "mbp_w2_last",
+            "mbp_w2_count",
+            "tempf_w2_mean",
+            "tempf_w2_min",
+            "tempf_w2_max",
+            "tempf_w2_last",
+            "tempf_w2_count",
+            "gcs_w2_mean",
+            "gcs_w2_min",
+            "gcs_w2_max",
+            "gcs_w2_last",
+            "gcs_w2_count",
+            "hr_w3_mean",
+            "hr_w3_min",
+            "hr_w3_max",
+            "hr_w3_last",
+            "hr_w3_count",
+            "rr_w3_mean",
+            "rr_w3_min",
+            "rr_w3_max",
+            "rr_w3_last",
+            "rr_w3_count",
+            "spo2_w3_mean",
+            "spo2_w3_min",
+            "spo2_w3_max",
+            "spo2_w3_last",
+            "spo2_w3_count",
+            "sbp_w3_mean",
+            "sbp_w3_min",
+            "sbp_w3_max",
+            "sbp_w3_last",
+            "sbp_w3_count",
+            "dbp_w3_mean",
+            "dbp_w3_min",
+            "dbp_w3_max",
+            "dbp_w3_last",
+            "dbp_w3_count",
+            "mbp_w3_mean",
+            "mbp_w3_min",
+            "mbp_w3_max",
+            "mbp_w3_last",
+            "mbp_w3_count",
+            "tempf_w3_mean",
+            "tempf_w3_min",
+            "tempf_w3_max",
+            "tempf_w3_last",
+            "tempf_w3_count",
+            "gcs_w3_mean",
+            "gcs_w3_min",
+            "gcs_w3_max",
+            "gcs_w3_last",
+            "gcs_w3_count"
+          ],
+          "training": {
+            "n": 6823,
+            "class_counts": {
+              "home": 1175,
+              "facility": 3447,
+              "death": 2201
+            },
+            "feature_count": 139
+          },
+          "target_all_reaching_landmark": {
+            "n": 9215,
+            "class_counts": {
+              "home": 2730,
+              "facility": 4572,
+              "death": 1913
+            },
+            "macro_auc": 0.6859673385535734,
+            "accuracy": 0.5313076505697233,
+            "log_loss": 1.0289762757947938,
+            "brier_multiclass": 0.5999591592924044,
+            "ece_top_label_10bin": 0.07799000513575075,
+            "mean_max_probability": 0.6089960559701811,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 0.5830141405829063,
+                "intercept": 0.2181212419095755,
+                "prevalence": 0.2962561041779707,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.5698498104431879,
+                "intercept": -0.06574979631873659,
+                "prevalence": 0.4961475854584916,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.8733166196626838,
+                "intercept": -0.6975004316803338,
+                "prevalence": 0.2075963103635377,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_using_primary_model": {
+            "n": 9215,
+            "class_counts": {
+              "home": 2730,
+              "facility": 4572,
+              "death": 1913
+            },
+            "macro_auc": 0.6859673385535734,
+            "accuracy": 0.5313076505697233,
+            "log_loss": 1.0289762757947938,
+            "brier_multiclass": 0.5999591592924044,
+            "ece_top_label_10bin": 0.07799000513575075,
+            "mean_max_probability": 0.6089960559701811,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 0.5830141405829063,
+                "intercept": 0.2181212419095755,
+                "prevalence": 0.2962561041779707,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.5698498104431879,
+                "intercept": -0.06574979631873659,
+                "prevalence": 0.4961475854584916,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.8733166196626838,
+                "intercept": -0.6975004316803338,
+                "prevalence": 0.2075963103635377,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_matched_training": {
+            "training": {
+              "n": 6823,
+              "class_counts": {
+                "home": 1175,
+                "facility": 3447,
+                "death": 2201
+              },
+              "feature_count": 139
+            },
+            "metrics": {
+              "n": 9215,
+              "class_counts": {
+                "home": 2730,
+                "facility": 4572,
+                "death": 1913
+              },
+              "macro_auc": 0.6859673385535734,
+              "accuracy": 0.5313076505697233,
+              "log_loss": 1.0289762757947938,
+              "brier_multiclass": 0.5999591592924044,
+              "ece_top_label_10bin": 0.07799000513575075,
+              "mean_max_probability": 0.6089960559701811,
+              "class_calibration": {
+                "0": {
+                  "label": "home",
+                  "slope": 0.5830141405829063,
+                  "intercept": 0.2181212419095755,
+                  "prevalence": 0.2962561041779707,
+                  "available": true
+                },
+                "1": {
+                  "label": "facility",
+                  "slope": 0.5698498104431879,
+                  "intercept": -0.06574979631873659,
+                  "prevalence": 0.4961475854584916,
+                  "available": true
+                },
+                "2": {
+                  "label": "death",
+                  "slope": 0.8733166196626838,
+                  "intercept": -0.6975004316803338,
+                  "prevalence": 0.2075963103635377,
+                  "available": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "fixed_rule_24_to_72_target_complete72": {
+        "n": 9215,
+        "class_counts": {
+          "home": 2730,
+          "facility": 4572,
+          "death": 1913
+        },
+        "flip": 0.27042864894194246,
+        "tv": 0.16403169903702527,
+        "transition_matrix_rows_24_cols_72": [
+          [
+            664,
+            558,
+            78
+          ],
+          [
+            207,
+            5056,
+            927
+          ],
+          [
+            34,
+            688,
+            1003
+          ]
+        ],
+        "rows_24": [
+          "home",
+          "facility",
+          "death"
+        ],
+        "cols_72": [
+          "home",
+          "facility",
+          "death"
+        ]
+      }
+    },
+    "eicu_to_mimic4": {
+      "source_database": "eicu",
+      "target_database": "mimic4",
+      "protocol": {
+        "primary": "Fit one fixed-weight model on all source patients with outcome and source duration >= landmark; evaluate all target patients with outcome and target duration >= the same landmark.",
+        "matched_72h": "Fit on source patients with outcome and source duration >=72 h; evaluate target patients with outcome and target duration >=72 h. At 72 h training is identical to primary.",
+        "no_target_fitting": true,
+        "no_source_oof_metrics_reported": true,
+        "fixed_24_to_72_rule": "Train independent fixed landmark models at 24 and 72 h on the source primary cohort; compare their target predictions in the target complete-72h cohort."
+      },
+      "landmarks": {
+        "24": {
+          "feature_count": 59,
+          "features": [
+            "age",
+            "male",
+            "crea_min",
+            "crea_max",
+            "lac_min",
+            "lac_max",
+            "wbc_min",
+            "wbc_max",
+            "plt_min",
+            "plt_max",
+            "bili_min",
+            "bili_max",
+            "na_min",
+            "na_max",
+            "bun_min",
+            "bun_max",
+            "hgb_min",
+            "hgb_max",
+            "inr_max",
+            "hr_w1_mean",
+            "hr_w1_min",
+            "hr_w1_max",
+            "hr_w1_last",
+            "hr_w1_count",
+            "rr_w1_mean",
+            "rr_w1_min",
+            "rr_w1_max",
+            "rr_w1_last",
+            "rr_w1_count",
+            "spo2_w1_mean",
+            "spo2_w1_min",
+            "spo2_w1_max",
+            "spo2_w1_last",
+            "spo2_w1_count",
+            "sbp_w1_mean",
+            "sbp_w1_min",
+            "sbp_w1_max",
+            "sbp_w1_last",
+            "sbp_w1_count",
+            "dbp_w1_mean",
+            "dbp_w1_min",
+            "dbp_w1_max",
+            "dbp_w1_last",
+            "dbp_w1_count",
+            "mbp_w1_mean",
+            "mbp_w1_min",
+            "mbp_w1_max",
+            "mbp_w1_last",
+            "mbp_w1_count",
+            "tempf_w1_mean",
+            "tempf_w1_min",
+            "tempf_w1_max",
+            "tempf_w1_last",
+            "tempf_w1_count",
+            "gcs_w1_mean",
+            "gcs_w1_min",
+            "gcs_w1_max",
+            "gcs_w1_last",
+            "gcs_w1_count"
+          ],
+          "training": {
+            "n": 18350,
+            "class_counts": {
+              "home": 7211,
+              "facility": 7979,
+              "death": 3160
+            },
+            "feature_count": 59
+          },
+          "target_all_reaching_landmark": {
+            "n": 12198,
+            "class_counts": {
+              "home": 3225,
+              "facility": 5609,
+              "death": 3364
+            },
+            "macro_auc": 0.7536999234507608,
+            "accuracy": 0.5823905558288244,
+            "log_loss": 0.9006459604848589,
+            "brier_multiclass": 0.539833503589858,
+            "ece_top_label_10bin": 0.0073838331239489,
+            "mean_max_probability": 0.583673218862983,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 1.2480255751993004,
+                "intercept": -0.3162297067544313,
+                "prevalence": 0.264387604525332,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 1.0022028983178903,
+                "intercept": 0.026222035470306167,
+                "prevalence": 0.45982948024266274,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.9256186687580704,
+                "intercept": 0.36460472745797273,
+                "prevalence": 0.27578291523200527,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_using_primary_model": {
+            "n": 6823,
+            "class_counts": {
+              "home": 1175,
+              "facility": 3447,
+              "death": 2201
+            },
+            "macro_auc": 0.6862711731350654,
+            "accuracy": 0.540524695881577,
+            "log_loss": 0.9769923604898358,
+            "brier_multiclass": 0.5854299938139359,
+            "ece_top_label_10bin": 0.030025098935636853,
+            "mean_max_probability": 0.5697260845362528,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 1.0081118235892026,
+                "intercept": -0.7266783289381407,
+                "prevalence": 0.17221163710977574,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.7161497701536482,
+                "intercept": 0.08971408363347455,
+                "prevalence": 0.5052029898871464,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.6302319130325982,
+                "intercept": 0.07454614643455619,
+                "prevalence": 0.3225853730030778,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_matched_training": {
+            "training": {
+              "n": 9215,
+              "class_counts": {
+                "home": 2730,
+                "facility": 4572,
+                "death": 1913
+              },
+              "feature_count": 59
+            },
+            "metrics": {
+              "n": 6823,
+              "class_counts": {
+                "home": 1175,
+                "facility": 3447,
+                "death": 2201
+              },
+              "macro_auc": 0.6914936334389021,
+              "accuracy": 0.5465337827934926,
+              "log_loss": 0.9528135719115521,
+              "brier_multiclass": 0.5736862542195783,
+              "ece_top_label_10bin": 0.019379891137852892,
+              "mean_max_probability": 0.563234291061335,
+              "class_calibration": {
+                "0": {
+                  "label": "home",
+                  "slope": 1.2680368059056513,
+                  "intercept": -0.3340665358731679,
+                  "prevalence": 0.17221163710977574,
+                  "available": true
+                },
+                "1": {
+                  "label": "facility",
+                  "slope": 0.8180708229074779,
+                  "intercept": -0.03117996384313538,
+                  "prevalence": 0.5052029898871464,
+                  "available": true
+                },
+                "2": {
+                  "label": "death",
+                  "slope": 0.8894914710998856,
+                  "intercept": 0.4009178548718056,
+                  "prevalence": 0.3225853730030778,
+                  "available": true
+                }
+              }
+            }
+          }
+        },
+        "48": {
+          "feature_count": 99,
+          "features": [
+            "age",
+            "male",
+            "crea_min",
+            "crea_max",
+            "lac_min",
+            "lac_max",
+            "wbc_min",
+            "wbc_max",
+            "plt_min",
+            "plt_max",
+            "bili_min",
+            "bili_max",
+            "na_min",
+            "na_max",
+            "bun_min",
+            "bun_max",
+            "hgb_min",
+            "hgb_max",
+            "inr_max",
+            "hr_w1_mean",
+            "hr_w1_min",
+            "hr_w1_max",
+            "hr_w1_last",
+            "hr_w1_count",
+            "rr_w1_mean",
+            "rr_w1_min",
+            "rr_w1_max",
+            "rr_w1_last",
+            "rr_w1_count",
+            "spo2_w1_mean",
+            "spo2_w1_min",
+            "spo2_w1_max",
+            "spo2_w1_last",
+            "spo2_w1_count",
+            "sbp_w1_mean",
+            "sbp_w1_min",
+            "sbp_w1_max",
+            "sbp_w1_last",
+            "sbp_w1_count",
+            "dbp_w1_mean",
+            "dbp_w1_min",
+            "dbp_w1_max",
+            "dbp_w1_last",
+            "dbp_w1_count",
+            "mbp_w1_mean",
+            "mbp_w1_min",
+            "mbp_w1_max",
+            "mbp_w1_last",
+            "mbp_w1_count",
+            "tempf_w1_mean",
+            "tempf_w1_min",
+            "tempf_w1_max",
+            "tempf_w1_last",
+            "tempf_w1_count",
+            "gcs_w1_mean",
+            "gcs_w1_min",
+            "gcs_w1_max",
+            "gcs_w1_last",
+            "gcs_w1_count",
+            "hr_w2_mean",
+            "hr_w2_min",
+            "hr_w2_max",
+            "hr_w2_last",
+            "hr_w2_count",
+            "rr_w2_mean",
+            "rr_w2_min",
+            "rr_w2_max",
+            "rr_w2_last",
+            "rr_w2_count",
+            "spo2_w2_mean",
+            "spo2_w2_min",
+            "spo2_w2_max",
+            "spo2_w2_last",
+            "spo2_w2_count",
+            "sbp_w2_mean",
+            "sbp_w2_min",
+            "sbp_w2_max",
+            "sbp_w2_last",
+            "sbp_w2_count",
+            "dbp_w2_mean",
+            "dbp_w2_min",
+            "dbp_w2_max",
+            "dbp_w2_last",
+            "dbp_w2_count",
+            "mbp_w2_mean",
+            "mbp_w2_min",
+            "mbp_w2_max",
+            "mbp_w2_last",
+            "mbp_w2_count",
+            "tempf_w2_mean",
+            "tempf_w2_min",
+            "tempf_w2_max",
+            "tempf_w2_last",
+            "tempf_w2_count",
+            "gcs_w2_mean",
+            "gcs_w2_min",
+            "gcs_w2_max",
+            "gcs_w2_last",
+            "gcs_w2_count"
+          ],
+          "training": {
+            "n": 12917,
+            "class_counts": {
+              "home": 4425,
+              "facility": 6085,
+              "death": 2407
+            },
+            "feature_count": 99
+          },
+          "target_all_reaching_landmark": {
+            "n": 8980,
+            "class_counts": {
+              "home": 1920,
+              "facility": 4398,
+              "death": 2662
+            },
+            "macro_auc": 0.7452183808799941,
+            "accuracy": 0.5834075723830735,
+            "log_loss": 0.8953503475868063,
+            "brier_multiclass": 0.5375624988752006,
+            "ece_top_label_10bin": 0.005563346409547878,
+            "mean_max_probability": 0.5833029530330712,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 1.2239844210988144,
+                "intercept": -0.31528659378026586,
+                "prevalence": 0.21380846325167038,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.9899001460453264,
+                "intercept": 0.019627122235581138,
+                "prevalence": 0.48975501113585745,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.9156824622312529,
+                "intercept": 0.33820636461601655,
+                "prevalence": 0.29643652561247213,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_using_primary_model": {
+            "n": 6823,
+            "class_counts": {
+              "home": 1175,
+              "facility": 3447,
+              "death": 2201
+            },
+            "macro_auc": 0.7139060403523304,
+            "accuracy": 0.5652938590063022,
+            "log_loss": 0.9278089801485084,
+            "brier_multiclass": 0.5566869061221255,
+            "ece_top_label_10bin": 0.011625600756131102,
+            "mean_max_probability": 0.5767874676838054,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 1.134785547220726,
+                "intercept": -0.4892677804357003,
+                "prevalence": 0.17221163710977574,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.8685791445001242,
+                "intercept": 0.04473560311829532,
+                "prevalence": 0.5052029898871464,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.7755021551324811,
+                "intercept": 0.20668998549836748,
+                "prevalence": 0.3225853730030778,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_matched_training": {
+            "training": {
+              "n": 9215,
+              "class_counts": {
+                "home": 2730,
+                "facility": 4572,
+                "death": 1913
+              },
+              "feature_count": 99
+            },
+            "metrics": {
+              "n": 6823,
+              "class_counts": {
+                "home": 1175,
+                "facility": 3447,
+                "death": 2201
+              },
+              "macro_auc": 0.713808533479091,
+              "accuracy": 0.5686648102007914,
+              "log_loss": 0.9186352433776066,
+              "brier_multiclass": 0.553444674340553,
+              "ece_top_label_10bin": 0.008303559765310744,
+              "mean_max_probability": 0.5734848124189605,
+              "class_calibration": {
+                "0": {
+                  "label": "home",
+                  "slope": 1.2583260540082524,
+                  "intercept": -0.25394107942919963,
+                  "prevalence": 0.17221163710977574,
+                  "available": true
+                },
+                "1": {
+                  "label": "facility",
+                  "slope": 0.9079890735890246,
+                  "intercept": -0.03031194012933362,
+                  "prevalence": 0.5052029898871464,
+                  "available": true
+                },
+                "2": {
+                  "label": "death",
+                  "slope": 0.8856450534834663,
+                  "intercept": 0.32559603295858636,
+                  "prevalence": 0.3225853730030778,
+                  "available": true
+                }
+              }
+            }
+          }
+        },
+        "72": {
+          "feature_count": 139,
+          "features": [
+            "age",
+            "male",
+            "crea_min",
+            "crea_max",
+            "lac_min",
+            "lac_max",
+            "wbc_min",
+            "wbc_max",
+            "plt_min",
+            "plt_max",
+            "bili_min",
+            "bili_max",
+            "na_min",
+            "na_max",
+            "bun_min",
+            "bun_max",
+            "hgb_min",
+            "hgb_max",
+            "inr_max",
+            "hr_w1_mean",
+            "hr_w1_min",
+            "hr_w1_max",
+            "hr_w1_last",
+            "hr_w1_count",
+            "rr_w1_mean",
+            "rr_w1_min",
+            "rr_w1_max",
+            "rr_w1_last",
+            "rr_w1_count",
+            "spo2_w1_mean",
+            "spo2_w1_min",
+            "spo2_w1_max",
+            "spo2_w1_last",
+            "spo2_w1_count",
+            "sbp_w1_mean",
+            "sbp_w1_min",
+            "sbp_w1_max",
+            "sbp_w1_last",
+            "sbp_w1_count",
+            "dbp_w1_mean",
+            "dbp_w1_min",
+            "dbp_w1_max",
+            "dbp_w1_last",
+            "dbp_w1_count",
+            "mbp_w1_mean",
+            "mbp_w1_min",
+            "mbp_w1_max",
+            "mbp_w1_last",
+            "mbp_w1_count",
+            "tempf_w1_mean",
+            "tempf_w1_min",
+            "tempf_w1_max",
+            "tempf_w1_last",
+            "tempf_w1_count",
+            "gcs_w1_mean",
+            "gcs_w1_min",
+            "gcs_w1_max",
+            "gcs_w1_last",
+            "gcs_w1_count",
+            "hr_w2_mean",
+            "hr_w2_min",
+            "hr_w2_max",
+            "hr_w2_last",
+            "hr_w2_count",
+            "rr_w2_mean",
+            "rr_w2_min",
+            "rr_w2_max",
+            "rr_w2_last",
+            "rr_w2_count",
+            "spo2_w2_mean",
+            "spo2_w2_min",
+            "spo2_w2_max",
+            "spo2_w2_last",
+            "spo2_w2_count",
+            "sbp_w2_mean",
+            "sbp_w2_min",
+            "sbp_w2_max",
+            "sbp_w2_last",
+            "sbp_w2_count",
+            "dbp_w2_mean",
+            "dbp_w2_min",
+            "dbp_w2_max",
+            "dbp_w2_last",
+            "dbp_w2_count",
+            "mbp_w2_mean",
+            "mbp_w2_min",
+            "mbp_w2_max",
+            "mbp_w2_last",
+            "mbp_w2_count",
+            "tempf_w2_mean",
+            "tempf_w2_min",
+            "tempf_w2_max",
+            "tempf_w2_last",
+            "tempf_w2_count",
+            "gcs_w2_mean",
+            "gcs_w2_min",
+            "gcs_w2_max",
+            "gcs_w2_last",
+            "gcs_w2_count",
+            "hr_w3_mean",
+            "hr_w3_min",
+            "hr_w3_max",
+            "hr_w3_last",
+            "hr_w3_count",
+            "rr_w3_mean",
+            "rr_w3_min",
+            "rr_w3_max",
+            "rr_w3_last",
+            "rr_w3_count",
+            "spo2_w3_mean",
+            "spo2_w3_min",
+            "spo2_w3_max",
+            "spo2_w3_last",
+            "spo2_w3_count",
+            "sbp_w3_mean",
+            "sbp_w3_min",
+            "sbp_w3_max",
+            "sbp_w3_last",
+            "sbp_w3_count",
+            "dbp_w3_mean",
+            "dbp_w3_min",
+            "dbp_w3_max",
+            "dbp_w3_last",
+            "dbp_w3_count",
+            "mbp_w3_mean",
+            "mbp_w3_min",
+            "mbp_w3_max",
+            "mbp_w3_last",
+            "mbp_w3_count",
+            "tempf_w3_mean",
+            "tempf_w3_min",
+            "tempf_w3_max",
+            "tempf_w3_last",
+            "tempf_w3_count",
+            "gcs_w3_mean",
+            "gcs_w3_min",
+            "gcs_w3_max",
+            "gcs_w3_last",
+            "gcs_w3_count"
+          ],
+          "training": {
+            "n": 9215,
+            "class_counts": {
+              "home": 2730,
+              "facility": 4572,
+              "death": 1913
+            },
+            "feature_count": 139
+          },
+          "target_all_reaching_landmark": {
+            "n": 6823,
+            "class_counts": {
+              "home": 1175,
+              "facility": 3447,
+              "death": 2201
+            },
+            "macro_auc": 0.7347533408561467,
+            "accuracy": 0.5909424007035029,
+            "log_loss": 0.8869458421290652,
+            "brier_multiclass": 0.5340115223531408,
+            "ece_top_label_10bin": 0.01476218368064448,
+            "mean_max_probability": 0.5906280046919753,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 1.2288148722718037,
+                "intercept": -0.22842447782929973,
+                "prevalence": 0.17221163710977574,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.9270863023787338,
+                "intercept": -0.011966820951605317,
+                "prevalence": 0.5052029898871464,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.8797952172445629,
+                "intercept": 0.2694065652848625,
+                "prevalence": 0.3225853730030778,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_using_primary_model": {
+            "n": 6823,
+            "class_counts": {
+              "home": 1175,
+              "facility": 3447,
+              "death": 2201
+            },
+            "macro_auc": 0.7347533408561467,
+            "accuracy": 0.5909424007035029,
+            "log_loss": 0.8869458421290652,
+            "brier_multiclass": 0.5340115223531408,
+            "ece_top_label_10bin": 0.01476218368064448,
+            "mean_max_probability": 0.5906280046919753,
+            "class_calibration": {
+              "0": {
+                "label": "home",
+                "slope": 1.2288148722718037,
+                "intercept": -0.22842447782929973,
+                "prevalence": 0.17221163710977574,
+                "available": true
+              },
+              "1": {
+                "label": "facility",
+                "slope": 0.9270863023787338,
+                "intercept": -0.011966820951605317,
+                "prevalence": 0.5052029898871464,
+                "available": true
+              },
+              "2": {
+                "label": "death",
+                "slope": 0.8797952172445629,
+                "intercept": 0.2694065652848625,
+                "prevalence": 0.3225853730030778,
+                "available": true
+              }
+            }
+          },
+          "target_complete_72h_matched_training": {
+            "training": {
+              "n": 9215,
+              "class_counts": {
+                "home": 2730,
+                "facility": 4572,
+                "death": 1913
+              },
+              "feature_count": 139
+            },
+            "metrics": {
+              "n": 6823,
+              "class_counts": {
+                "home": 1175,
+                "facility": 3447,
+                "death": 2201
+              },
+              "macro_auc": 0.7347533408561467,
+              "accuracy": 0.5909424007035029,
+              "log_loss": 0.8869458421290652,
+              "brier_multiclass": 0.5340115223531408,
+              "ece_top_label_10bin": 0.01476218368064448,
+              "mean_max_probability": 0.5906280046919753,
+              "class_calibration": {
+                "0": {
+                  "label": "home",
+                  "slope": 1.2288148722718037,
+                  "intercept": -0.22842447782929973,
+                  "prevalence": 0.17221163710977574,
+                  "available": true
+                },
+                "1": {
+                  "label": "facility",
+                  "slope": 0.9270863023787338,
+                  "intercept": -0.011966820951605317,
+                  "prevalence": 0.5052029898871464,
+                  "available": true
+                },
+                "2": {
+                  "label": "death",
+                  "slope": 0.8797952172445629,
+                  "intercept": 0.2694065652848625,
+                  "prevalence": 0.3225853730030778,
+                  "available": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "fixed_rule_24_to_72_target_complete72": {
+        "n": 6823,
+        "class_counts": {
+          "home": 1175,
+          "facility": 3447,
+          "death": 2201
+        },
+        "flip": 0.25941667888025793,
+        "tv": 0.15180447139384115,
+        "transition_matrix_rows_24_cols_72": [
+          [
+            616,
+            542,
+            79
+          ],
+          [
+            120,
+            3835,
+            579
+          ],
+          [
+            16,
+            434,
+            602
+          ]
+        ],
+        "rows_24": [
+          "home",
+          "facility",
+          "death"
+        ],
+        "cols_72": [
+          "home",
+          "facility",
+          "death"
+        ]
+      }
+    }
+  },
+  "artifacts": {
+    "script": "D:\\TT paper\\1029TP Sepsis\\src\\sepsis\\analyze_transport.py",
+    "summary": "D:\\TT paper\\1029TP Sepsis\\results\\transport\\summary.json",
+    "report": "D:\\TT paper\\1029TP Sepsis\\results\\transport\\report.md",
+    "predictions": "D:\\TT paper\\1029TP Sepsis\\results\\transport\\predictions.npz"
+  }
+}

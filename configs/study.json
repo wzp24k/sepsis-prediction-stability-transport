@@ -1,0 +1,273 @@
+{
+  "study": "sepsis_ordinal_discharge_destination_prediction_stability",
+  "title": "Predicted-Class Stability and Transport of Discharge-Disposition Models Among ICU Stays With Sepsis at 24, 48, and 72 Hours: A Three-Database Study of Recalibration and Enhanced-Monitoring Trigger Simulation",
+  "title_zh": "脓毒症出院去向预测模型的稳定性与运输：一项包含重校准与复评策略模拟的三数据库研究",
+  "research_question": "How stable are discharge-destination predictions at 24, 48, and 72 h after sepsis ICU admission, and do fixed-weight transport, local recalibration, and reassessment triggers behave consistently across three critical-care databases?",
+  "database_roles": {
+    "mimic4": "contemporary single-center database and one side of the cross-institution replication",
+    "eicu": "multi-hospital database and complementary side of the cross-institution replication; also used for hospital-held-out internal-external validation",
+    "mimic3": "same-institution, different-era replication; not independent external validation"
+  },
+  "claim_boundaries": {
+    "stability_estimand": "the proportion still unstable through 72 h; not an exact time-to-stability distribution",
+    "mimic4_eicu": "cross-institution replication in complementary roles",
+    "mimic3": "same-institution cross-era replication, not independent external validation",
+    "eicu_hospital_holdout": "retrospective internal-external validation, not prospective validation",
+    "transport": "retrospective fixed-weight database-to-database transport, not prospective deployment validation",
+    "reassessment": "retrospective decision simulation, not clinical utility, workflow benefit, or prospective implementation evidence",
+    "recalibration_status": "one stay per patient with patient-disjoint calibration and evaluation; mean 72 h top-label ECE 0.134-0.181 at 25 labels and 0.022-0.029 at 200 labels"
+  },
+  "landmarks_hours": [24, 48, 72],
+  "primary_landmark_hours": 72,
+  "sequence_hours": 72,
+  "channels": [
+    "hr",
+    "rr",
+    "spo2",
+    "sbp",
+    "dbp",
+    "mbp",
+    "temp",
+    "gcs"
+  ],
+  "channel_labels": {
+    "hr": "Heart rate",
+    "rr": "Respiratory rate",
+    "spo2": "Peripheral oxygen saturation",
+    "sbp": "Systolic blood pressure",
+    "dbp": "Diastolic blood pressure",
+    "mbp": "Mean blood pressure",
+    "temp": "Body temperature (F, converted)",
+    "gcs": "Glasgow Coma Scale total"
+  },
+  "eicu_sources": {
+    "bp_invasive": "vitalPeriodic.systemic*",
+    "bp_noninvasive": "vitalAperiodic.noninvasive*",
+    "bp_rule": "prefer invasive within the same hour, otherwise noninvasive",
+    "temperature": "nurseCharting 'Temperature (C)' converted to F",
+    "gcs": "nurseCharting 'GCS Total'"
+  },
+  "outcome_primary": {
+    "levels": 3,
+    "mapping": {
+      "0": "Home",
+      "1": "Facility, with database-specific hospice and against-advice mapping",
+      "2": "In-hospital death"
+    },
+    "death_rule": "hospital_expire_flag = 1 or an explicit DEAD/DIED discharge location; surviving HOSPICE discharges are facility"
+  },
+  "outcome_sensitivity": {
+    "levels": 4,
+    "mapping": {
+      "0": "Home",
+      "1": "Rehabilitation",
+      "2": "Facility",
+      "3": "In-hospital death"
+    }
+  },
+  "field_maps": {
+    "mimic4": {
+      "source": "hosp.admissions.discharge_location",
+      "home": ["HOME", "HOME HEALTH CARE", "AGAINST ADVICE"],
+      "rehab": ["REHAB", "ASSISTED LIVING"],
+      "facility": [
+        "SKILLED NURSING FACILITY",
+        "CHRONIC/LONG TERM ACUTE CARE",
+        "OTHER FACILITY",
+        "ACUTE HOSPITAL",
+        "PSYCH FACILITY",
+        "HEALTHCARE FACILITY",
+        "HOSPICE"
+      ],
+      "death": ["DIED"],
+      "death_override": "hospital_expire_flag = 1"
+    },
+    "eicu": {
+      "source": "patient.hospitaldischargelocation",
+      "home": ["Home"],
+      "rehab": ["Rehabilitation"],
+      "facility": [
+        "Skilled Nursing Facility",
+        "Nursing Home",
+        "Other Hospital",
+        "Other External",
+        "Other",
+        "Hospice"
+      ],
+      "death": ["Death"],
+      "death_override": "patient.hospitaldischargestatus = 'Expired'"
+    },
+    "mimic3": {
+      "source": "ADMISSIONS.DISCHARGE_LOCATION",
+      "home": [
+        "HOME",
+        "HOME HEALTH CARE",
+        "LEFT AGAINST MEDICAL ADVI",
+        "LEFT AMA",
+        "HOME WITH HOME IV PROVIDR",
+        "HOSPICE-HOME"
+      ],
+      "facility": [
+        "SNF",
+        "SNF-MEDICAID ONLY CERTIF",
+        "REHAB/DISTINCT PART HOSP",
+        "LONG TERM CARE HOSPITAL",
+        "SHORT TERM HOSPITAL",
+        "DISC-TRAN CANCER/CHLDRN H",
+        "DISCH-TRAN TO PSYCH HOSP",
+        "OTHER FACILITY",
+        "ICF",
+        "DISC-TRAN TO FEDERAL HC",
+        "HOSPICE-MEDICAL FACILITY"
+      ],
+      "death": ["DEAD/EXPIRED"],
+      "death_override": "HOSPITAL_EXPIRE_FLAG = 1"
+    }
+  },
+  "cohort": {
+    "inclusion": "adult sepsis; MIMIC-IV and MIMIC-III first ICU stay per hospital admission; eICU-CRD first ICU unit visit per patient",
+    "sepsis_icd9": ["038", "9959", "78552"],
+    "sepsis_icd10": ["A40", "A41", "R652"],
+    "mimic4_full_stays": 14306,
+    "mimic4_outcome_mapped": 14296,
+    "mimic4_landmark_counts": {"24": 12198, "48": 8980, "72": 6823},
+    "eicu_full_stays": 23126,
+    "eicu_outcome_mapped": 22866,
+    "eicu_landmark_counts": {"24": 18350, "48": 12917, "72": 9215},
+    "eicu_age_gt89_mapping": "trim(age) = '> 89' is assigned 90 years",
+    "stability_subset": "present at all three landmarks",
+    "stability_condition_statement": "explicitly conditional; not extrapolated to the whole sepsis population",
+    "eicu_text_definition": "ICD-9 sepsis codes plus diagnosis text containing sepsis or septic; broad and reported as a limitation"
+  },
+  "sensitivity_database": {
+    "mimic3": {
+      "version": "1.4",
+      "role": "same-institution different-era replication",
+      "pooling": "not pooled with the primary cohorts",
+      "weight_transport": "included as source and target in three of the six fixed-weight transport directions; not independent external validation"
+    }
+  },
+  "models": {
+    "baseline": ["xgboost_summary"],
+    "primary": ["dggru_ordinal_temporal"],
+    "ablations": ["dggru_ordinal_no_temporal", "dggru_nominal_no_temporal", "dggru_nominal_temporal"],
+    "legacy_negative_controls_not_in_v3": ["time_reversed", "time_permuted", "generic_laplace"],
+    "primary_head": "cumulative-logit ordinal with landmark-shared thresholds"
+  },
+  "training": {
+    "cv_folds": 5,
+    "xgboost_fold_scope": "primary analysis uses one patient-grouped five-fold partition shared by all landmarks in the complete three-landmark cohort",
+    "xgboost_sensitivity_fold_scope": "landmark-specific eligible populations and patient-grouped folds retained as a sensitivity analysis",
+    "group": {"mimic4": "subject_id", "eicu": "uniquepid"},
+    "eicu_hospital_validation": {
+      "folds": 5,
+      "group": "hospitalid",
+      "scope": "patients observed at more than one hospital in the validation cohort are excluded; one hospital-grouped five-fold partition is shared by 24, 48, and 72 h",
+      "interpretation": "retrospective internal-external validation, not prospective validation"
+    },
+    "seeds": 3,
+    "seeds_scope": "DG-GRU configurations use three seeds; XGBoost uses one fixed random seed with shared complete-cohort folds",
+    "bootstrap_replicates": 2000,
+    "pilot_penalty_settings": [
+      [0.0, 0.0],
+      [0.02, 0.03],
+      [0.04, 0.06],
+      [0.08, 0.12]
+    ],
+    "pilot_use": "five exploratory MIMIC-IV single-fold runs only; not used for nested tuning or model selection",
+    "lambda_monotone": 0.06,
+    "lambda_smooth": 0.04,
+    "xgboost": {"n_estimators": 300, "max_depth": 4, "learning_rate": 0.06, "subsample": 0.85, "colsample_bytree": 0.8},
+    "sequence": {"hidden_size": 64, "dropout": 0.2, "learning_rate": 0.001, "weight_decay": 0.0001, "batch_size": 256, "max_epochs": 15, "early_stopping_patience": 4}
+  },
+  "metrics": {
+    "primary": ["class_flip_rate", "total_variation", "return_rate", "coverage_and_flip_by_24h_confidence", "transition_into_death", "home_to_facility", "change_correctness"],
+    "secondary": ["macro_auc", "accuracy", "brier", "calibration_slope", "calibration_intercept", "nri", "idi"],
+    "transport_and_reassessment": ["macro_auc", "top_label_ece", "recalibration_learning_curve", "flip_capture", "major_death_upgrade_capture", "reassessment_reduction", "false_trigger_fraction"],
+    "confidence_thresholds": [0.5, 0.6, 0.7],
+    "stratification_rule": "use confidence available at the decision landmark (24 h), never the later landmark"
+  },
+  "uncertainty": {
+    "replicates": 2000,
+    "estimand": "evaluation-sample uncertainty conditional on fitted out-of-fold predictions and cross-validation folds; training uncertainty is not resampled",
+    "cluster_unit": {"mimic4": "subject_id", "eicu": "hospitalid"}
+  },
+  "transport": {
+    "direction": [
+      "mimic4_to_eicu",
+      "eicu_to_mimic4",
+      "mimic4_to_mimic3",
+      "mimic3_to_mimic4",
+      "mimic3_to_eicu",
+      "eicu_to_mimic3"
+    ],
+    "protocol": "train fixed XGBoost weights in one database and evaluate without refitting in the other",
+    "feature_scope": "features with exact common definitions; 59 at 24 h, 99 at 48 h, 139 at 72 h",
+    "comparison_types": {
+      "mimic4_to_eicu": "cross-institution",
+      "eicu_to_mimic4": "cross-institution",
+      "mimic4_to_mimic3": "same-institution cross-era",
+      "mimic3_to_mimic4": "same-institution cross-era",
+      "mimic3_to_eicu": "cross-institution and cross-era",
+      "eicu_to_mimic3": "cross-institution and cross-era"
+    },
+    "interpretation": "retrospective six-direction database-to-database transport, not prospective external validation or clinical utility"
+  },
+  "recalibration": {
+    "landmark_hours": [24, 48, 72],
+    "target_labels": [0, 25, 50, 100, 200],
+    "splits_per_label_count": 50,
+    "sampling_unit": "patient",
+    "one_stay_per_patient": true,
+    "stay_selection": "retain the first target stay for each patient before repeated sampling",
+    "sampling": "deterministic outcome-stratified patient sample on the one-stay-per-patient target cohort",
+    "model": "multinomial logistic recalibrator using the three transported log-probabilities",
+    "evaluation": "remaining target patients disjoint from the calibration patients",
+    "result_status": "complete after the patient-disjoint sampling correction; mean 72 h top-label ECE 0.134-0.181 at 25 labels and 0.022-0.029 at 200 labels",
+    "interpretation": "direction-specific calibration learning curves; not a deployment policy or clinical-utility analysis"
+  },
+  "reassessment_simulation": {
+    "risk_model_landmark_hours": 24,
+    "monitoring_horizon_hours": 72,
+    "risk_model": {
+      "estimator": "L2-regularized binary logistic regression",
+      "class": "sklearn.linear_model.LogisticRegression",
+      "C": 0.2,
+      "pipeline": ["median imputation", "StandardScaler", "LogisticRegression"],
+      "is_xgboost": false
+    },
+    "trigger_types": ["any_flip_risk", "death_upgrade_risk"],
+    "reported_threshold": 0.10,
+    "threshold_grid": [0.05, 0.10, 0.15, 0.20, 0.30],
+    "outcomes": ["reassessment_reduction", "any_flip_capture", "major_death_upgrade_capture", "false_trigger_fraction"],
+    "interpretation": "retrospective decision simulation; not clinical utility, workflow benefit, or prospective validation"
+  },
+  "sensitivity_scenarios": [
+    "three_class_vs_four_class",
+    "shared_complete_cohort_folds_vs_landmark_specific_folds",
+    "landmark_6h_and_48h",
+    "ordinal_order_swapped",
+    "exclude_in_icu_death",
+    "full_24h_cohort_vs_complete_window",
+    "rehabilitation_merged_two_ways",
+    "era_stratified_icd9_icd10",
+    "eicu_site_clustered",
+    "continuous_nri_idi",
+    "temporal_penalty_death_suppression_decomposition",
+    "mimic3_same_institution_cross_era_replication",
+    "eicu_hospital_held_out_validation",
+    "six_direction_fixed_weight_transport",
+    "target_local_recalibration_learning_curves",
+    "any_flip_and_death_upgrade_reassessment_simulation"
+  ],
+  "artifacts": {
+    "main_figures": 11,
+    "main_tables": 10,
+    "supplementary_tables": "S1-S12",
+    "abstract_word_limit": 250,
+    "abstract_word_limit_interpretation": "target maximum is 250 words",
+    "local_recalibration_status": "Table 9 and Figure 9B-D report local recalibration; Figure 10A-F reports reassessment; Figure 11A-F reports sensitivity analyses; Figure 8A-D, Table 4, and Table 9 report hospital-held-out validation; Table 5 and Figure 4 report clinically meaningful transitions"
+  },
+  "ethics": "each database accessed under its own DUA; no individual-level data shared; code available from the corresponding author on reasonable request",
+  "random_seed": 20261029
+}

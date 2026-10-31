@@ -1,0 +1,1023 @@
+{
+  "status": "complete",
+  "artifacts": {
+    "flags": "results\\sensitivity_v2\\flags\\sensitivity_flags_summary.json",
+    "mimic4_icu_death": "results\\sensitivity_v2\\xgb\\mimic4_exclude_icu_death.json",
+    "eicu_icu_death": "results\\sensitivity_v2\\xgb\\eicu_exclude_icu_death.json",
+    "mimic4_icd9": "results\\sensitivity_v2\\xgb\\mimic4_icd9_era.json",
+    "mimic4_icd10": "results\\sensitivity_v2\\xgb\\mimic4_icd10_era.json",
+    "reverse_order": "results\\sensitivity_v2\\reverse_order_summary.json",
+    "ordinal_clinical": "results\\sensitivity_v2\\ordinal_clinical_summary.json",
+    "model_contrast_bootstrap": "results\\sensitivity_v2\\model_contrast_bootstrap.json",
+    "mimic3": "results\\sensitivity_v2\\mimic3\\mimic3_xgb_summary.json"
+  },
+  "flag_counts": {
+    "mimic4": {
+      "all_outcome_mapped": 14296,
+      "icu_death": 2644,
+      "icu_death_within_72h": 1191,
+      "icd_era": {
+        "ICD-10": 8131,
+        "ICD-9": 6165
+      },
+      "landmark_24h": {
+        "n": 12198,
+        "icu_death": 2159
+      },
+      "landmark_48h": {
+        "n": 8980,
+        "icu_death": 1749
+      },
+      "landmark_72h": {
+        "n": 6823,
+        "icu_death": 1486
+      },
+      "icd-9_landmarks": {
+        "24": 5323,
+        "48": 3865,
+        "72": 2899
+      },
+      "icd-10_landmarks": {
+        "24": 6875,
+        "48": 5115,
+        "72": 3924
+      }
+    },
+    "eicu": {
+      "all_outcome_mapped": 22866,
+      "icu_death": 2783,
+      "icu_death_within_72h": 1608,
+      "icd_era": {
+        "not_applicable": 22866
+      },
+      "landmark_24h": {
+        "n": 18350,
+        "icu_death": 1983
+      },
+      "landmark_48h": {
+        "n": 12917,
+        "icu_death": 1468
+      },
+      "landmark_72h": {
+        "n": 9215,
+        "icu_death": 1175
+      },
+      "hospital_death": 4188,
+      "unit_discharge_status": {
+        "Alive": 20339,
+        "Expired": 2783,
+        "missing": 4
+      }
+    },
+    "definitions": {
+      "mimic4_icu_death": "admissions.deathtime lies within the ICU intime-outtime interval",
+      "eicu_icu_death": "patient.unitdischargestatus == Expired",
+      "mimic4_icd_era": "sepsis code version in diagnoses_icd; admissions with both ICD-9 and ICD-10 sepsis codes are labelled mixed and excluded from era strata",
+      "eicu_icd_era": "not applicable because eICU diagnosis.icd9code is a harmonised field and does not provide ICD-10 admission coding"
+    }
+  },
+  "icu_death_exclusion": {
+    "mimic4": {
+      "database": "mimic4",
+      "scenario": "exclude_icu_death",
+      "landmarks": {
+        "24": {
+          "n": 10039,
+          "macro_auc": 0.7427
+        },
+        "48": {
+          "n": 7231,
+          "macro_auc": 0.7165
+        },
+        "72": {
+          "n": 5337,
+          "macro_auc": 0.7073
+        }
+      },
+      "removed_from_landmark_population": {
+        "24": 2159,
+        "48": 1749,
+        "72": 1486
+      },
+      "complete_three_landmark_subset": {
+        "n": 5337,
+        "class_counts": {
+          "0": 1175,
+          "1": 3447,
+          "2": 715
+        },
+        "macro_auc": {
+          "24": 0.7049,
+          "48": 0.7006,
+          "72": 0.7073
+        },
+        "flip_24_72": 0.1283,
+        "flip_24_72_ci95": [
+          0.1196,
+          0.1375
+        ],
+        "tv_24_72": 0.1251,
+        "tv_24_72_ci95": [
+          0.1225,
+          0.1275
+        ],
+        "return_to_24h_class": 0.0362,
+        "direction_more_dependent": 0.0826,
+        "direction_less_dependent": 0.0457,
+        "confidence_0_6": {
+          "coverage": 0.7026,
+          "n": 3750,
+          "flip": 0.0477
+        }
+      }
+    },
+    "eicu": {
+      "database": "eicu",
+      "scenario": "exclude_icu_death",
+      "landmarks": {
+        "24": {
+          "n": 16367,
+          "macro_auc": 0.7206
+        },
+        "48": {
+          "n": 11449,
+          "macro_auc": 0.7078
+        },
+        "72": {
+          "n": 8040,
+          "macro_auc": 0.6794
+        }
+      },
+      "removed_from_landmark_population": {
+        "24": 1983,
+        "48": 1468,
+        "72": 1175
+      },
+      "complete_three_landmark_subset": {
+        "n": 8040,
+        "class_counts": {
+          "0": 2727,
+          "1": 4559,
+          "2": 754
+        },
+        "macro_auc": {
+          "24": 0.6794,
+          "48": 0.6827,
+          "72": 0.6794
+        },
+        "flip_24_72": 0.1867,
+        "flip_24_72_ci95": [
+          0.1742,
+          0.1994
+        ],
+        "tv_24_72": 0.1186,
+        "tv_24_72_ci95": [
+          0.1163,
+          0.1209
+        ],
+        "return_to_24h_class": 0.0505,
+        "direction_more_dependent": 0.1417,
+        "direction_less_dependent": 0.045,
+        "confidence_0_6": {
+          "coverage": 0.5337,
+          "n": 4291,
+          "flip": 0.0872
+        }
+      }
+    }
+  },
+  "icd_era": {
+    "mimic4_icd9": {
+      "database": "mimic4",
+      "scenario": "icd9_era",
+      "landmarks": {
+        "24": {
+          "n": 5323,
+          "macro_auc": 0.7664
+        },
+        "48": {
+          "n": 3865,
+          "macro_auc": 0.7537
+        },
+        "72": {
+          "n": 2899,
+          "macro_auc": 0.7337
+        }
+      },
+      "removed_from_landmark_population": {
+        "24": 6875,
+        "48": 5115,
+        "72": 3924
+      },
+      "complete_three_landmark_subset": {
+        "n": 2899,
+        "class_counts": {
+          "0": 484,
+          "1": 1530,
+          "2": 885
+        },
+        "macro_auc": {
+          "24": 0.7003,
+          "48": 0.7231,
+          "72": 0.7337
+        },
+        "flip_24_72": 0.277,
+        "flip_24_72_ci95": [
+          0.2609,
+          0.2941
+        ],
+        "tv_24_72": 0.1886,
+        "tv_24_72_ci95": [
+          0.1839,
+          0.1937
+        ],
+        "return_to_24h_class": 0.0845,
+        "direction_more_dependent": 0.1649,
+        "direction_less_dependent": 0.1121,
+        "confidence_0_6": {
+          "coverage": 0.5419,
+          "n": 1571,
+          "flip": 0.1712
+        }
+      }
+    },
+    "mimic4_icd10": {
+      "database": "mimic4",
+      "scenario": "icd10_era",
+      "landmarks": {
+        "24": {
+          "n": 6875,
+          "macro_auc": 0.7599
+        },
+        "48": {
+          "n": 5115,
+          "macro_auc": 0.7418
+        },
+        "72": {
+          "n": 3924,
+          "macro_auc": 0.7352
+        }
+      },
+      "removed_from_landmark_population": {
+        "24": 5323,
+        "48": 3865,
+        "72": 2899
+      },
+      "complete_three_landmark_subset": {
+        "n": 3924,
+        "class_counts": {
+          "0": 691,
+          "1": 1917,
+          "2": 1316
+        },
+        "macro_auc": {
+          "24": 0.7081,
+          "48": 0.7196,
+          "72": 0.7352
+        },
+        "flip_24_72": 0.2979,
+        "flip_24_72_ci95": [
+          0.2833,
+          0.3126
+        ],
+        "tv_24_72": 0.1778,
+        "tv_24_72_ci95": [
+          0.1742,
+          0.1815
+        ],
+        "return_to_24h_class": 0.0803,
+        "direction_more_dependent": 0.1804,
+        "direction_less_dependent": 0.1175,
+        "confidence_0_6": {
+          "coverage": 0.4755,
+          "n": 1866,
+          "flip": 0.1758
+        }
+      }
+    },
+    "eicu_status": "not applicable: diagnosis.icd9code is a harmonised field and does not identify admission-level ICD-10 coding"
+  },
+  "ordinal_order_reversal": {
+    "mimic4": {
+      "database": "mimic4",
+      "standard_ordinal_notemporal": {
+        "auc_72": {
+          "mean": 0.698,
+          "sd": 0.0024,
+          "values": [
+            0.6966,
+            0.7008,
+            0.6966
+          ]
+        },
+        "flip_24_72": {
+          "mean": 0.1201,
+          "sd": 0.0049,
+          "values": [
+            0.1236,
+            0.1145,
+            0.1222
+          ]
+        },
+        "tv_24_72": {
+          "mean": 0.0662,
+          "sd": 0.0015,
+          "values": [
+            0.0668,
+            0.0645,
+            0.0674
+          ]
+        }
+      },
+      "reversed_order_restored": {
+        "auc_72": {
+          "mean": 0.7097,
+          "sd": 0.0018,
+          "values": [
+            0.7078,
+            0.7098,
+            0.7114
+          ]
+        },
+        "flip_24_72": {
+          "mean": 0.1539,
+          "sd": 0.0046,
+          "values": [
+            0.1488,
+            0.1578,
+            0.1552
+          ]
+        },
+        "tv_24_72": {
+          "mean": 0.0713,
+          "sd": 0.0024,
+          "values": [
+            0.0689,
+            0.0737,
+            0.0712
+          ]
+        }
+      },
+      "paired_reversed_minus_standard": {
+        "auc_72": {
+          "mean": 0.0117,
+          "sd": 0.0029,
+          "values": [
+            0.0112,
+            0.009,
+            0.0148
+          ]
+        },
+        "flip_24_72": {
+          "mean": 0.0338,
+          "sd": 0.0091,
+          "values": [
+            0.0252,
+            0.0433,
+            0.033
+          ]
+        },
+        "tv_24_72": {
+          "mean": 0.005,
+          "sd": 0.0037,
+          "values": [
+            0.0021,
+            0.0092,
+            0.0038
+          ]
+        }
+      },
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "run_scope": "three-seed label-direction pressure test",
+      "interpretation": "Reversing the label order and then restoring the probability axis tests dependence on the assumed home-facility-death direction. It is a coding-order stress test, not a second clinical outcome."
+    },
+    "eicu": {
+      "database": "eicu",
+      "standard_ordinal_notemporal": {
+        "auc_72": {
+          "mean": 0.6745,
+          "sd": 0.0009,
+          "values": [
+            0.6753,
+            0.6746,
+            0.6735
+          ]
+        },
+        "flip_24_72": {
+          "mean": 0.172,
+          "sd": 0.0133,
+          "values": [
+            0.1616,
+            0.1673,
+            0.187
+          ]
+        },
+        "tv_24_72": {
+          "mean": 0.0795,
+          "sd": 0.0036,
+          "values": [
+            0.0767,
+            0.0783,
+            0.0836
+          ]
+        }
+      },
+      "reversed_order_restored": {
+        "auc_72": {
+          "mean": 0.6768,
+          "sd": 0.0014,
+          "values": [
+            0.6752,
+            0.6773,
+            0.6778
+          ]
+        },
+        "flip_24_72": {
+          "mean": 0.1704,
+          "sd": 0.003,
+          "values": [
+            0.1686,
+            0.1687,
+            0.1738
+          ]
+        },
+        "tv_24_72": {
+          "mean": 0.0812,
+          "sd": 0.0006,
+          "values": [
+            0.0816,
+            0.0805,
+            0.0816
+          ]
+        }
+      },
+      "paired_reversed_minus_standard": {
+        "auc_72": {
+          "mean": 0.0023,
+          "sd": 0.0022,
+          "values": [
+            -0.0001,
+            0.0027,
+            0.0043
+          ]
+        },
+        "flip_24_72": {
+          "mean": -0.0016,
+          "sd": 0.0104,
+          "values": [
+            0.007,
+            0.0014,
+            -0.0132
+          ]
+        },
+        "tv_24_72": {
+          "mean": 0.0017,
+          "sd": 0.0035,
+          "values": [
+            0.0049,
+            0.0022,
+            -0.002
+          ]
+        }
+      },
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "run_scope": "three-seed label-direction pressure test",
+      "interpretation": "Reversing the label order and then restoring the probability axis tests dependence on the assumed home-facility-death direction. It is a coding-order stress test, not a second clinical outcome."
+    }
+  },
+  "ordinal_clinical_metrics": {
+    "mimic4": {
+      "ordinal_vs_nominal_no_temporal": {
+        "ensemble": {
+          "non-home": {
+            "event_n": 5648,
+            "non_event_n": 1175,
+            "continuous_nri": 0.2605,
+            "idi": 0.0456,
+            "reference_discrimination_slope": 0.0555,
+            "comparison_discrimination_slope": 0.1011
+          },
+          "death": {
+            "event_n": 2201,
+            "non_event_n": 4622,
+            "continuous_nri": 0.3329,
+            "idi": 0.0572,
+            "reference_discrimination_slope": 0.0859,
+            "comparison_discrimination_slope": 0.1431
+          }
+        },
+        "non-home": {
+          "continuous_nri": {
+            "mean": 0.2365,
+            "sd": 0.0332,
+            "values": [
+              0.2031,
+              0.2369,
+              0.2694
+            ]
+          },
+          "idi": {
+            "mean": 0.0456,
+            "sd": 0.003,
+            "values": [
+              0.0434,
+              0.0491,
+              0.0444
+            ]
+          }
+        },
+        "death": {
+          "continuous_nri": {
+            "mean": 0.3306,
+            "sd": 0.0301,
+            "values": [
+              0.3089,
+              0.318,
+              0.365
+            ]
+          },
+          "idi": {
+            "mean": 0.0572,
+            "sd": 0.0035,
+            "values": [
+              0.0561,
+              0.0544,
+              0.0611
+            ]
+          }
+        }
+      },
+      "ordinal_vs_nominal_temporal": {
+        "ensemble": {
+          "non-home": {
+            "event_n": 5648,
+            "non_event_n": 1175,
+            "continuous_nri": 0.2468,
+            "idi": 0.0465,
+            "reference_discrimination_slope": 0.0552,
+            "comparison_discrimination_slope": 0.1017
+          },
+          "death": {
+            "event_n": 2201,
+            "non_event_n": 4622,
+            "continuous_nri": 0.3366,
+            "idi": 0.0582,
+            "reference_discrimination_slope": 0.0844,
+            "comparison_discrimination_slope": 0.1426
+          }
+        },
+        "non-home": {
+          "continuous_nri": {
+            "mean": 0.2407,
+            "sd": 0.0507,
+            "values": [
+              0.1891,
+              0.2426,
+              0.2905
+            ]
+          },
+          "idi": {
+            "mean": 0.0465,
+            "sd": 0.003,
+            "values": [
+              0.0433,
+              0.0493,
+              0.047
+            ]
+          }
+        },
+        "death": {
+          "continuous_nri": {
+            "mean": 0.3346,
+            "sd": 0.0321,
+            "values": [
+              0.3065,
+              0.3276,
+              0.3696
+            ]
+          },
+          "idi": {
+            "mean": 0.0582,
+            "sd": 0.0053,
+            "values": [
+              0.0543,
+              0.0561,
+              0.0642
+            ]
+          }
+        }
+      }
+    },
+    "eicu": {
+      "ordinal_vs_nominal_no_temporal": {
+        "ensemble": {
+          "non-home": {
+            "event_n": 6485,
+            "non_event_n": 2730,
+            "continuous_nri": 0.4711,
+            "idi": 0.0572,
+            "reference_discrimination_slope": 0.0554,
+            "comparison_discrimination_slope": 0.1126
+          },
+          "death": {
+            "event_n": 1913,
+            "non_event_n": 7302,
+            "continuous_nri": 0.2129,
+            "idi": 0.0306,
+            "reference_discrimination_slope": 0.0887,
+            "comparison_discrimination_slope": 0.1193
+          }
+        },
+        "non-home": {
+          "continuous_nri": {
+            "mean": 0.4358,
+            "sd": 0.02,
+            "values": [
+              0.4214,
+              0.4275,
+              0.4586
+            ]
+          },
+          "idi": {
+            "mean": 0.0572,
+            "sd": 0.0016,
+            "values": [
+              0.0579,
+              0.0554,
+              0.0583
+            ]
+          }
+        },
+        "death": {
+          "continuous_nri": {
+            "mean": 0.2101,
+            "sd": 0.0149,
+            "values": [
+              0.1929,
+              0.2194,
+              0.218
+            ]
+          },
+          "idi": {
+            "mean": 0.0306,
+            "sd": 0.0014,
+            "values": [
+              0.029,
+              0.0314,
+              0.0314
+            ]
+          }
+        }
+      },
+      "ordinal_vs_nominal_temporal": {
+        "ensemble": {
+          "non-home": {
+            "event_n": 6485,
+            "non_event_n": 2730,
+            "continuous_nri": 0.4586,
+            "idi": 0.0571,
+            "reference_discrimination_slope": 0.0543,
+            "comparison_discrimination_slope": 0.1114
+          },
+          "death": {
+            "event_n": 1913,
+            "non_event_n": 7302,
+            "continuous_nri": 0.2049,
+            "idi": 0.0296,
+            "reference_discrimination_slope": 0.0878,
+            "comparison_discrimination_slope": 0.1174
+          }
+        },
+        "non-home": {
+          "continuous_nri": {
+            "mean": 0.4252,
+            "sd": 0.0056,
+            "values": [
+              0.4209,
+              0.4232,
+              0.4315
+            ]
+          },
+          "idi": {
+            "mean": 0.0572,
+            "sd": 0.003,
+            "values": [
+              0.0601,
+              0.0542,
+              0.0572
+            ]
+          }
+        },
+        "death": {
+          "continuous_nri": {
+            "mean": 0.1934,
+            "sd": 0.0034,
+            "values": [
+              0.1955,
+              0.1895,
+              0.1951
+            ]
+          },
+          "idi": {
+            "mean": 0.0296,
+            "sd": 0.0008,
+            "values": [
+              0.0298,
+              0.0287,
+              0.0303
+            ]
+          }
+        }
+      }
+    },
+    "definitions": {
+      "analysis_type": "exploratory",
+      "multiplicity_adjustment": "none",
+      "direction": "comparison minus reference",
+      "continuous_nri": "(up in events - down in events) - (up in non-events - down in non-events)",
+      "idi": "change in the difference in mean cumulative risk between events and non-events",
+      "cutoffs": "y >= 1 (non-home) and y >= 2 (death) at 72 h"
+    }
+  },
+  "model_contrast_bootstrap": {
+    "mimic4": {
+      "database": "mimic4",
+      "clusters": 6254,
+      "replicates": 2000,
+      "estimand": "evaluation-sample uncertainty conditional on the fitted out-of-fold predictions and cross-validation folds; training uncertainty is not resampled",
+      "contrasts": {
+        "temporal_minus_none_ordinal": {
+          "auc_72": {
+            "estimate": 0.0002,
+            "ci95": [
+              -0.0003,
+              0.0008
+            ],
+            "bootstrap_same_sign_fraction": 0.8075
+          },
+          "flip_24_72": {
+            "estimate": -0.0047,
+            "ci95": [
+              -0.0085,
+              -0.0009
+            ],
+            "bootstrap_same_sign_fraction": 0.989
+          },
+          "tv_24_72": {
+            "estimate": -0.0029,
+            "ci95": [
+              -0.0032,
+              -0.0026
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          }
+        },
+        "ordinal_minus_nominal_no_temporal": {
+          "continuous_nri_non_home": {
+            "estimate": 0.2605,
+            "ci95": [
+              0.2028,
+              0.3146
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "continuous_nri_death": {
+            "estimate": 0.3329,
+            "ci95": [
+              0.2863,
+              0.3831
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "idi_non_home": {
+            "estimate": 0.0456,
+            "ci95": [
+              0.0392,
+              0.052
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "idi_death": {
+            "estimate": 0.0572,
+            "ci95": [
+              0.0503,
+              0.0645
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          }
+        },
+        "ordinal_minus_nominal_temporal": {
+          "continuous_nri_non_home": {
+            "estimate": 0.2468,
+            "ci95": [
+              0.1898,
+              0.2988
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "continuous_nri_death": {
+            "estimate": 0.3366,
+            "ci95": [
+              0.2878,
+              0.3882
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "idi_non_home": {
+            "estimate": 0.0465,
+            "ci95": [
+              0.0401,
+              0.0532
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "idi_death": {
+            "estimate": 0.0582,
+            "ci95": [
+              0.0512,
+              0.0654
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          }
+        }
+      }
+    },
+    "eicu": {
+      "database": "eicu",
+      "clusters": 184,
+      "replicates": 2000,
+      "estimand": "evaluation-sample uncertainty conditional on the fitted out-of-fold predictions and cross-validation folds; training uncertainty is not resampled",
+      "contrasts": {
+        "temporal_minus_none_ordinal": {
+          "auc_72": {
+            "estimate": -0.0008,
+            "ci95": [
+              -0.0014,
+              -0.0002
+            ],
+            "bootstrap_same_sign_fraction": 0.994
+          },
+          "flip_24_72": {
+            "estimate": -0.0076,
+            "ci95": [
+              -0.0111,
+              -0.0038
+            ],
+            "bootstrap_same_sign_fraction": 0.9995
+          },
+          "tv_24_72": {
+            "estimate": -0.0052,
+            "ci95": [
+              -0.0055,
+              -0.0048
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          }
+        },
+        "ordinal_minus_nominal_no_temporal": {
+          "continuous_nri_non_home": {
+            "estimate": 0.4711,
+            "ci95": [
+              0.4168,
+              0.5244
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "continuous_nri_death": {
+            "estimate": 0.2129,
+            "ci95": [
+              0.1487,
+              0.2758
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "idi_non_home": {
+            "estimate": 0.0572,
+            "ci95": [
+              0.0508,
+              0.0634
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "idi_death": {
+            "estimate": 0.0306,
+            "ci95": [
+              0.0238,
+              0.0373
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          }
+        },
+        "ordinal_minus_nominal_temporal": {
+          "continuous_nri_non_home": {
+            "estimate": 0.4586,
+            "ci95": [
+              0.4055,
+              0.5101
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "continuous_nri_death": {
+            "estimate": 0.2049,
+            "ci95": [
+              0.1416,
+              0.2672
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "idi_non_home": {
+            "estimate": 0.0571,
+            "ci95": [
+              0.0505,
+              0.0636
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          },
+          "idi_death": {
+            "estimate": 0.0296,
+            "ci95": [
+              0.0227,
+              0.0363
+            ],
+            "bootstrap_same_sign_fraction": 1.0
+          }
+        }
+      }
+    },
+    "cluster_unit": {
+      "mimic4": "subject_id",
+      "eicu": "hospitalid"
+    },
+    "interpretation": "Intervals describe resampling of the evaluation sample by patient or hospital after model fitting. They are not intervals for the effect of retraining an algorithm across new datasets."
+  },
+  "mimic3_comparison": {
+    "database": "MIMIC-III",
+    "run_scope": "single fixed-seed patient-grouped out-of-fold run",
+    "inference": "no confidence intervals; historical descriptive comparison only",
+    "role": "same-institution different-era comparison; not pooled into the primary estimate and not external validation of fixed weights",
+    "landmarks": {
+      "24": {
+        "n": 5888,
+        "class_counts": {
+          "0": 1514,
+          "1": 2629,
+          "2": 1745
+        },
+        "macro_auc": 0.7654
+      },
+      "48": {
+        "n": 4638,
+        "class_counts": {
+          "0": 1019,
+          "1": 2187,
+          "2": 1432
+        },
+        "macro_auc": 0.7603
+      },
+      "72": {
+        "n": 3638,
+        "class_counts": {
+          "0": 687,
+          "1": 1758,
+          "2": 1193
+        },
+        "macro_auc": 0.7394
+      }
+    },
+    "complete_three_landmark_subset": {
+      "n": 3638,
+      "macro_auc": {
+        "24": 0.7138,
+        "48": 0.732,
+        "72": 0.7394
+      },
+      "flip_24_72": 0.2763,
+      "tv_24_72": 0.1754
+    }
+  },
+  "completed_outline_items": [
+    "exclude_in_icu_death",
+    "era_stratified_icd9_icd10 (MIMIC-IV; eICU not applicable)",
+    "ordinal_order_swapped",
+    "ordinal_vs_nominal_nri_idi",
+    "optional_mimic3_same_institution_comparison"
+  ],
+  "not_used_as_primary_evidence": [
+    "ordinal order reversal: a coding-order stress test, with the reversed probability axis restored before comparison",
+    "MIMIC-III: different era and data schema; reported as a same-institution comparison rather than external validation of fixed MIMIC-IV weights",
+    "ICD-era strata: models were retrained within each era, so differences include secular changes in practice and coding"
+  ],
+  "not_run": {
+    "negative_controls": "time reversal, time permutation and generic Laplace smoothing were listed in an earlier configuration but were not part of the final v3 estimand or result set",
+    "full_lambda_grid": "formal runs used fixed weights 0.04/0.06; exploratory pilot settings were not retained as comparative evidence and the full lambda grid was not run",
+    "no_graph_ablation": "not part of the final v3 four-configuration ablation grid"
+  }
+}

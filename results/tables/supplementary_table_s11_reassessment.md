@@ -1,0 +1,32 @@
+| Database | Trigger | Predicted-risk threshold | Selected stays | Fewer stays selected, % | Predicted endpoint changes included, % | Predicted conversions included, % | No predicted conversion among selected, % | Predicted conversions per 100 selected stays | Predicted-conversion enrichment | No predicted conversion 95% interval, % |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| MIMIC-IV | Model-predicted endpoint-change risk | 0.05 | 5,882 | 13.79 | 98.05 | 96.56 | 88.56 | 11.44 | 1.12 | 87.69-89.35 |
+| MIMIC-IV | Model-predicted endpoint-change risk | 0.10 | 4,829 | 29.22 | 92.96 | 88.38 | 87.24 | 12.76 | 1.25 | 86.24-88.22 |
+| MIMIC-IV | Model-predicted endpoint-change risk | 0.15 | 3,984 | 41.61 | 85.73 | 79.20 | 86.14 | 13.86 | 1.36 | 85.05-87.22 |
+| MIMIC-IV | Model-predicted endpoint-change risk | 0.20 | 3,330 | 51.19 | 78.88 | 70.59 | 85.23 | 14.77 | 1.45 | 83.95-86.37 |
+| MIMIC-IV | Model-predicted endpoint-change risk | 0.30 | 2,259 | 66.89 | 59.59 | 48.92 | 84.90 | 15.10 | 1.48 | 83.44-86.33 |
+| eICU-CRD | Model-predicted endpoint-change risk | 0.05 | 7,768 | 15.70 | 97.18 | 94.01 | 92.52 | 7.48 | 1.12 | 91.69-93.25 |
+| eICU-CRD | Model-predicted endpoint-change risk | 0.10 | 5,996 | 34.93 | 89.54 | 79.77 | 91.78 | 8.22 | 1.23 | 90.85-92.65 |
+| eICU-CRD | Model-predicted endpoint-change risk | 0.15 | 4,672 | 49.30 | 81.19 | 67.96 | 91.01 | 8.99 | 1.34 | 90.01-91.98 |
+| eICU-CRD | Model-predicted endpoint-change risk | 0.20 | 3,681 | 60.05 | 71.00 | 56.15 | 90.57 | 9.43 | 1.41 | 89.45-91.70 |
+| eICU-CRD | Model-predicted endpoint-change risk | 0.30 | 2,168 | 76.47 | 49.92 | 35.92 | 89.76 | 10.24 | 1.53 | 88.31-91.05 |
+| MIMIC-III | Model-predicted endpoint-change risk | 0.05 | 3,319 | 8.77 | 98.40 | 97.78 | 89.36 | 10.64 | 1.07 | 88.24-90.37 |
+| MIMIC-III | Model-predicted endpoint-change risk | 0.10 | 2,764 | 24.02 | 92.35 | 87.81 | 88.53 | 11.47 | 1.16 | 87.30-89.70 |
+| MIMIC-III | Model-predicted endpoint-change risk | 0.15 | 2,241 | 38.40 | 83.22 | 74.24 | 88.04 | 11.96 | 1.21 | 86.58-89.44 |
+| MIMIC-III | Model-predicted endpoint-change risk | 0.20 | 1,826 | 49.81 | 74.09 | 63.16 | 87.51 | 12.49 | 1.26 | 85.94-89.14 |
+| MIMIC-III | Model-predicted endpoint-change risk | 0.30 | 1,114 | 69.38 | 52.28 | 35.18 | 88.60 | 11.40 | 1.15 | 86.83-90.38 |
+| MIMIC-IV | Model-predicted conversion risk | 0.05 | 3,235 | 52.59 | 50.91 | 91.68 | 80.25 | 19.75 | 1.93 | 78.89-81.57 |
+| MIMIC-IV | Model-predicted conversion risk | 0.10 | 2,214 | 67.55 | 40.60 | 81.06 | 74.48 | 25.52 | 2.50 | 72.67-76.13 |
+| MIMIC-IV | Model-predicted conversion risk | 0.15 | 1,636 | 76.02 | 34.00 | 70.59 | 69.93 | 30.07 | 2.94 | 67.82-71.91 |
+| MIMIC-IV | Model-predicted conversion risk | 0.20 | 1,240 | 81.83 | 28.03 | 59.68 | 66.45 | 33.55 | 3.28 | 64.05-68.79 |
+| MIMIC-IV | Model-predicted conversion risk | 0.30 | 694 | 89.83 | 18.10 | 40.46 | 59.37 | 40.63 | 3.98 | 55.75-62.50 |
+| eICU-CRD | Model-predicted conversion risk | 0.05 | 3,309 | 64.09 | 39.78 | 82.20 | 84.65 | 15.35 | 2.29 | 83.38-85.95 |
+| eICU-CRD | Model-predicted conversion risk | 0.10 | 1,900 | 79.38 | 27.21 | 64.40 | 79.05 | 20.95 | 3.12 | 77.22-81.03 |
+| eICU-CRD | Model-predicted conversion risk | 0.15 | 1,266 | 86.26 | 19.84 | 50.32 | 75.43 | 24.57 | 3.66 | 73.24-77.75 |
+| eICU-CRD | Model-predicted conversion risk | 0.20 | 820 | 91.10 | 14.47 | 38.51 | 70.98 | 29.02 | 4.33 | 68.12-73.76 |
+| eICU-CRD | Model-predicted conversion risk | 0.30 | 376 | 95.92 | 7.75 | 21.04 | 65.43 | 34.57 | 5.16 | 60.34-70.28 |
+| MIMIC-III | Model-predicted conversion risk | 0.05 | 1,817 | 50.06 | 50.23 | 92.52 | 81.62 | 18.38 | 1.85 | 79.86-83.51 |
+| MIMIC-III | Model-predicted conversion risk | 0.10 | 1,186 | 67.40 | 36.99 | 75.90 | 76.90 | 23.10 | 2.33 | 74.47-79.29 |
+| MIMIC-III | Model-predicted conversion risk | 0.15 | 840 | 76.91 | 29.34 | 64.82 | 72.14 | 27.86 | 2.81 | 69.12-75.15 |
+| MIMIC-III | Model-predicted conversion risk | 0.20 | 613 | 83.15 | 22.49 | 50.97 | 69.98 | 30.02 | 3.02 | 66.24-73.52 |
+| MIMIC-III | Model-predicted conversion risk | 0.30 | 300 | 91.75 | 12.67 | 29.36 | 64.67 | 35.33 | 3.56 | 58.86-70.16 |

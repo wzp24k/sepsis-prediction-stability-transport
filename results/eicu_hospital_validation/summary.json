@@ -1,0 +1,3640 @@
+{
+  "module": "eicu_hospital_held_out_xgb_validation",
+  "generated_at_utc": "2026-10-31T05:58:10.528801+00:00",
+  "elapsed_seconds": 72.5,
+  "design": {
+    "database": "eICU-CRD",
+    "validation_type": "hospital-grouped internal-external validation",
+    "n_splits": 5,
+    "group_column": "hospitalid",
+    "same_fold_partition_reused_at_all_landmarks": true,
+    "fixed_xgboost_seed": 20261029,
+    "strictly_external_validation": false,
+    "prospective_validation": false,
+    "clinical_utility_evaluation": false,
+    "statement": "Hospital-held-out cross-validation is stronger internal-external validation than patient-grouped cross-validation, but it is not prospective or independent-site external validation.",
+    "partition_method_note": "Deterministic sklearn GroupKFold has no random_state; the fixed seed applies to XGBoost stochastic subsampling and column sampling."
+  },
+  "cohort": {
+    "definition": "y3 is non-null, los_h >= 72, and the patient is observed at exactly one hospital in this validation cohort",
+    "id_column": "patientunitstayid",
+    "n": 8999,
+    "n_hospitals": 182,
+    "n_unique_patients": 8595,
+    "patients_observed_in_more_than_one_hospital": 0,
+    "patients_excluded_for_multiple_hospitals": 98,
+    "rows_excluded_for_multiple_hospitals": 216,
+    "outcome_counts": {
+      "0": 2667,
+      "1": 4430,
+      "2": 1902
+    },
+    "observed_class_distribution": {
+      "0": 0.296366,
+      "1": 0.492277,
+      "2": 0.211357
+    },
+    "conditioning": "Stays observable through 72 hours; estimates do not generalize to stays discharged or dying before 72 hours."
+  },
+  "features": {
+    "rule": "First-24-hour static/demographic/laboratory features plus non-overlapping 24-hour summary windows through the landmark.",
+    "columns_by_landmark": {
+      "24": [
+        "age",
+        "male",
+        "crea_min",
+        "crea_max",
+        "lac_min",
+        "lac_max",
+        "wbc_min",
+        "wbc_max",
+        "plt_min",
+        "plt_max",
+        "bili_min",
+        "bili_max",
+        "na_min",
+        "na_max",
+        "bun_min",
+        "bun_max",
+        "hgb_min",
+        "hgb_max",
+        "inr_max",
+        "src_Acute Care/Floor",
+        "src_Chest Pain Center",
+        "src_Direct Admit",
+        "src_Emergency Department",
+        "src_Floor",
+        "src_ICU",
+        "src_ICU to SDU",
+        "src_Observation",
+        "src_Operating Room",
+        "src_Other Hospital",
+        "src_Other ICU",
+        "src_PACU",
+        "src_Recovery Room",
+        "src_Step-Down Unit (SDU)",
+        "ut_CCU-CTICU",
+        "ut_CSICU",
+        "ut_CTICU",
+        "ut_Cardiac ICU",
+        "ut_MICU",
+        "ut_Med-Surg ICU",
+        "ut_Neuro ICU",
+        "ut_SICU",
+        "hr_w1_mean",
+        "hr_w1_min",
+        "hr_w1_max",
+        "hr_w1_last",
+        "hr_w1_count",
+        "rr_w1_mean",
+        "rr_w1_min",
+        "rr_w1_max",
+        "rr_w1_last",
+        "rr_w1_count",
+        "spo2_w1_mean",
+        "spo2_w1_min",
+        "spo2_w1_max",
+        "spo2_w1_last",
+        "spo2_w1_count",
+        "sbp_w1_mean",
+        "sbp_w1_min",
+        "sbp_w1_max",
+        "sbp_w1_last",
+        "sbp_w1_count",
+        "dbp_w1_mean",
+        "dbp_w1_min",
+        "dbp_w1_max",
+        "dbp_w1_last",
+        "dbp_w1_count",
+        "mbp_w1_mean",
+        "mbp_w1_min",
+        "mbp_w1_max",
+        "mbp_w1_last",
+        "mbp_w1_count",
+        "tempf_w1_mean",
+        "tempf_w1_min",
+        "tempf_w1_max",
+        "tempf_w1_last",
+        "tempf_w1_count",
+        "gcs_w1_mean",
+        "gcs_w1_min",
+        "gcs_w1_max",
+        "gcs_w1_last",
+        "gcs_w1_count"
+      ],
+      "48": [
+        "age",
+        "male",
+        "crea_min",
+        "crea_max",
+        "lac_min",
+        "lac_max",
+        "wbc_min",
+        "wbc_max",
+        "plt_min",
+        "plt_max",
+        "bili_min",
+        "bili_max",
+        "na_min",
+        "na_max",
+        "bun_min",
+        "bun_max",
+        "hgb_min",
+        "hgb_max",
+        "inr_max",
+        "src_Acute Care/Floor",
+        "src_Chest Pain Center",
+        "src_Direct Admit",
+        "src_Emergency Department",
+        "src_Floor",
+        "src_ICU",
+        "src_ICU to SDU",
+        "src_Observation",
+        "src_Operating Room",
+        "src_Other Hospital",
+        "src_Other ICU",
+        "src_PACU",
+        "src_Recovery Room",
+        "src_Step-Down Unit (SDU)",
+        "ut_CCU-CTICU",
+        "ut_CSICU",
+        "ut_CTICU",
+        "ut_Cardiac ICU",
+        "ut_MICU",
+        "ut_Med-Surg ICU",
+        "ut_Neuro ICU",
+        "ut_SICU",
+        "hr_w1_mean",
+        "hr_w1_min",
+        "hr_w1_max",
+        "hr_w1_last",
+        "hr_w1_count",
+        "rr_w1_mean",
+        "rr_w1_min",
+        "rr_w1_max",
+        "rr_w1_last",
+        "rr_w1_count",
+        "spo2_w1_mean",
+        "spo2_w1_min",
+        "spo2_w1_max",
+        "spo2_w1_last",
+        "spo2_w1_count",
+        "sbp_w1_mean",
+        "sbp_w1_min",
+        "sbp_w1_max",
+        "sbp_w1_last",
+        "sbp_w1_count",
+        "dbp_w1_mean",
+        "dbp_w1_min",
+        "dbp_w1_max",
+        "dbp_w1_last",
+        "dbp_w1_count",
+        "mbp_w1_mean",
+        "mbp_w1_min",
+        "mbp_w1_max",
+        "mbp_w1_last",
+        "mbp_w1_count",
+        "tempf_w1_mean",
+        "tempf_w1_min",
+        "tempf_w1_max",
+        "tempf_w1_last",
+        "tempf_w1_count",
+        "gcs_w1_mean",
+        "gcs_w1_min",
+        "gcs_w1_max",
+        "gcs_w1_last",
+        "gcs_w1_count",
+        "hr_w2_mean",
+        "hr_w2_min",
+        "hr_w2_max",
+        "hr_w2_last",
+        "hr_w2_count",
+        "rr_w2_mean",
+        "rr_w2_min",
+        "rr_w2_max",
+        "rr_w2_last",
+        "rr_w2_count",
+        "spo2_w2_mean",
+        "spo2_w2_min",
+        "spo2_w2_max",
+        "spo2_w2_last",
+        "spo2_w2_count",
+        "sbp_w2_mean",
+        "sbp_w2_min",
+        "sbp_w2_max",
+        "sbp_w2_last",
+        "sbp_w2_count",
+        "dbp_w2_mean",
+        "dbp_w2_min",
+        "dbp_w2_max",
+        "dbp_w2_last",
+        "dbp_w2_count",
+        "mbp_w2_mean",
+        "mbp_w2_min",
+        "mbp_w2_max",
+        "mbp_w2_last",
+        "mbp_w2_count",
+        "tempf_w2_mean",
+        "tempf_w2_min",
+        "tempf_w2_max",
+        "tempf_w2_last",
+        "tempf_w2_count",
+        "gcs_w2_mean",
+        "gcs_w2_min",
+        "gcs_w2_max",
+        "gcs_w2_last",
+        "gcs_w2_count"
+      ],
+      "72": [
+        "age",
+        "male",
+        "crea_min",
+        "crea_max",
+        "lac_min",
+        "lac_max",
+        "wbc_min",
+        "wbc_max",
+        "plt_min",
+        "plt_max",
+        "bili_min",
+        "bili_max",
+        "na_min",
+        "na_max",
+        "bun_min",
+        "bun_max",
+        "hgb_min",
+        "hgb_max",
+        "inr_max",
+        "src_Acute Care/Floor",
+        "src_Chest Pain Center",
+        "src_Direct Admit",
+        "src_Emergency Department",
+        "src_Floor",
+        "src_ICU",
+        "src_ICU to SDU",
+        "src_Observation",
+        "src_Operating Room",
+        "src_Other Hospital",
+        "src_Other ICU",
+        "src_PACU",
+        "src_Recovery Room",
+        "src_Step-Down Unit (SDU)",
+        "ut_CCU-CTICU",
+        "ut_CSICU",
+        "ut_CTICU",
+        "ut_Cardiac ICU",
+        "ut_MICU",
+        "ut_Med-Surg ICU",
+        "ut_Neuro ICU",
+        "ut_SICU",
+        "hr_w1_mean",
+        "hr_w1_min",
+        "hr_w1_max",
+        "hr_w1_last",
+        "hr_w1_count",
+        "rr_w1_mean",
+        "rr_w1_min",
+        "rr_w1_max",
+        "rr_w1_last",
+        "rr_w1_count",
+        "spo2_w1_mean",
+        "spo2_w1_min",
+        "spo2_w1_max",
+        "spo2_w1_last",
+        "spo2_w1_count",
+        "sbp_w1_mean",
+        "sbp_w1_min",
+        "sbp_w1_max",
+        "sbp_w1_last",
+        "sbp_w1_count",
+        "dbp_w1_mean",
+        "dbp_w1_min",
+        "dbp_w1_max",
+        "dbp_w1_last",
+        "dbp_w1_count",
+        "mbp_w1_mean",
+        "mbp_w1_min",
+        "mbp_w1_max",
+        "mbp_w1_last",
+        "mbp_w1_count",
+        "tempf_w1_mean",
+        "tempf_w1_min",
+        "tempf_w1_max",
+        "tempf_w1_last",
+        "tempf_w1_count",
+        "gcs_w1_mean",
+        "gcs_w1_min",
+        "gcs_w1_max",
+        "gcs_w1_last",
+        "gcs_w1_count",
+        "hr_w2_mean",
+        "hr_w2_min",
+        "hr_w2_max",
+        "hr_w2_last",
+        "hr_w2_count",
+        "rr_w2_mean",
+        "rr_w2_min",
+        "rr_w2_max",
+        "rr_w2_last",
+        "rr_w2_count",
+        "spo2_w2_mean",
+        "spo2_w2_min",
+        "spo2_w2_max",
+        "spo2_w2_last",
+        "spo2_w2_count",
+        "sbp_w2_mean",
+        "sbp_w2_min",
+        "sbp_w2_max",
+        "sbp_w2_last",
+        "sbp_w2_count",
+        "dbp_w2_mean",
+        "dbp_w2_min",
+        "dbp_w2_max",
+        "dbp_w2_last",
+        "dbp_w2_count",
+        "mbp_w2_mean",
+        "mbp_w2_min",
+        "mbp_w2_max",
+        "mbp_w2_last",
+        "mbp_w2_count",
+        "tempf_w2_mean",
+        "tempf_w2_min",
+        "tempf_w2_max",
+        "tempf_w2_last",
+        "tempf_w2_count",
+        "gcs_w2_mean",
+        "gcs_w2_min",
+        "gcs_w2_max",
+        "gcs_w2_last",
+        "gcs_w2_count",
+        "hr_w3_mean",
+        "hr_w3_min",
+        "hr_w3_max",
+        "hr_w3_last",
+        "hr_w3_count",
+        "rr_w3_mean",
+        "rr_w3_min",
+        "rr_w3_max",
+        "rr_w3_last",
+        "rr_w3_count",
+        "spo2_w3_mean",
+        "spo2_w3_min",
+        "spo2_w3_max",
+        "spo2_w3_last",
+        "spo2_w3_count",
+        "sbp_w3_mean",
+        "sbp_w3_min",
+        "sbp_w3_max",
+        "sbp_w3_last",
+        "sbp_w3_count",
+        "dbp_w3_mean",
+        "dbp_w3_min",
+        "dbp_w3_max",
+        "dbp_w3_last",
+        "dbp_w3_count",
+        "mbp_w3_mean",
+        "mbp_w3_min",
+        "mbp_w3_max",
+        "mbp_w3_last",
+        "mbp_w3_count",
+        "tempf_w3_mean",
+        "tempf_w3_min",
+        "tempf_w3_max",
+        "tempf_w3_last",
+        "tempf_w3_count",
+        "gcs_w3_mean",
+        "gcs_w3_min",
+        "gcs_w3_max",
+        "gcs_w3_last",
+        "gcs_w3_count"
+      ]
+    }
+  },
+  "training": {
+    "algorithm": "XGBoost",
+    "parameters": {
+      "objective": "multi:softprob",
+      "num_class": 3,
+      "n_estimators": 300,
+      "max_depth": 4,
+      "learning_rate": 0.06,
+      "subsample": 0.85,
+      "colsample_bytree": 0.8,
+      "tree_method": "hist",
+      "eval_metric": "mlogloss",
+      "n_jobs": 16,
+      "random_state": 20261029,
+      "verbosity": 0
+    },
+    "fold_integrity": {
+      "n_splits": 5,
+      "test_partitions_cover_each_row_once": true,
+      "hospital_membership_is_whole_fold": true,
+      "hospital_overlap_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "patient_membership_is_whole_fold": true,
+      "patient_overlap_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "same_hospital_fold_reused_at_all_landmarks": true,
+      "folds": [
+        {
+          "fold": 0,
+          "n_test": 1800,
+          "n_hospitals": 35,
+          "outcome_counts": {
+            "0": 547,
+            "1": 882,
+            "2": 371
+          }
+        },
+        {
+          "fold": 1,
+          "n_test": 1800,
+          "n_hospitals": 37,
+          "outcome_counts": {
+            "0": 434,
+            "1": 971,
+            "2": 395
+          }
+        },
+        {
+          "fold": 2,
+          "n_test": 1800,
+          "n_hospitals": 37,
+          "outcome_counts": {
+            "0": 523,
+            "1": 881,
+            "2": 396
+          }
+        },
+        {
+          "fold": 3,
+          "n_test": 1800,
+          "n_hospitals": 37,
+          "outcome_counts": {
+            "0": 660,
+            "1": 765,
+            "2": 375
+          }
+        },
+        {
+          "fold": 4,
+          "n_test": 1799,
+          "n_hospitals": 36,
+          "outcome_counts": {
+            "0": 503,
+            "1": 931,
+            "2": 365
+          }
+        }
+      ]
+    },
+    "fold_assignment_counts": {
+      "0": 1800,
+      "1": 1800,
+      "2": 1800,
+      "3": 1800,
+      "4": 1799
+    },
+    "same_hyperparameters_as": "src/sepsis/train_xgb_shared_folds.py"
+  },
+  "metrics": {
+    "24": {
+      "n": 8999,
+      "macro_auc": 0.660703,
+      "class_auc": {
+        "0": 0.686598,
+        "1": 0.601218,
+        "2": 0.694292
+      },
+      "accuracy": 0.529503,
+      "log_loss": 0.97238,
+      "brier": 0.58703,
+      "ece_10bin": 0.032136,
+      "mean_max_probability": 0.561297,
+      "feature_count": 81
+    },
+    "48": {
+      "n": 8999,
+      "macro_auc": 0.681457,
+      "class_auc": {
+        "0": 0.698058,
+        "1": 0.610848,
+        "2": 0.735464
+      },
+      "accuracy": 0.536171,
+      "log_loss": 0.950652,
+      "brier": 0.574974,
+      "ece_10bin": 0.033876,
+      "mean_max_probability": 0.568743,
+      "feature_count": 121
+    },
+    "72": {
+      "n": 8999,
+      "macro_auc": 0.699966,
+      "class_auc": {
+        "0": 0.712551,
+        "1": 0.622574,
+        "2": 0.764772
+      },
+      "accuracy": 0.556062,
+      "log_loss": 0.927694,
+      "brier": 0.561503,
+      "ece_10bin": 0.031755,
+      "mean_max_probability": 0.581231,
+      "feature_count": 161
+    }
+  },
+  "fold_metrics": {
+    "24": [
+      {
+        "fold": 0,
+        "test_hospitals": 35,
+        "n": 1800,
+        "macro_auc": 0.66877,
+        "class_auc": {
+          "0": 0.693111,
+          "1": 0.605957,
+          "2": 0.707243
+        },
+        "accuracy": 0.531111,
+        "log_loss": 0.965105,
+        "brier": 0.584047,
+        "ece_10bin": 0.030799,
+        "mean_max_probability": 0.56191
+      },
+      {
+        "fold": 1,
+        "test_hospitals": 37,
+        "n": 1800,
+        "macro_auc": 0.653246,
+        "class_auc": {
+          "0": 0.696881,
+          "1": 0.603769,
+          "2": 0.659087
+        },
+        "accuracy": 0.551111,
+        "log_loss": 0.955051,
+        "brier": 0.574145,
+        "ece_10bin": 0.021565,
+        "mean_max_probability": 0.555136
+      },
+      {
+        "fold": 2,
+        "test_hospitals": 37,
+        "n": 1800,
+        "macro_auc": 0.683579,
+        "class_auc": {
+          "0": 0.724162,
+          "1": 0.634401,
+          "2": 0.692175
+        },
+        "accuracy": 0.545556,
+        "log_loss": 0.950359,
+        "brier": 0.570981,
+        "ece_10bin": 0.016881,
+        "mean_max_probability": 0.559288
+      },
+      {
+        "fold": 3,
+        "test_hospitals": 37,
+        "n": 1800,
+        "macro_auc": 0.645846,
+        "class_auc": {
+          "0": 0.637325,
+          "1": 0.584133,
+          "2": 0.71608
+        },
+        "accuracy": 0.495,
+        "log_loss": 1.032697,
+        "brier": 0.626022,
+        "ece_10bin": 0.086485,
+        "mean_max_probability": 0.574147
+      },
+      {
+        "fold": 4,
+        "test_hospitals": 36,
+        "n": 1799,
+        "macro_auc": 0.661883,
+        "class_auc": {
+          "0": 0.69604,
+          "1": 0.590841,
+          "2": 0.69877
+        },
+        "accuracy": 0.524736,
+        "log_loss": 0.958681,
+        "brier": 0.579954,
+        "ece_10bin": 0.031263,
+        "mean_max_probability": 0.555999
+      }
+    ],
+    "48": [
+      {
+        "fold": 0,
+        "test_hospitals": 35,
+        "n": 1800,
+        "macro_auc": 0.682272,
+        "class_auc": {
+          "0": 0.695021,
+          "1": 0.608125,
+          "2": 0.743669
+        },
+        "accuracy": 0.54,
+        "log_loss": 0.947491,
+        "brier": 0.574906,
+        "ece_10bin": 0.036899,
+        "mean_max_probability": 0.569542
+      },
+      {
+        "fold": 1,
+        "test_hospitals": 37,
+        "n": 1800,
+        "macro_auc": 0.68123,
+        "class_auc": {
+          "0": 0.71411,
+          "1": 0.620837,
+          "2": 0.708742
+        },
+        "accuracy": 0.556667,
+        "log_loss": 0.932155,
+        "brier": 0.561574,
+        "ece_10bin": 0.01533,
+        "mean_max_probability": 0.563217
+      },
+      {
+        "fold": 2,
+        "test_hospitals": 37,
+        "n": 1800,
+        "macro_auc": 0.703191,
+        "class_auc": {
+          "0": 0.732004,
+          "1": 0.643216,
+          "2": 0.734352
+        },
+        "accuracy": 0.556111,
+        "log_loss": 0.930889,
+        "brier": 0.560161,
+        "ece_10bin": 0.027648,
+        "mean_max_probability": 0.56631
+      },
+      {
+        "fold": 3,
+        "test_hospitals": 37,
+        "n": 1800,
+        "macro_auc": 0.662656,
+        "class_auc": {
+          "0": 0.65032,
+          "1": 0.588963,
+          "2": 0.748686
+        },
+        "accuracy": 0.487222,
+        "log_loss": 1.013931,
+        "brier": 0.615603,
+        "ece_10bin": 0.093701,
+        "mean_max_probability": 0.580823
+      },
+      {
+        "fold": 4,
+        "test_hospitals": 36,
+        "n": 1799,
+        "macro_auc": 0.687365,
+        "class_auc": {
+          "0": 0.709458,
+          "1": 0.60769,
+          "2": 0.744948
+        },
+        "accuracy": 0.540856,
+        "log_loss": 0.928783,
+        "brier": 0.562618,
+        "ece_10bin": 0.023067,
+        "mean_max_probability": 0.563818
+      }
+    ],
+    "72": [
+      {
+        "fold": 0,
+        "test_hospitals": 35,
+        "n": 1800,
+        "macro_auc": 0.702124,
+        "class_auc": {
+          "0": 0.710446,
+          "1": 0.621181,
+          "2": 0.774747
+        },
+        "accuracy": 0.556667,
+        "log_loss": 0.925008,
+        "brier": 0.560095,
+        "ece_10bin": 0.032667,
+        "mean_max_probability": 0.580415
+      },
+      {
+        "fold": 1,
+        "test_hospitals": 37,
+        "n": 1800,
+        "macro_auc": 0.695981,
+        "class_auc": {
+          "0": 0.724304,
+          "1": 0.625737,
+          "2": 0.737904
+        },
+        "accuracy": 0.557222,
+        "log_loss": 0.911042,
+        "brier": 0.550212,
+        "ece_10bin": 0.019327,
+        "mean_max_probability": 0.576213
+      },
+      {
+        "fold": 2,
+        "test_hospitals": 37,
+        "n": 1800,
+        "macro_auc": 0.717054,
+        "class_auc": {
+          "0": 0.747146,
+          "1": 0.656294,
+          "2": 0.747721
+        },
+        "accuracy": 0.573889,
+        "log_loss": 0.911351,
+        "brier": 0.547159,
+        "ece_10bin": 0.01682,
+        "mean_max_probability": 0.580042
+      },
+      {
+        "fold": 3,
+        "test_hospitals": 37,
+        "n": 1800,
+        "macro_auc": 0.681859,
+        "class_auc": {
+          "0": 0.666789,
+          "1": 0.598769,
+          "2": 0.78002
+        },
+        "accuracy": 0.517778,
+        "log_loss": 0.990159,
+        "brier": 0.602269,
+        "ece_10bin": 0.076262,
+        "mean_max_probability": 0.593748
+      },
+      {
+        "fold": 4,
+        "test_hospitals": 36,
+        "n": 1799,
+        "macro_auc": 0.712335,
+        "class_auc": {
+          "0": 0.730398,
+          "1": 0.621928,
+          "2": 0.784679
+        },
+        "accuracy": 0.574764,
+        "log_loss": 0.900897,
+        "brier": 0.547774,
+        "ece_10bin": 0.028409,
+        "mean_max_probability": 0.575735
+      }
+    ]
+  },
+  "stability": {
+    "n": 8999,
+    "return_rate": {
+      "cohort_rate": {
+        "estimate": 0.051895,
+        "ci95": [
+          0.047415,
+          0.057271
+        ],
+        "n": 467,
+        "denominator_n": 8999
+      },
+      "among_24_to_48_flips": {
+        "estimate": 0.331912,
+        "ci95": [
+          0.308175,
+          0.356504
+        ],
+        "n": 467,
+        "denominator_n": 1407
+      }
+    },
+    "flip": {
+      "24_48": {
+        "estimate": 0.156351,
+        "ci95": [
+          0.146276,
+          0.165791
+        ],
+        "n": 1407,
+        "denominator_n": 8999
+      },
+      "48_72": {
+        "estimate": 0.167019,
+        "ci95": [
+          0.157678,
+          0.176023
+        ],
+        "n": 1503,
+        "denominator_n": 8999
+      },
+      "24_72": {
+        "estimate": 0.213246,
+        "ci95": [
+          0.201556,
+          0.22516
+        ],
+        "n": 1919,
+        "denominator_n": 8999
+      }
+    },
+    "total_variation": {
+      "24_48": {
+        "estimate": 0.093548,
+        "ci95": [
+          0.091562,
+          0.09547
+        ],
+        "n": 8999
+      },
+      "48_72": {
+        "estimate": 0.09382,
+        "ci95": [
+          0.092112,
+          0.095633
+        ],
+        "n": 8999
+      },
+      "24_72": {
+        "estimate": 0.125247,
+        "ci95": [
+          0.122297,
+          0.127971
+        ],
+        "n": 8999
+      }
+    },
+    "confidence_24h": {
+      "0.5": {
+        "coverage": 0.695522,
+        "n": 6259,
+        "subsequent_flip_24_72": {
+          "estimate": 0.137242,
+          "ci95": [
+            0.125891,
+            0.148096
+          ],
+          "n": 859,
+          "denominator_n": 6259
+        }
+      },
+      "0.6": {
+        "coverage": 0.333481,
+        "n": 3001,
+        "subsequent_flip_24_72": {
+          "estimate": 0.064645,
+          "ci95": [
+            0.055025,
+            0.074699
+          ],
+          "n": 194,
+          "denominator_n": 3001
+        }
+      },
+      "0.7": {
+        "coverage": 0.092344,
+        "n": 831,
+        "subsequent_flip_24_72": {
+          "estimate": 0.033694,
+          "ci95": [
+            0.02266,
+            0.04551
+          ],
+          "n": 28,
+          "denominator_n": 831
+        }
+      }
+    },
+    "prediction_distribution": {
+      "24": {
+        "0": 1832,
+        "1": 6403,
+        "2": 764
+      },
+      "48": {
+        "0": 1808,
+        "1": 6245,
+        "2": 946
+      },
+      "72": {
+        "0": 1835,
+        "1": 6064,
+        "2": 1100
+      }
+    },
+    "transition_matrix": {
+      "counts_rows24_columns72": [
+        [
+          1326,
+          418,
+          88
+        ],
+        [
+          469,
+          5338,
+          596
+        ],
+        [
+          40,
+          308,
+          416
+        ]
+      ],
+      "row_normalized_rows24_columns72": [
+        [
+          0.723799,
+          0.228166,
+          0.048035
+        ],
+        [
+          0.073247,
+          0.833672,
+          0.093081
+        ],
+        [
+          0.052356,
+          0.403141,
+          0.544503
+        ]
+      ],
+      "row_denominators_24h": [
+        1832,
+        6403,
+        764
+      ],
+      "flip_24_72": {
+        "estimate": 0.213246,
+        "ci95": [
+          0.200701,
+          0.225098
+        ],
+        "n": 1919,
+        "denominator_n": 8999
+      },
+      "directions": {
+        "home_to_facility": {
+          "from": "home",
+          "to": "facility",
+          "count": 418,
+          "cohort_rate": {
+            "estimate": 0.04645,
+            "ci95": [
+              0.041175,
+              0.051227
+            ],
+            "n": 418,
+            "denominator_n": 8999
+          },
+          "share_of_flips": {
+            "estimate": 0.217822,
+            "ci95": [
+              0.198172,
+              0.237908
+            ],
+            "n": 418,
+            "denominator_n": 1919
+          }
+        },
+        "home_to_death": {
+          "from": "home",
+          "to": "death",
+          "count": 88,
+          "cohort_rate": {
+            "estimate": 0.009779,
+            "ci95": [
+              0.00763,
+              0.012049
+            ],
+            "n": 88,
+            "denominator_n": 8999
+          },
+          "share_of_flips": {
+            "estimate": 0.045857,
+            "ci95": [
+              0.036995,
+              0.05521
+            ],
+            "n": 88,
+            "denominator_n": 1919
+          }
+        },
+        "facility_to_home": {
+          "from": "facility",
+          "to": "home",
+          "count": 469,
+          "cohort_rate": {
+            "estimate": 0.052117,
+            "ci95": [
+              0.044352,
+              0.060361
+            ],
+            "n": 469,
+            "denominator_n": 8999
+          },
+          "share_of_flips": {
+            "estimate": 0.244398,
+            "ci95": [
+              0.209189,
+              0.280108
+            ],
+            "n": 469,
+            "denominator_n": 1919
+          }
+        },
+        "facility_to_death": {
+          "from": "facility",
+          "to": "death",
+          "count": 596,
+          "cohort_rate": {
+            "estimate": 0.06623,
+            "ci95": [
+              0.060239,
+              0.072704
+            ],
+            "n": 596,
+            "denominator_n": 8999
+          },
+          "share_of_flips": {
+            "estimate": 0.310578,
+            "ci95": [
+              0.283142,
+              0.339394
+            ],
+            "n": 596,
+            "denominator_n": 1919
+          }
+        },
+        "death_to_home": {
+          "from": "death",
+          "to": "home",
+          "count": 40,
+          "cohort_rate": {
+            "estimate": 0.004445,
+            "ci95": [
+              0.002843,
+              0.006336
+            ],
+            "n": 40,
+            "denominator_n": 8999
+          },
+          "share_of_flips": {
+            "estimate": 0.020844,
+            "ci95": [
+              0.014009,
+              0.029521
+            ],
+            "n": 40,
+            "denominator_n": 1919
+          }
+        },
+        "death_to_facility": {
+          "from": "death",
+          "to": "facility",
+          "count": 308,
+          "cohort_rate": {
+            "estimate": 0.034226,
+            "ci95": [
+              0.029146,
+              0.039505
+            ],
+            "n": 308,
+            "denominator_n": 8999
+          },
+          "share_of_flips": {
+            "estimate": 0.1605,
+            "ci95": [
+              0.139125,
+              0.182898
+            ],
+            "n": 308,
+            "denominator_n": 1919
+          }
+        }
+      }
+    }
+  },
+  "clinical_changes": {
+    "major_upgrade_to_death": {
+      "estimate": 0.076008,
+      "ci95": [
+        0.069284,
+        0.082782
+      ],
+      "n": 684,
+      "denominator_n": 8999
+    },
+    "home_to_facility": {
+      "estimate": 0.04645,
+      "ci95": [
+        0.04147,
+        0.051262
+      ],
+      "n": 418,
+      "denominator_n": 8999
+    },
+    "any_upgrade": {
+      "estimate": 0.122458,
+      "ci95": [
+        0.114624,
+        0.130539
+      ],
+      "n": 1102,
+      "denominator_n": 8999
+    },
+    "true_death_subgroup": {
+      "n": 1902,
+      "predicted_class_counts": {
+        "24": [
+          213,
+          1336,
+          353
+        ],
+        "72": [
+          148,
+          1149,
+          605
+        ]
+      },
+      "detected_at_24": {
+        "estimate": 0.185594,
+        "ci95": [
+          0.163208,
+          0.208558
+        ],
+        "n": 353,
+        "denominator_n": 1902
+      },
+      "detected_at_72": {
+        "estimate": 0.318086,
+        "ci95": [
+          0.29454,
+          0.341664
+        ],
+        "n": 605,
+        "denominator_n": 1902
+      },
+      "new_upgrade_24_to_72": {
+        "estimate": 0.190852,
+        "ci95": [
+          0.171874,
+          0.209672
+        ],
+        "n": 363,
+        "denominator_n": 1902
+      },
+      "missed_at_72": {
+        "estimate": 0.681914,
+        "ci95": [
+          0.659218,
+          0.705189
+        ],
+        "n": 1297,
+        "denominator_n": 1902
+      }
+    }
+  },
+  "correctness": {
+    "all": {
+      "gain": {
+        "estimate": 0.11868,
+        "ci95": [
+          0.109685,
+          0.127511
+        ],
+        "n": 1068,
+        "denominator_n": 8999
+      },
+      "loss": {
+        "estimate": 0.088343,
+        "ci95": [
+          0.082902,
+          0.093788
+        ],
+        "n": 795,
+        "denominator_n": 8999
+      },
+      "tie": {
+        "estimate": 0.792977,
+        "ci95": [
+          0.781448,
+          0.805131
+        ],
+        "n": 7136,
+        "denominator_n": 8999
+      },
+      "correct_upgrade": {
+        "estimate": 0.069341,
+        "ci95": [
+          0.062094,
+          0.076107
+        ],
+        "n": 624,
+        "denominator_n": 8999
+      },
+      "incorrect_upgrade": {
+        "estimate": 0.053117,
+        "ci95": [
+          0.048278,
+          0.058636
+        ],
+        "n": 478,
+        "denominator_n": 8999
+      },
+      "correct_downgrade": {
+        "estimate": 0.049339,
+        "ci95": [
+          0.044585,
+          0.054678
+        ],
+        "n": 444,
+        "denominator_n": 8999
+      },
+      "incorrect_downgrade": {
+        "estimate": 0.041449,
+        "ci95": [
+          0.035509,
+          0.048105
+        ],
+        "n": 373,
+        "denominator_n": 8999
+      },
+      "true_class_probability_change_mean": {
+        "estimate": 0.023561,
+        "ci95": [
+          0.020672,
+          0.026333
+        ],
+        "n": 8999
+      }
+    },
+    "among_flips": {
+      "gain": {
+        "estimate": 0.55654,
+        "ci95": [
+          0.534121,
+          0.57785
+        ],
+        "n": 1068,
+        "denominator_n": 1919
+      },
+      "loss": {
+        "estimate": 0.414278,
+        "ci95": [
+          0.392036,
+          0.437475
+        ],
+        "n": 795,
+        "denominator_n": 1919
+      },
+      "tie": {
+        "estimate": 0.029182,
+        "ci95": [
+          0.021816,
+          0.036662
+        ],
+        "n": 56,
+        "denominator_n": 1919
+      },
+      "correct_upgrade": {
+        "estimate": 0.325169,
+        "ci95": [
+          0.299769,
+          0.34768
+        ],
+        "n": 624,
+        "denominator_n": 1919
+      },
+      "incorrect_upgrade": {
+        "estimate": 0.249088,
+        "ci95": [
+          0.223982,
+          0.275363
+        ],
+        "n": 478,
+        "denominator_n": 1919
+      },
+      "correct_downgrade": {
+        "estimate": 0.231371,
+        "ci95": [
+          0.212861,
+          0.252167
+        ],
+        "n": 444,
+        "denominator_n": 1919
+      },
+      "incorrect_downgrade": {
+        "estimate": 0.194372,
+        "ci95": [
+          0.171577,
+          0.218416
+        ],
+        "n": 373,
+        "denominator_n": 1919
+      },
+      "true_class_probability_improved": {
+        "estimate": 0.569567,
+        "ci95": [
+          0.54895,
+          0.590149
+        ],
+        "n": 1093,
+        "denominator_n": 1919
+      },
+      "true_class_probability_change_mean": {
+        "estimate": 0.045404,
+        "ci95": [
+          0.036772,
+          0.05309
+        ],
+        "n": 1919
+      }
+    }
+  },
+  "comparison_with_patient_grouped": {
+    "alignment": {
+      "reference_type": "same-row patient-grouped refit",
+      "exact_id_set": true,
+      "outcomes_aligned": true,
+      "patient_membership_is_whole_fold": true,
+      "patient_overlap_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "patient_grouped_metrics_recomputed": {
+      "24": {
+        "n": 8999,
+        "macro_auc": 0.669413,
+        "class_auc": {
+          "0": 0.702268,
+          "1": 0.611622,
+          "2": 0.694349
+        },
+        "accuracy": 0.536393,
+        "log_loss": 0.962415,
+        "brier": 0.580265,
+        "ece_10bin": 0.025319,
+        "mean_max_probability": 0.558532
+      },
+      "48": {
+        "n": 8999,
+        "macro_auc": 0.689487,
+        "class_auc": {
+          "0": 0.712024,
+          "1": 0.620966,
+          "2": 0.735471
+        },
+        "accuracy": 0.538171,
+        "log_loss": 0.940432,
+        "brier": 0.569128,
+        "ece_10bin": 0.029696,
+        "mean_max_probability": 0.566838
+      },
+      "72": {
+        "n": 8999,
+        "macro_auc": 0.710318,
+        "class_auc": {
+          "0": 0.730552,
+          "1": 0.63689,
+          "2": 0.763513
+        },
+        "accuracy": 0.564396,
+        "log_loss": 0.914386,
+        "brier": 0.55308,
+        "ece_10bin": 0.022791,
+        "mean_max_probability": 0.579245
+      }
+    },
+    "hospital_grouped_metrics": {
+      "24": {
+        "n": 8999,
+        "macro_auc": 0.660703,
+        "class_auc": {
+          "0": 0.686598,
+          "1": 0.601218,
+          "2": 0.694292
+        },
+        "accuracy": 0.529503,
+        "log_loss": 0.97238,
+        "brier": 0.58703,
+        "ece_10bin": 0.032136,
+        "mean_max_probability": 0.561297
+      },
+      "48": {
+        "n": 8999,
+        "macro_auc": 0.681457,
+        "class_auc": {
+          "0": 0.698058,
+          "1": 0.610848,
+          "2": 0.735464
+        },
+        "accuracy": 0.536171,
+        "log_loss": 0.950652,
+        "brier": 0.574974,
+        "ece_10bin": 0.033876,
+        "mean_max_probability": 0.568743
+      },
+      "72": {
+        "n": 8999,
+        "macro_auc": 0.699966,
+        "class_auc": {
+          "0": 0.712551,
+          "1": 0.622574,
+          "2": 0.764772
+        },
+        "accuracy": 0.556062,
+        "log_loss": 0.927694,
+        "brier": 0.561503,
+        "ece_10bin": 0.031755,
+        "mean_max_probability": 0.581231
+      }
+    },
+    "hospital_minus_patient_grouped": {
+      "macro_auc": {
+        "24": -0.00871,
+        "48": -0.00803,
+        "72": -0.010352
+      },
+      "ece_10bin": {
+        "24": 0.006817,
+        "48": 0.00418,
+        "72": 0.008964
+      },
+      "brier": {
+        "24": 0.006765,
+        "48": 0.005846,
+        "72": 0.008423
+      },
+      "flip_24_72": {
+        "estimate": 0.010446,
+        "ci95": [
+          -0.000316,
+          0.020232
+        ],
+        "n": 8999
+      },
+      "tv_24_72": {
+        "estimate": 0.000766,
+        "ci95": [
+          -0.000789,
+          0.002223
+        ],
+        "n": 8999
+      },
+      "major_upgrade_to_death": {
+        "estimate": 0.006779,
+        "ci95": [
+          0.001527,
+          0.011713
+        ],
+        "n": 8999
+      },
+      "home_to_facility": {
+        "estimate": 0.001333,
+        "ci95": [
+          -0.0048,
+          0.007147
+        ],
+        "n": 8999
+      }
+    },
+    "interpretation": "Patient-grouped and hospital-held-out estimates use the same rows and outcomes but different data partitions. Hospital-held-out performance is the stricter internal-external estimate."
+  },
+  "hospital_level": {
+    "definition": {
+      "sufficient_sample_primary": "hospital n >= 50 and at least 5 observed stays in each of the three outcome classes",
+      "n_hospital_sites": 182,
+      "n_sites_n_ge_50": 59,
+      "n_sites_primary_auc_evaluable": 56,
+      "n_rows_primary": 6660,
+      "fraction_of_cohort_primary": 0.740082,
+      "all_hospitals_written_to_csv": true
+    },
+    "distributions_across_primary_sites": {
+      "macro_auc_24": {
+        "mean": 0.667779,
+        "sd": 0.055348,
+        "p10": 0.602426,
+        "p25": 0.632931,
+        "p50": 0.663569,
+        "p75": 0.700497,
+        "p90": 0.731804,
+        "min": 0.517832,
+        "max": 0.816902
+      },
+      "ece_10bin_24": {
+        "mean": 0.094137,
+        "sd": 0.037629,
+        "p10": 0.049716,
+        "p25": 0.066698,
+        "p50": 0.092841,
+        "p75": 0.108714,
+        "p90": 0.139502,
+        "min": 0.03495,
+        "max": 0.217454
+      },
+      "brier_24": {
+        "mean": 0.571916,
+        "sd": 0.064973,
+        "p10": 0.47404,
+        "p25": 0.539837,
+        "p50": 0.586363,
+        "p75": 0.617985,
+        "p90": 0.639813,
+        "min": 0.400786,
+        "max": 0.707946
+      },
+      "accuracy_24": {
+        "mean": 0.548745,
+        "sd": 0.085805,
+        "p10": 0.451016,
+        "p25": 0.486691,
+        "p50": 0.535672,
+        "p75": 0.599615,
+        "p90": 0.680659,
+        "min": 0.363636,
+        "max": 0.75
+      },
+      "macro_auc_48": {
+        "mean": 0.689483,
+        "sd": 0.051314,
+        "p10": 0.63434,
+        "p25": 0.662069,
+        "p50": 0.682378,
+        "p75": 0.714924,
+        "p90": 0.753076,
+        "min": 0.545263,
+        "max": 0.824838
+      },
+      "ece_10bin_48": {
+        "mean": 0.090133,
+        "sd": 0.034542,
+        "p10": 0.048614,
+        "p25": 0.067126,
+        "p50": 0.084576,
+        "p75": 0.110524,
+        "p90": 0.137002,
+        "min": 0.041662,
+        "max": 0.193456
+      },
+      "brier_48": {
+        "mean": 0.559877,
+        "sd": 0.063005,
+        "p10": 0.460668,
+        "p25": 0.534066,
+        "p50": 0.570962,
+        "p75": 0.60231,
+        "p90": 0.620945,
+        "min": 0.402861,
+        "max": 0.689584
+      },
+      "accuracy_48": {
+        "mean": 0.556133,
+        "sd": 0.080633,
+        "p10": 0.468691,
+        "p25": 0.507369,
+        "p50": 0.537724,
+        "p75": 0.630876,
+        "p90": 0.669806,
+        "min": 0.363636,
+        "max": 0.75
+      },
+      "macro_auc_72": {
+        "mean": 0.705515,
+        "sd": 0.054187,
+        "p10": 0.635436,
+        "p25": 0.667128,
+        "p50": 0.712133,
+        "p75": 0.732238,
+        "p90": 0.768616,
+        "min": 0.581074,
+        "max": 0.829887
+      },
+      "ece_10bin_72": {
+        "mean": 0.089055,
+        "sd": 0.037715,
+        "p10": 0.044992,
+        "p25": 0.059274,
+        "p50": 0.082362,
+        "p75": 0.114472,
+        "p90": 0.143994,
+        "min": 0.036991,
+        "max": 0.183959
+      },
+      "brier_72": {
+        "mean": 0.547371,
+        "sd": 0.065111,
+        "p10": 0.45418,
+        "p25": 0.510671,
+        "p50": 0.557505,
+        "p75": 0.579325,
+        "p90": 0.627013,
+        "min": 0.3926,
+        "max": 0.68384
+      },
+      "accuracy_72": {
+        "mean": 0.571856,
+        "sd": 0.080243,
+        "p10": 0.479137,
+        "p25": 0.522814,
+        "p50": 0.563781,
+        "p75": 0.623206,
+        "p90": 0.696154,
+        "min": 0.4,
+        "max": 0.736111
+      },
+      "flip_24_72": {
+        "mean": 0.212219,
+        "sd": 0.052349,
+        "p10": 0.147819,
+        "p25": 0.178046,
+        "p50": 0.214325,
+        "p75": 0.247012,
+        "p90": 0.275244,
+        "min": 0.1,
+        "max": 0.317308
+      },
+      "tv_24_72": {
+        "mean": 0.124032,
+        "sd": 0.013284,
+        "p10": 0.106871,
+        "p25": 0.1123,
+        "p50": 0.125685,
+        "p75": 0.135232,
+        "p90": 0.139827,
+        "min": 0.09755,
+        "max": 0.149676
+      },
+      "gain_rate": {
+        "mean": 0.117194,
+        "sd": 0.039786,
+        "p10": 0.066916,
+        "p25": 0.089767,
+        "p50": 0.115214,
+        "p75": 0.140043,
+        "p90": 0.170064,
+        "min": 0.037037,
+        "max": 0.211538
+      },
+      "loss_rate": {
+        "mean": 0.090007,
+        "sd": 0.025279,
+        "p10": 0.059073,
+        "p25": 0.073255,
+        "p50": 0.088316,
+        "p75": 0.104238,
+        "p90": 0.12798,
+        "min": 0.035088,
+        "max": 0.140187
+      },
+      "major_upgrade_to_death": {
+        "mean": 0.078219,
+        "sd": 0.034347,
+        "p10": 0.036376,
+        "p25": 0.052632,
+        "p50": 0.076046,
+        "p75": 0.098512,
+        "p90": 0.114599,
+        "min": 0.018018,
+        "max": 0.18
+      },
+      "home_to_facility": {
+        "mean": 0.048958,
+        "sd": 0.023734,
+        "p10": 0.022987,
+        "p25": 0.035089,
+        "p50": 0.043487,
+        "p75": 0.060023,
+        "p90": 0.07864,
+        "min": 0.011696,
+        "max": 0.125
+      }
+    },
+    "worst_10_sites_by_72h_macro_auc": [
+      {
+        "hospitalid": "396",
+        "n": 80,
+        "observed_home": 29,
+        "observed_facility": 37,
+        "observed_death": 14,
+        "macro_auc_24": 0.517832,
+        "macro_auc_48": 0.545263,
+        "macro_auc_72": 0.581074,
+        "ece_10bin_72": 0.149843,
+        "flip_24_72": 0.25,
+        "tv_24_72": 0.113526,
+        "major_upgrade_to_death": 0.0625,
+        "home_to_facility": 0.0375
+      },
+      {
+        "hospitalid": "188",
+        "n": 118,
+        "observed_home": 23,
+        "observed_facility": 69,
+        "observed_death": 26,
+        "macro_auc_24": 0.580614,
+        "macro_auc_48": 0.607981,
+        "macro_auc_72": 0.597743,
+        "ece_10bin_72": 0.12518,
+        "flip_24_72": 0.262712,
+        "tv_24_72": 0.144345,
+        "major_upgrade_to_death": 0.059322,
+        "home_to_facility": 0.059322
+      },
+      {
+        "hospitalid": "416",
+        "n": 142,
+        "observed_home": 43,
+        "observed_facility": 66,
+        "observed_death": 33,
+        "macro_auc_24": 0.566057,
+        "macro_auc_48": 0.620852,
+        "macro_auc_72": 0.601854,
+        "ece_10bin_72": 0.069884,
+        "flip_24_72": 0.225352,
+        "tv_24_72": 0.10528,
+        "major_upgrade_to_death": 0.077465,
+        "home_to_facility": 0.035211
+      },
+      {
+        "hospitalid": "392",
+        "n": 113,
+        "observed_home": 25,
+        "observed_facility": 59,
+        "observed_death": 29,
+        "macro_auc_24": 0.631619,
+        "macro_auc_48": 0.62975,
+        "macro_auc_72": 0.614058,
+        "ece_10bin_72": 0.056555,
+        "flip_24_72": 0.247788,
+        "tv_24_72": 0.107719,
+        "major_upgrade_to_death": 0.115044,
+        "home_to_facility": 0.017699
+      },
+      {
+        "hospitalid": "365",
+        "n": 91,
+        "observed_home": 28,
+        "observed_facility": 56,
+        "observed_death": 7,
+        "macro_auc_24": 0.710903,
+        "macro_auc_48": 0.677381,
+        "macro_auc_72": 0.619709,
+        "ece_10bin_72": 0.102138,
+        "flip_24_72": 0.153846,
+        "tv_24_72": 0.124079,
+        "major_upgrade_to_death": 0.043956,
+        "home_to_facility": 0.054945
+      },
+      {
+        "hospitalid": "400",
+        "n": 181,
+        "observed_home": 55,
+        "observed_facility": 75,
+        "observed_death": 51,
+        "macro_auc_24": 0.635627,
+        "macro_auc_48": 0.657079,
+        "macro_auc_72": 0.633935,
+        "ece_10bin_72": 0.123646,
+        "flip_24_72": 0.209945,
+        "tv_24_72": 0.105674,
+        "major_upgrade_to_death": 0.099448,
+        "home_to_facility": 0.049724
+      },
+      {
+        "hospitalid": "154",
+        "n": 84,
+        "observed_home": 21,
+        "observed_facility": 42,
+        "observed_death": 21,
+        "macro_auc_24": 0.599647,
+        "macro_auc_48": 0.620118,
+        "macro_auc_72": 0.636936,
+        "ece_10bin_72": 0.12124,
+        "flip_24_72": 0.178571,
+        "tv_24_72": 0.132399,
+        "major_upgrade_to_death": 0.095238,
+        "home_to_facility": 0.035714
+      },
+      {
+        "hospitalid": "394",
+        "n": 111,
+        "observed_home": 56,
+        "observed_facility": 38,
+        "observed_death": 17,
+        "macro_auc_24": 0.632946,
+        "macro_auc_48": 0.663317,
+        "macro_auc_72": 0.63985,
+        "ece_10bin_72": 0.165098,
+        "flip_24_72": 0.108108,
+        "tv_24_72": 0.115191,
+        "major_upgrade_to_death": 0.018018,
+        "home_to_facility": 0.036036
+      },
+      {
+        "hospitalid": "388",
+        "n": 136,
+        "observed_home": 29,
+        "observed_facility": 82,
+        "observed_death": 25,
+        "macro_auc_24": 0.655632,
+        "macro_auc_48": 0.643646,
+        "macro_auc_72": 0.652983,
+        "ece_10bin_72": 0.042267,
+        "flip_24_72": 0.191176,
+        "tv_24_72": 0.098261,
+        "major_upgrade_to_death": 0.029412,
+        "home_to_facility": 0.095588
+      },
+      {
+        "hospitalid": "391",
+        "n": 77,
+        "observed_home": 32,
+        "observed_facility": 19,
+        "observed_death": 26,
+        "macro_auc_24": 0.630479,
+        "macro_auc_48": 0.652558,
+        "macro_auc_72": 0.653998,
+        "ece_10bin_72": 0.183959,
+        "flip_24_72": 0.246753,
+        "tv_24_72": 0.132829,
+        "major_upgrade_to_death": 0.090909,
+        "home_to_facility": 0.025974
+      }
+    ],
+    "best_5_sites_by_72h_macro_auc": [
+      {
+        "hospitalid": "280",
+        "n": 90,
+        "observed_home": 38,
+        "observed_facility": 45,
+        "observed_death": 7,
+        "macro_auc_24": 0.816902,
+        "macro_auc_48": 0.824838,
+        "macro_auc_72": 0.829887,
+        "ece_10bin_72": 0.120029,
+        "flip_24_72": 0.1,
+        "tv_24_72": 0.110864,
+        "major_upgrade_to_death": 0.033333,
+        "home_to_facility": 0.033333
+      },
+      {
+        "hospitalid": "279",
+        "n": 54,
+        "observed_home": 12,
+        "observed_facility": 37,
+        "observed_death": 5,
+        "macro_auc_24": 0.722206,
+        "macro_auc_48": 0.761357,
+        "macro_auc_72": 0.828909,
+        "ece_10bin_72": 0.17018,
+        "flip_24_72": 0.111111,
+        "tv_24_72": 0.09755,
+        "major_upgrade_to_death": 0.037037,
+        "home_to_facility": 0.037037
+      },
+      {
+        "hospitalid": "268",
+        "n": 52,
+        "observed_home": 13,
+        "observed_facility": 28,
+        "observed_death": 11,
+        "macro_auc_24": 0.791252,
+        "macro_auc_48": 0.787492,
+        "macro_auc_72": 0.802828,
+        "ece_10bin_72": 0.076072,
+        "flip_24_72": 0.173077,
+        "tv_24_72": 0.135382,
+        "major_upgrade_to_death": 0.096154,
+        "home_to_facility": 0.057692
+      },
+      {
+        "hospitalid": "382",
+        "n": 52,
+        "observed_home": 23,
+        "observed_facility": 18,
+        "observed_death": 11,
+        "macro_auc_24": 0.776758,
+        "macro_auc_48": 0.81343,
+        "macro_auc_72": 0.795629,
+        "ece_10bin_72": 0.075684,
+        "flip_24_72": 0.192308,
+        "tv_24_72": 0.106852,
+        "major_upgrade_to_death": 0.057692,
+        "home_to_facility": 0.076923
+      },
+      {
+        "hospitalid": "275",
+        "n": 50,
+        "observed_home": 11,
+        "observed_facility": 31,
+        "observed_death": 8,
+        "macro_auc_24": 0.756419,
+        "macro_auc_48": 0.7907,
+        "macro_auc_72": 0.78208,
+        "ece_10bin_72": 0.076605,
+        "flip_24_72": 0.28,
+        "tv_24_72": 0.137458,
+        "major_upgrade_to_death": 0.18,
+        "home_to_facility": 0.02
+      }
+    ],
+    "der_simonian_laird_72h_macro_auc": {
+      "k": 56,
+      "status": "ok",
+      "pooled_auc": 0.706032,
+      "pooled_ci95": [
+        0.692931,
+        0.719133
+      ],
+      "pooled_se": 0.006684,
+      "tau2": 0.0012781168,
+      "tau": 0.035751,
+      "q": 122.186592,
+      "q_df": 55,
+      "i2_percent": 54.987,
+      "fixed_effect_auc": 0.707735,
+      "within_hospital_variance": "Hanley-McNeil approximation; macro-AUC variance approximated as the mean of the three one-vs-rest class variances divided by 9"
+    },
+    "hospital_variance_details_72h": [
+      {
+        "variance": 0.0011799753729003252,
+        "se": 0.0343507696114705,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.730167,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 29,
+            "n_negative": 71,
+            "auc": 0.756678,
+            "variance": 0.0032756219523345123
+          },
+          {
+            "class": 1,
+            "n_positive": 52,
+            "n_negative": 48,
+            "auc": 0.653446,
+            "variance": 0.0029667774585993003
+          },
+          {
+            "class": 2,
+            "n_positive": 19,
+            "n_negative": 81,
+            "auc": 0.780377,
+            "variance": 0.004377378945169114
+          }
+        ]
+      },
+      {
+        "variance": 0.0004689360727611284,
+        "se": 0.021654931834598982,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.755722,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 66,
+            "n_negative": 153,
+            "auc": 0.779164,
+            "variance": 0.001351667844367103
+          },
+          {
+            "class": 1,
+            "n_positive": 108,
+            "n_negative": 111,
+            "auc": 0.651985,
+            "variance": 0.0013634745923803908
+          },
+          {
+            "class": 2,
+            "n_positive": 45,
+            "n_negative": 174,
+            "auc": 0.836015,
+            "variance": 0.0015052822181026622
+          }
+        ]
+      },
+      {
+        "variance": 0.0010476577005422104,
+        "se": 0.032367540847926805,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.717396,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 23,
+            "n_negative": 119,
+            "auc": 0.654731,
+            "variance": 0.004405179505492623
+          },
+          {
+            "class": 1,
+            "n_positive": 95,
+            "n_negative": 47,
+            "auc": 0.671892,
+            "variance": 0.002108688998525691
+          },
+          {
+            "class": 2,
+            "n_positive": 24,
+            "n_negative": 118,
+            "auc": 0.825565,
+            "variance": 0.0029150508008615786
+          }
+        ]
+      },
+      {
+        "variance": 0.001551122211852465,
+        "se": 0.03938428889611269,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.636936,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 21,
+            "n_negative": 63,
+            "auc": 0.606954,
+            "variance": 0.005420481374433283
+          },
+          {
+            "class": 1,
+            "n_positive": 42,
+            "n_negative": 42,
+            "auc": 0.566893,
+            "variance": 0.003928459618006654
+          },
+          {
+            "class": 2,
+            "n_positive": 21,
+            "n_negative": 63,
+            "auc": 0.736961,
+            "variance": 0.004611158914232249
+          }
+        ]
+      },
+      {
+        "variance": 0.0008809555985868857,
+        "se": 0.02968089618907902,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.709729,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 23,
+            "n_negative": 148,
+            "auc": 0.724736,
+            "variance": 0.003956954665569716
+          },
+          {
+            "class": 1,
+            "n_positive": 107,
+            "n_negative": 64,
+            "auc": 0.635222,
+            "variance": 0.0018205875207817485
+          },
+          {
+            "class": 2,
+            "n_positive": 41,
+            "n_negative": 130,
+            "auc": 0.769231,
+            "variance": 0.002151058200930507
+          }
+        ]
+      },
+      {
+        "variance": 0.0011911519994252694,
+        "se": 0.03451306997972318,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.742974,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 26,
+            "n_negative": 76,
+            "auc": 0.745445,
+            "variance": 0.003659117043110654
+          },
+          {
+            "class": 1,
+            "n_positive": 58,
+            "n_negative": 44,
+            "auc": 0.68652,
+            "variance": 0.0027076283833093007
+          },
+          {
+            "class": 2,
+            "n_positive": 18,
+            "n_negative": 84,
+            "auc": 0.796958,
+            "variance": 0.00435362256840747
+          }
+        ]
+      },
+      {
+        "variance": 0.0004597750097213876,
+        "se": 0.02144236483509661,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.729706,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 63,
+            "n_negative": 164,
+            "auc": 0.735676,
+            "variance": 0.0015630790305448238
+          },
+          {
+            "class": 1,
+            "n_positive": 89,
+            "n_negative": 138,
+            "auc": 0.658443,
+            "variance": 0.0014245406085551305
+          },
+          {
+            "class": 2,
+            "n_positive": 75,
+            "n_negative": 152,
+            "auc": 0.795,
+            "variance": 0.0011503554483925343
+          }
+        ]
+      },
+      {
+        "variance": 0.001755054600197021,
+        "se": 0.04189337179312524,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.727459,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 31,
+            "n_negative": 37,
+            "auc": 0.736704,
+            "variance": 0.0038090142627551795
+          },
+          {
+            "class": 1,
+            "n_positive": 28,
+            "n_negative": 40,
+            "auc": 0.598214,
+            "variance": 0.005008079124477149
+          },
+          {
+            "class": 2,
+            "n_positive": 9,
+            "n_negative": 59,
+            "auc": 0.847458,
+            "variance": 0.00697839801454086
+          }
+        ]
+      },
+      {
+        "variance": 0.0006741555905890451,
+        "se": 0.025964506361358868,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.694275,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 53,
+            "n_negative": 118,
+            "auc": 0.710425,
+            "variance": 0.00201552116641193
+          },
+          {
+            "class": 1,
+            "n_positive": 78,
+            "n_negative": 93,
+            "auc": 0.594155,
+            "variance": 0.0019119874294544514
+          },
+          {
+            "class": 2,
+            "n_positive": 40,
+            "n_negative": 131,
+            "auc": 0.778244,
+            "variance": 0.0021398917194350247
+          }
+        ]
+      },
+      {
+        "variance": 0.0017206141107820722,
+        "se": 0.04148028580882818,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.688461,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 18,
+            "n_negative": 50,
+            "auc": 0.78,
+            "variance": 0.00486914692699699
+          },
+          {
+            "class": 1,
+            "n_positive": 32,
+            "n_negative": 36,
+            "auc": 0.572049,
+            "variance": 0.00489333977191943
+          },
+          {
+            "class": 2,
+            "n_positive": 18,
+            "n_negative": 50,
+            "auc": 0.713333,
+            "variance": 0.005723040298122229
+          }
+        ]
+      },
+      {
+        "variance": 0.002364840231243939,
+        "se": 0.048629622980688826,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.722719,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 13,
+            "n_negative": 39,
+            "auc": 0.840237,
+            "variance": 0.005296362181228178
+          },
+          {
+            "class": 1,
+            "n_positive": 29,
+            "n_negative": 23,
+            "auc": 0.632684,
+            "variance": 0.005939551335712495
+          },
+          {
+            "class": 2,
+            "n_positive": 10,
+            "n_negative": 42,
+            "auc": 0.695238,
+            "variance": 0.01004764856425478
+          }
+        ]
+      },
+      {
+        "variance": 0.001256351068349211,
+        "se": 0.03544504293055957,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.597743,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 23,
+            "n_negative": 95,
+            "auc": 0.561098,
+            "variance": 0.004676992850614651
+          },
+          {
+            "class": 1,
+            "n_positive": 69,
+            "n_negative": 49,
+            "auc": 0.504289,
+            "variance": 0.0029299761312099023
+          },
+          {
+            "class": 2,
+            "n_positive": 26,
+            "n_negative": 92,
+            "auc": 0.727843,
+            "variance": 0.0037001906333183456
+          }
+        ]
+      },
+      {
+        "variance": 0.0007846440916182774,
+        "se": 0.028011499274731396,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.715064,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 60,
+            "n_negative": 97,
+            "auc": 0.721993,
+            "variance": 0.0018652736150048474
+          },
+          {
+            "class": 1,
+            "n_positive": 70,
+            "n_negative": 87,
+            "auc": 0.67619,
+            "variance": 0.001890107994578957
+          },
+          {
+            "class": 2,
+            "n_positive": 27,
+            "n_negative": 130,
+            "auc": 0.747009,
+            "variance": 0.003306415214980692
+          }
+        ]
+      },
+      {
+        "variance": 0.0018216855824694728,
+        "se": 0.04268120877469935,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.692343,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 14,
+            "n_negative": 56,
+            "auc": 0.720663,
+            "variance": 0.006900455530415891
+          },
+          {
+            "class": 1,
+            "n_positive": 36,
+            "n_negative": 34,
+            "auc": 0.623366,
+            "variance": 0.004459211960787486
+          },
+          {
+            "class": 2,
+            "n_positive": 20,
+            "n_negative": 50,
+            "auc": 0.733,
+            "variance": 0.0050355027510218765
+          }
+        ]
+      },
+      {
+        "variance": 0.0010869979128778006,
+        "se": 0.03296965139151157,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.722755,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 25,
+            "n_negative": 82,
+            "auc": 0.773659,
+            "variance": 0.0034818284254140397
+          },
+          {
+            "class": 1,
+            "n_positive": 54,
+            "n_negative": 53,
+            "auc": 0.715584,
+            "variance": 0.002448097689397248
+          },
+          {
+            "class": 2,
+            "n_positive": 28,
+            "n_negative": 79,
+            "auc": 0.679024,
+            "variance": 0.003853055101088918
+          }
+        ]
+      },
+      {
+        "variance": 0.001204684074612825,
+        "se": 0.03470855909732965,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.726916,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 26,
+            "n_negative": 70,
+            "auc": 0.720879,
+            "variance": 0.003909219013798631
+          },
+          {
+            "class": 1,
+            "n_positive": 49,
+            "n_negative": 47,
+            "auc": 0.671298,
+            "variance": 0.00300382698507265
+          },
+          {
+            "class": 2,
+            "n_positive": 21,
+            "n_negative": 75,
+            "auc": 0.788571,
+            "variance": 0.003929110672644146
+          }
+        ]
+      },
+      {
+        "variance": 0.00230797556831038,
+        "se": 0.04804139432104755,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.664674,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 13,
+            "n_negative": 43,
+            "auc": 0.760286,
+            "variance": 0.006996808164792238
+          },
+          {
+            "class": 1,
+            "n_positive": 29,
+            "n_negative": 27,
+            "auc": 0.582375,
+            "variance": 0.005845111932230556
+          },
+          {
+            "class": 2,
+            "n_positive": 14,
+            "n_negative": 42,
+            "auc": 0.651361,
+            "variance": 0.007929860017770626
+          }
+        ]
+      },
+      {
+        "variance": 0.0007155330866970709,
+        "se": 0.02674945021298701,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.706495,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 50,
+            "n_negative": 107,
+            "auc": 0.765234,
+            "variance": 0.0018894485484633472
+          },
+          {
+            "class": 1,
+            "n_positive": 73,
+            "n_negative": 84,
+            "auc": 0.568982,
+            "variance": 0.0021110929329440425
+          },
+          {
+            "class": 2,
+            "n_positive": 34,
+            "n_negative": 123,
+            "auc": 0.78527,
+            "variance": 0.0024392562988662493
+          }
+        ]
+      },
+      {
+        "variance": 0.0012050508669196938,
+        "se": 0.03471384258361056,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.697087,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 44,
+            "n_negative": 51,
+            "auc": 0.663102,
+            "variance": 0.003162980419514659
+          },
+          {
+            "class": 1,
+            "n_positive": 36,
+            "n_negative": 59,
+            "auc": 0.567326,
+            "variance": 0.0037634211102111773
+          },
+          {
+            "class": 2,
+            "n_positive": 15,
+            "n_negative": 80,
+            "auc": 0.860833,
+            "variance": 0.0039190562725514065
+          }
+        ]
+      },
+      {
+        "variance": 0.0013391707712528179,
+        "se": 0.03659468228107491,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.65741,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 23,
+            "n_negative": 85,
+            "auc": 0.637852,
+            "variance": 0.00467456786907567
+          },
+          {
+            "class": 1,
+            "n_positive": 66,
+            "n_negative": 42,
+            "auc": 0.540765,
+            "variance": 0.0032113714311607557
+          },
+          {
+            "class": 2,
+            "n_positive": 19,
+            "n_negative": 89,
+            "auc": 0.793613,
+            "variance": 0.004166597641038935
+          }
+        ]
+      },
+      {
+        "variance": 0.00043153587377993744,
+        "se": 0.020773441548764555,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.698574,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 68,
+            "n_negative": 196,
+            "auc": 0.73762,
+            "variance": 0.0014187539846777807
+          },
+          {
+            "class": 1,
+            "n_positive": 119,
+            "n_negative": 145,
+            "auc": 0.603883,
+            "variance": 0.0012296286302123456
+          },
+          {
+            "class": 2,
+            "n_positive": 77,
+            "n_negative": 187,
+            "auc": 0.754219,
+            "variance": 0.0012354402491293107
+          }
+        ]
+      },
+      {
+        "variance": 0.0006790218142015972,
+        "se": 0.026058047014340835,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.770219,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 47,
+            "n_negative": 117,
+            "auc": 0.813239,
+            "variance": 0.0016645126539218658
+          },
+          {
+            "class": 1,
+            "n_positive": 88,
+            "n_negative": 76,
+            "auc": 0.730114,
+            "variance": 0.0015067367556199196
+          },
+          {
+            "class": 2,
+            "n_positive": 29,
+            "n_negative": 135,
+            "auc": 0.767305,
+            "variance": 0.0029399469182725896
+          }
+        ]
+      },
+      {
+        "variance": 0.0018004393359612363,
+        "se": 0.04243158417925539,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.802828,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 13,
+            "n_negative": 39,
+            "auc": 0.838264,
+            "variance": 0.005347935907415867
+          },
+          {
+            "class": 1,
+            "n_positive": 28,
+            "n_negative": 24,
+            "auc": 0.723214,
+            "variance": 0.004916806821860099
+          },
+          {
+            "class": 2,
+            "n_positive": 11,
+            "n_negative": 41,
+            "auc": 0.847007,
+            "variance": 0.00593921129437516
+          }
+        ]
+      },
+      {
+        "variance": 0.0022527227518262063,
+        "se": 0.047462856549371386,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.735298,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 9,
+            "n_negative": 49,
+            "auc": 0.9161,
+            "variance": 0.004281968571674462
+          },
+          {
+            "class": 1,
+            "n_positive": 39,
+            "n_negative": 19,
+            "auc": 0.635628,
+            "variance": 0.005670862805912201
+          },
+          {
+            "class": 2,
+            "n_positive": 10,
+            "n_negative": 48,
+            "auc": 0.654167,
+            "variance": 0.010321673388849196
+          }
+        ]
+      },
+      {
+        "variance": 0.0012659975522179342,
+        "se": 0.035580859351875334,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.741941,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 34,
+            "n_negative": 69,
+            "auc": 0.789429,
+            "variance": 0.0026032355204552433
+          },
+          {
+            "class": 1,
+            "n_positive": 55,
+            "n_negative": 48,
+            "auc": 0.672348,
+            "variance": 0.002772265435536218
+          },
+          {
+            "class": 2,
+            "n_positive": 14,
+            "n_negative": 89,
+            "auc": 0.764045,
+            "variance": 0.006018477013969946
+          }
+        ]
+      },
+      {
+        "variance": 0.002217728019925637,
+        "se": 0.04709275973996042,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.78208,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 11,
+            "n_negative": 39,
+            "auc": 0.792541,
+            "variance": 0.007480984804060936
+          },
+          {
+            "class": 1,
+            "n_positive": 31,
+            "n_negative": 19,
+            "auc": 0.675722,
+            "variance": 0.005805247774402489
+          },
+          {
+            "class": 2,
+            "n_positive": 8,
+            "n_negative": 42,
+            "auc": 0.877976,
+            "variance": 0.006673319600867309
+          }
+        ]
+      },
+      {
+        "variance": 0.0013528313466474422,
+        "se": 0.03678085570847207,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.767013,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 16,
+            "n_negative": 128,
+            "auc": 0.761719,
+            "variance": 0.005210929806168814
+          },
+          {
+            "class": 1,
+            "n_positive": 115,
+            "n_negative": 29,
+            "auc": 0.674963,
+            "variance": 0.0026476498631008575
+          },
+          {
+            "class": 2,
+            "n_positive": 13,
+            "n_negative": 131,
+            "auc": 0.864357,
+            "variance": 0.004316902450557307
+          }
+        ]
+      },
+      {
+        "variance": 0.0021479726592041107,
+        "se": 0.04634622594348013,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.828909,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 12,
+            "n_negative": 42,
+            "auc": 0.847222,
+            "variance": 0.0054605715567689435
+          },
+          {
+            "class": 1,
+            "n_positive": 37,
+            "n_negative": 17,
+            "auc": 0.745628,
+            "variance": 0.004563652145252597
+          },
+          {
+            "class": 2,
+            "n_positive": 5,
+            "n_negative": 49,
+            "auc": 0.893878,
+            "variance": 0.009307530230815455
+          }
+        ]
+      },
+      {
+        "variance": 0.00139298815208506,
+        "se": 0.03732275649098094,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.829887,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 38,
+            "n_negative": 52,
+            "auc": 0.874494,
+            "variance": 0.0016062428209839765
+          },
+          {
+            "class": 1,
+            "n_positive": 45,
+            "n_negative": 45,
+            "auc": 0.758025,
+            "variance": 0.0025855410224409187
+          },
+          {
+            "class": 2,
+            "n_positive": 7,
+            "n_negative": 83,
+            "auc": 0.857143,
+            "variance": 0.008345109525340644
+          }
+        ]
+      },
+      {
+        "variance": 0.0008764649319939924,
+        "se": 0.029605150430186845,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.71227,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 33,
+            "n_negative": 138,
+            "auc": 0.816645,
+            "variance": 0.0022208719513077653
+          },
+          {
+            "class": 1,
+            "n_positive": 113,
+            "n_negative": 58,
+            "auc": 0.705371,
+            "variance": 0.00158752455946512
+          },
+          {
+            "class": 2,
+            "n_positive": 25,
+            "n_negative": 146,
+            "auc": 0.614795,
+            "variance": 0.0040797878771730465
+          }
+        ]
+      },
+      {
+        "variance": 0.0010387035908093042,
+        "se": 0.032228924754159956,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.711995,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 20,
+            "n_negative": 114,
+            "auc": 0.817982,
+            "variance": 0.0035764897905272764
+          },
+          {
+            "class": 1,
+            "n_positive": 84,
+            "n_negative": 50,
+            "auc": 0.619286,
+            "variance": 0.002392846428396319
+          },
+          {
+            "class": 2,
+            "n_positive": 30,
+            "n_negative": 104,
+            "auc": 0.698718,
+            "variance": 0.003378996098360144
+          }
+        ]
+      },
+      {
+        "variance": 0.0023901402173268616,
+        "se": 0.04888906030316866,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.619709,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 28,
+            "n_negative": 63,
+            "auc": 0.703515,
+            "variance": 0.003875922292660632
+          },
+          {
+            "class": 1,
+            "n_positive": 56,
+            "n_negative": 35,
+            "auc": 0.538265,
+            "variance": 0.00383843883582009
+          },
+          {
+            "class": 2,
+            "n_positive": 7,
+            "n_negative": 84,
+            "auc": 0.617347,
+            "variance": 0.013796900827461031
+          }
+        ]
+      },
+      {
+        "variance": 0.0017738743961744263,
+        "se": 0.04211738828767076,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.795629,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 23,
+            "n_negative": 29,
+            "auc": 0.838081,
+            "variance": 0.0034245806163535953
+          },
+          {
+            "class": 1,
+            "n_positive": 18,
+            "n_negative": 34,
+            "auc": 0.71732,
+            "variance": 0.00613965230005989
+          },
+          {
+            "class": 2,
+            "n_positive": 11,
+            "n_negative": 41,
+            "auc": 0.831486,
+            "variance": 0.006400636649156351
+          }
+        ]
+      },
+      {
+        "variance": 0.0012071649734381055,
+        "se": 0.03474427972254002,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.655262,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 30,
+            "n_negative": 69,
+            "auc": 0.615942,
+            "variance": 0.003995924140077224
+          },
+          {
+            "class": 1,
+            "n_positive": 41,
+            "n_negative": 58,
+            "auc": 0.603869,
+            "variance": 0.0034010985347754014
+          },
+          {
+            "class": 2,
+            "n_positive": 28,
+            "n_negative": 71,
+            "auc": 0.745976,
+            "variance": 0.003467462086090325
+          }
+        ]
+      },
+      {
+        "variance": 0.0013682560502979663,
+        "se": 0.03698994525946161,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.723417,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 19,
+            "n_negative": 60,
+            "auc": 0.753509,
+            "variance": 0.0048734857377568715
+          },
+          {
+            "class": 1,
+            "n_positive": 33,
+            "n_negative": 46,
+            "auc": 0.621871,
+            "variance": 0.0041877908028680015
+          },
+          {
+            "class": 2,
+            "n_positive": 27,
+            "n_negative": 52,
+            "auc": 0.794872,
+            "variance": 0.003253027912056825
+          }
+        ]
+      },
+      {
+        "variance": 0.0011035645501578087,
+        "se": 0.033219942055304805,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.652983,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 29,
+            "n_negative": 107,
+            "auc": 0.632936,
+            "variance": 0.0037139841663257496
+          },
+          {
+            "class": 1,
+            "n_positive": 82,
+            "n_negative": 54,
+            "auc": 0.625113,
+            "variance": 0.002300755529469673
+          },
+          {
+            "class": 2,
+            "n_positive": 25,
+            "n_negative": 111,
+            "auc": 0.700901,
+            "variance": 0.003917341255624857
+          }
+        ]
+      },
+      {
+        "variance": 0.0009938045287317945,
+        "se": 0.03152466540237651,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.71378,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 26,
+            "n_negative": 85,
+            "auc": 0.751584,
+            "variance": 0.0035497749739994045
+          },
+          {
+            "class": 1,
+            "n_positive": 47,
+            "n_negative": 64,
+            "auc": 0.606051,
+            "variance": 0.002998193372834026
+          },
+          {
+            "class": 2,
+            "n_positive": 38,
+            "n_negative": 73,
+            "auc": 0.783706,
+            "variance": 0.00239627241175272
+          }
+        ]
+      },
+      {
+        "variance": 0.0015877108823465927,
+        "se": 0.039846089925444285,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.653998,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 32,
+            "n_negative": 45,
+            "auc": 0.667361,
+            "variance": 0.0040619407103197605
+          },
+          {
+            "class": 1,
+            "n_positive": 19,
+            "n_negative": 58,
+            "auc": 0.578947,
+            "variance": 0.0060241347470309185
+          },
+          {
+            "class": 2,
+            "n_positive": 26,
+            "n_negative": 51,
+            "auc": 0.715686,
+            "variance": 0.004203322483768657
+          }
+        ]
+      },
+      {
+        "variance": 0.0012336278874990525,
+        "se": 0.03512303926910444,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.614058,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 25,
+            "n_negative": 88,
+            "auc": 0.63,
+            "variance": 0.004355528458197127
+          },
+          {
+            "class": 1,
+            "n_positive": 59,
+            "n_negative": 54,
+            "auc": 0.566855,
+            "variance": 0.0029056624547647773
+          },
+          {
+            "class": 2,
+            "n_positive": 29,
+            "n_negative": 84,
+            "auc": 0.64532,
+            "variance": 0.003841460074529568
+          }
+        ]
+      },
+      {
+        "variance": 0.0013119506061239324,
+        "se": 0.036220858715993086,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.63985,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 56,
+            "n_negative": 55,
+            "auc": 0.596753,
+            "variance": 0.0028897406212518703
+          },
+          {
+            "class": 1,
+            "n_positive": 38,
+            "n_negative": 73,
+            "auc": 0.620043,
+            "variance": 0.0032904673963246307
+          },
+          {
+            "class": 2,
+            "n_positive": 17,
+            "n_negative": 94,
+            "auc": 0.702753,
+            "variance": 0.005627347437538891
+          }
+        ]
+      },
+      {
+        "variance": 0.0016380349118906568,
+        "se": 0.04047264399431617,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.581074,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 29,
+            "n_negative": 51,
+            "auc": 0.582826,
+            "variance": 0.004546057274984364
+          },
+          {
+            "class": 1,
+            "n_positive": 37,
+            "n_negative": 43,
+            "auc": 0.398492,
+            "variance": 0.003990740522433506
+          },
+          {
+            "class": 2,
+            "n_positive": 14,
+            "n_negative": 66,
+            "auc": 0.761905,
+            "variance": 0.006205516409598041
+          }
+        ]
+      },
+      {
+        "variance": 0.0006757995978638085,
+        "se": 0.025996145827099228,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.633935,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 55,
+            "n_negative": 126,
+            "auc": 0.634921,
+            "variance": 0.002140205125169714
+          },
+          {
+            "class": 1,
+            "n_positive": 75,
+            "n_negative": 106,
+            "auc": 0.555723,
+            "variance": 0.0019028162847645354
+          },
+          {
+            "class": 2,
+            "n_positive": 51,
+            "n_negative": 130,
+            "auc": 0.711161,
+            "variance": 0.0020391749708400272
+          }
+        ]
+      },
+      {
+        "variance": 0.0018997851098935636,
+        "se": 0.04358652440713257,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.716877,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 16,
+            "n_negative": 47,
+            "auc": 0.789894,
+            "variance": 0.0052755832078298995
+          },
+          {
+            "class": 1,
+            "n_positive": 33,
+            "n_negative": 30,
+            "auc": 0.633333,
+            "variance": 0.004886111264740765
+          },
+          {
+            "class": 2,
+            "n_positive": 14,
+            "n_negative": 49,
+            "auc": 0.727405,
+            "variance": 0.0069363715164714075
+          }
+        ]
+      },
+      {
+        "variance": 0.0033290806836343955,
+        "se": 0.05769818613816552,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.657779,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 35,
+            "n_negative": 25,
+            "auc": 0.707429,
+            "variance": 0.004409034504529118
+          },
+          {
+            "class": 1,
+            "n_positive": 20,
+            "n_negative": 40,
+            "auc": 0.655,
+            "variance": 0.006019028087060166
+          },
+          {
+            "class": 2,
+            "n_positive": 5,
+            "n_negative": 55,
+            "auc": 0.610909,
+            "variance": 0.019533663561120275
+          }
+        ]
+      },
+      {
+        "variance": 0.002446228277565688,
+        "se": 0.04945935985802574,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.671606,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 17,
+            "n_negative": 37,
+            "auc": 0.650238,
+            "variance": 0.006989545578761026
+          },
+          {
+            "class": 1,
+            "n_positive": 27,
+            "n_negative": 27,
+            "auc": 0.621399,
+            "variance": 0.005842754027657284
+          },
+          {
+            "class": 2,
+            "n_positive": 10,
+            "n_negative": 44,
+            "auc": 0.743182,
+            "variance": 0.00918375489167288
+          }
+        ]
+      },
+      {
+        "variance": 0.0009326583184702977,
+        "se": 0.030539455110893805,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.601854,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 43,
+            "n_negative": 99,
+            "auc": 0.663143,
+            "variance": 0.0026582815233957566
+          },
+          {
+            "class": 1,
+            "n_positive": 66,
+            "n_negative": 76,
+            "auc": 0.564992,
+            "variance": 0.0023411695057041415
+          },
+          {
+            "class": 2,
+            "n_positive": 33,
+            "n_negative": 109,
+            "auc": 0.577426,
+            "variance": 0.0033944738371327818
+          }
+        ]
+      },
+      {
+        "variance": 0.0009807103418458631,
+        "se": 0.03131629514878577,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.731218,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 48,
+            "n_negative": 71,
+            "auc": 0.785211,
+            "variance": 0.001984417518683414
+          },
+          {
+            "class": 1,
+            "n_positive": 50,
+            "n_negative": 69,
+            "auc": 0.651884,
+            "variance": 0.0026631768850776966
+          },
+          {
+            "class": 2,
+            "n_positive": 21,
+            "n_negative": 98,
+            "auc": 0.75656,
+            "variance": 0.004178798672851657
+          }
+        ]
+      },
+      {
+        "variance": 0.00020499219144879045,
+        "se": 0.014317548374243072,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.711419,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 156,
+            "n_negative": 429,
+            "auc": 0.737105,
+            "variance": 0.000622191878120678
+          },
+          {
+            "class": 1,
+            "n_positive": 310,
+            "n_negative": 275,
+            "auc": 0.612645,
+            "variance": 0.0005327092326472526
+          },
+          {
+            "class": 2,
+            "n_positive": 119,
+            "n_negative": 466,
+            "auc": 0.784506,
+            "variance": 0.0006900286122711833
+          }
+        ]
+      },
+      {
+        "variance": 0.0021836721098515924,
+        "se": 0.04672977754977647,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.709042,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 18,
+            "n_negative": 33,
+            "auc": 0.717172,
+            "variance": 0.006185055999626725
+          },
+          {
+            "class": 1,
+            "n_positive": 22,
+            "n_negative": 29,
+            "auc": 0.594044,
+            "variance": 0.0066140769091419666
+          },
+          {
+            "class": 2,
+            "n_positive": 11,
+            "n_negative": 40,
+            "auc": 0.815909,
+            "variance": 0.00685391607989564
+          }
+        ]
+      },
+      {
+        "variance": 0.0014809475218971423,
+        "se": 0.03848308098238942,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.738671,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 27,
+            "n_negative": 45,
+            "auc": 0.807407,
+            "variance": 0.003180980322956337
+          },
+          {
+            "class": 1,
+            "n_positive": 30,
+            "n_negative": 42,
+            "auc": 0.62381,
+            "variance": 0.004596215919504629
+          },
+          {
+            "class": 2,
+            "n_positive": 15,
+            "n_negative": 57,
+            "auc": 0.784795,
+            "variance": 0.005551331454613314
+          }
+        ]
+      },
+      {
+        "variance": 0.0020737116142955573,
+        "se": 0.045538023829493936,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.706594,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 18,
+            "n_negative": 45,
+            "auc": 0.735802,
+            "variance": 0.005568934374085284
+          },
+          {
+            "class": 1,
+            "n_positive": 34,
+            "n_negative": 29,
+            "auc": 0.640974,
+            "variance": 0.004820721630779463
+          },
+          {
+            "class": 2,
+            "n_positive": 11,
+            "n_negative": 52,
+            "auc": 0.743007,
+            "variance": 0.008273748523795268
+          }
+        ]
+      },
+      {
+        "variance": 0.0010512289204402862,
+        "se": 0.03242266060088663,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.741216,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 25,
+            "n_negative": 79,
+            "auc": 0.782785,
+            "variance": 0.0034033313674000708
+          },
+          {
+            "class": 1,
+            "n_positive": 51,
+            "n_negative": 53,
+            "auc": 0.681465,
+            "variance": 0.0027427899699047666
+          },
+          {
+            "class": 2,
+            "n_positive": 28,
+            "n_negative": 76,
+            "auc": 0.759398,
+            "variance": 0.003314938946657739
+          }
+        ]
+      },
+      {
+        "variance": 0.0012677788121102142,
+        "se": 0.035605881706681754,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.71403,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 24,
+            "n_negative": 69,
+            "auc": 0.710145,
+            "variance": 0.004276609229403048
+          },
+          {
+            "class": 1,
+            "n_positive": 48,
+            "n_negative": 45,
+            "auc": 0.635648,
+            "variance": 0.0032864363392886937
+          },
+          {
+            "class": 2,
+            "n_positive": 21,
+            "n_negative": 72,
+            "auc": 0.796296,
+            "variance": 0.0038469637403001854
+          }
+        ]
+      },
+      {
+        "variance": 0.0008574152246520168,
+        "se": 0.029281653379753282,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.698669,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 55,
+            "n_negative": 79,
+            "auc": 0.686766,
+            "variance": 0.0022594998332211833
+          },
+          {
+            "class": 1,
+            "n_positive": 45,
+            "n_negative": 89,
+            "auc": 0.678652,
+            "variance": 0.0025744019972411105
+          },
+          {
+            "class": 2,
+            "n_positive": 34,
+            "n_negative": 100,
+            "auc": 0.730588,
+            "variance": 0.0028828351914058567
+          }
+        ]
+      },
+      {
+        "variance": 0.0004675283286951619,
+        "se": 0.021622403397753034,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.741169,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 80,
+            "n_negative": 146,
+            "auc": 0.738527,
+            "variance": 0.0013056200850271728
+          },
+          {
+            "class": 1,
+            "n_positive": 94,
+            "n_negative": 132,
+            "auc": 0.701161,
+            "variance": 0.001290024286874972
+          },
+          {
+            "class": 2,
+            "n_positive": 52,
+            "n_negative": 174,
+            "auc": 0.78382,
+            "variance": 0.0016121105863543123
+          }
+        ]
+      },
+      {
+        "variance": 0.0012411758977560403,
+        "se": 0.035230326392981945,
+        "method": "mean of Hanley-McNeil class AUC variances divided by 9",
+        "macro_auc": 0.667946,
+        "class_components": [
+          {
+            "class": 0,
+            "n_positive": 38,
+            "n_negative": 74,
+            "auc": 0.800853,
+            "variance": 0.002246454430799226
+          },
+          {
+            "class": 1,
+            "n_positive": 57,
+            "n_negative": 55,
+            "auc": 0.564593,
+            "variance": 0.002938398181833991
+          },
+          {
+            "class": 2,
+            "n_positive": 17,
+            "n_negative": 95,
+            "auc": 0.63839,
+            "variance": 0.005985730467171145
+          }
+        ]
+      }
+    ]
+  },
+  "uncertainty": {
+    "method": "hospital-cluster bootstrap of the evaluation sample",
+    "replicates": 2000,
+    "cluster_unit": "hospitalid",
+    "cluster_count": 182,
+    "scope": "Conditional on fitted out-of-fold predictions and the fixed hospital partition; retraining uncertainty is not resampled."
+  },
+  "reproducibility": {
+    "design_file": "D:\\TT paper\\1029TP Sepsis\\data\\processed\\eicu\\design_all.parquet",
+    "design_sha256": "bdaa8d0f5da16153420649528fe8b4aa68a1481d9b07993d8bcc32f9057b5e42",
+    "patient_grouped_summary": "D:\\TT paper\\1029TP Sepsis\\results\\shared_fold\\summary.json",
+    "patient_grouped_predictions": "D:\\TT paper\\1029TP Sepsis\\results\\shared_fold\\eicu_shared_fold.npz"
+  },
+  "outputs": {
+    "summary_json": "D:\\TT paper\\1029TP Sepsis\\results\\eicu_hospital_validation\\summary.json",
+    "aligned_oof_npz": "D:\\TT paper\\1029TP Sepsis\\results\\eicu_hospital_validation\\eicu_hospital_fold.npz",
+    "hospital_metrics_csv": "D:\\TT paper\\1029TP Sepsis\\results\\eicu_hospital_validation\\hospital_metrics.csv",
+    "report_md": "D:\\TT paper\\1029TP Sepsis\\results\\eicu_hospital_validation\\report.md"
+  },
+  "interpretation": "Hospital-held-out results provide a stricter retrospective estimate of transport to unseen eICU sites. They do not establish prospective validity, causal benefit, or clinical utility."
+}

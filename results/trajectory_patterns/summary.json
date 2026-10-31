@@ -1,0 +1,645 @@
+{
+  "generated_at_utc": "2026-10-31T07:12:35.913527+00:00",
+  "analysis": "complete_three_landmark_trajectory_patterns",
+  "landmarks_hours": [
+    24,
+    48,
+    72
+  ],
+  "class_order": [
+    "home",
+    "facility",
+    "death"
+  ],
+  "pattern_definitions": {
+    "stable_all": "c24 = c48 = c72",
+    "transient_48h_excursion": "c24 = c72 and c48 != c24",
+    "monotone_worsening": "c24 <= c48 <= c72 after excluding stable and transient patterns",
+    "monotone_improvement": "c24 >= c48 >= c72 after excluding stable and transient patterns",
+    "other_nonmonotone": "None of the preceding categories"
+  },
+  "bootstrap": {
+    "replicates": 2000,
+    "seed": 20261031,
+    "scope": "Evaluation-sample uncertainty conditional on fitted out-of-fold predictions and original folds."
+  },
+  "databases": {
+    "mimic4": {
+      "label": "MIMIC-IV",
+      "source": "results\\shared_fold\\mimic4_shared_fold.npz",
+      "n": 6823,
+      "clusters": 6254,
+      "cluster_unit": "patient",
+      "outcome_counts": {
+        "home": 1175,
+        "facility": 3447,
+        "death": 2201
+      },
+      "patterns": {
+        "stable_all": {
+          "label": "Stable at 24, 48, and 72 h",
+          "estimate": 0.705262,
+          "ci95": [
+            0.694057,
+            0.71578
+          ],
+          "events": 4812
+        },
+        "transient_48h_excursion": {
+          "label": "Changed at 48 h and returned to the 24 h class by 72 h",
+          "estimate": 0.061557,
+          "ci95": [
+            0.056178,
+            0.067339
+          ],
+          "events": 420
+        },
+        "monotone_worsening": {
+          "label": "Ordinal worsening without reversal",
+          "estimate": 0.125018,
+          "ci95": [
+            0.116999,
+            0.133161
+          ],
+          "events": 853
+        },
+        "monotone_improvement": {
+          "label": "Ordinal improvement without reversal",
+          "estimate": 0.104499,
+          "ci95": [
+            0.09746,
+            0.111745
+          ],
+          "events": 713
+        },
+        "other_nonmonotone": {
+          "label": "Other non-monotone trajectory",
+          "estimate": 0.003664,
+          "ci95": [
+            0.00221,
+            0.005246
+          ],
+          "events": 25
+        }
+      },
+      "clinical_trajectories": {
+        "any_adjacent_change": {
+          "label": "Any change between adjacent landmarks",
+          "estimate": 0.294738,
+          "ci95": [
+            0.28422,
+            0.305943
+          ],
+          "events": 2011
+        },
+        "any_24_to_72_change": {
+          "label": "Change from 24 to 72 h",
+          "estimate": 0.233182,
+          "ci95": [
+            0.223142,
+            0.243514
+          ],
+          "events": 1591
+        },
+        "major_upgrade_to_death_by_72": {
+          "label": "Prediction below death at 24 h and death at 72 h",
+          "estimate": 0.102154,
+          "ci95": [
+            0.095053,
+            0.109357
+          ],
+          "events": 697
+        },
+        "transient_death_upgrade": {
+          "label": "Non-death at 24 h, death at 48 h, below death at 72 h",
+          "estimate": 0.030339,
+          "ci95": [
+            0.026354,
+            0.034508
+          ],
+          "events": 207
+        },
+        "sustained_death_upgrade": {
+          "label": "Non-death at 24 h and death at both 48 and 72 h",
+          "estimate": 0.045581,
+          "ci95": [
+            0.040975,
+            0.050439
+          ],
+          "events": 311
+        },
+        "late_death_upgrade": {
+          "label": "Below death at 24 and 48 h, then death at 72 h",
+          "estimate": 0.056573,
+          "ci95": [
+            0.051247,
+            0.061995
+          ],
+          "events": 386
+        }
+      },
+      "exact_trajectory_counts": {
+        "111": 3487,
+        "222": 938,
+        "000": 387,
+        "112": 353,
+        "122": 294,
+        "211": 239,
+        "221": 237,
+        "121": 189,
+        "212": 116,
+        "011": 102,
+        "110": 95,
+        "100": 89,
+        "001": 61,
+        "101": 57,
+        "010": 44,
+        "200": 22,
+        "002": 19,
+        "220": 19,
+        "022": 17,
+        "210": 12,
+        "202": 8,
+        "012": 7,
+        "102": 7,
+        "120": 7,
+        "020": 6,
+        "201": 6,
+        "021": 5
+      },
+      "transition_matrices": {
+        "24_to_48": {
+          "rows": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "columns": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "counts": [
+            [
+              467,
+              153,
+              28
+            ],
+            [
+              153,
+              3935,
+              490
+            ],
+            [
+              36,
+              367,
+              1194
+            ]
+          ]
+        },
+        "48_to_72": {
+          "rows": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "columns": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "counts": [
+            [
+              498,
+              124,
+              34
+            ],
+            [
+              151,
+              3828,
+              476
+            ],
+            [
+              32,
+              431,
+              1249
+            ]
+          ]
+        }
+      }
+    },
+    "eicu": {
+      "label": "eICU-CRD",
+      "source": "results\\shared_fold\\eicu_shared_fold.npz",
+      "n": 9215,
+      "clusters": 184,
+      "cluster_unit": "hospital",
+      "outcome_counts": {
+        "home": 2730,
+        "facility": 4572,
+        "death": 1913
+      },
+      "patterns": {
+        "stable_all": {
+          "label": "Stable at 24, 48, and 72 h",
+          "estimate": 0.74357,
+          "ci95": [
+            0.729089,
+            0.756712
+          ],
+          "events": 6852
+        },
+        "transient_48h_excursion": {
+          "label": "Changed at 48 h and returned to the 24 h class by 72 h",
+          "estimate": 0.056213,
+          "ci95": [
+            0.051091,
+            0.062195
+          ],
+          "events": 518
+        },
+        "monotone_worsening": {
+          "label": "Ordinal worsening without reversal",
+          "estimate": 0.112425,
+          "ci95": [
+            0.104435,
+            0.121029
+          ],
+          "events": 1036
+        },
+        "monotone_improvement": {
+          "label": "Ordinal improvement without reversal",
+          "estimate": 0.085404,
+          "ci95": [
+            0.079796,
+            0.091373
+          ],
+          "events": 787
+        },
+        "other_nonmonotone": {
+          "label": "Other non-monotone trajectory",
+          "estimate": 0.002387,
+          "ci95": [
+            0.001526,
+            0.003337
+          ],
+          "events": 22
+        }
+      },
+      "clinical_trajectories": {
+        "any_adjacent_change": {
+          "label": "Any change between adjacent landmarks",
+          "estimate": 0.25643,
+          "ci95": [
+            0.243288,
+            0.270911
+          ],
+          "events": 2363
+        },
+        "any_24_to_72_change": {
+          "label": "Change from 24 to 72 h",
+          "estimate": 0.200217,
+          "ci95": [
+            0.18971,
+            0.211486
+          ],
+          "events": 1845
+        },
+        "major_upgrade_to_death_by_72": {
+          "label": "Prediction below death at 24 h and death at 72 h",
+          "estimate": 0.067065,
+          "ci95": [
+            0.060327,
+            0.073975
+          ],
+          "events": 618
+        },
+        "transient_death_upgrade": {
+          "label": "Non-death at 24 h, death at 48 h, below death at 72 h",
+          "estimate": 0.020619,
+          "ci95": [
+            0.017208,
+            0.024669
+          ],
+          "events": 190
+        },
+        "sustained_death_upgrade": {
+          "label": "Non-death at 24 h and death at both 48 and 72 h",
+          "estimate": 0.027564,
+          "ci95": [
+            0.023713,
+            0.031364
+          ],
+          "events": 254
+        },
+        "late_death_upgrade": {
+          "label": "Below death at 24 and 48 h, then death at 72 h",
+          "estimate": 0.039501,
+          "ci95": [
+            0.034898,
+            0.044541
+          ],
+          "events": 364
+        }
+      },
+      "exact_trajectory_counts": {
+        "111": 5313,
+        "000": 1207,
+        "222": 332,
+        "112": 310,
+        "110": 267,
+        "122": 231,
+        "011": 223,
+        "100": 203,
+        "001": 200,
+        "121": 168,
+        "101": 166,
+        "211": 166,
+        "221": 112,
+        "010": 109,
+        "212": 63,
+        "002": 29,
+        "022": 23,
+        "012": 20,
+        "200": 17,
+        "220": 14,
+        "021": 12,
+        "210": 8,
+        "020": 7,
+        "102": 5,
+        "202": 5,
+        "120": 3,
+        "201": 2
+      },
+      "transition_matrices": {
+        "24_to_48": {
+          "rows": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "columns": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "counts": [
+            [
+              1436,
+              352,
+              42
+            ],
+            [
+              374,
+              5890,
+              402
+            ],
+            [
+              24,
+              237,
+              458
+            ]
+          ]
+        },
+        "48_to_72": {
+          "rows": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "columns": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "counts": [
+            [
+              1427,
+              368,
+              39
+            ],
+            [
+              384,
+              5702,
+              393
+            ],
+            [
+              24,
+              292,
+              586
+            ]
+          ]
+        }
+      }
+    },
+    "mimic3": {
+      "label": "MIMIC-III",
+      "source": "results\\mimic3_shared\\mimic3_shared.npz",
+      "n": 3638,
+      "clusters": 3330,
+      "cluster_unit": "patient",
+      "outcome_counts": {
+        "home": 687,
+        "facility": 1758,
+        "death": 1193
+      },
+      "patterns": {
+        "stable_all": {
+          "label": "Stable at 24, 48, and 72 h",
+          "estimate": 0.703134,
+          "ci95": [
+            0.688368,
+            0.71768
+          ],
+          "events": 2558
+        },
+        "transient_48h_excursion": {
+          "label": "Changed at 48 h and returned to the 24 h class by 72 h",
+          "estimate": 0.056075,
+          "ci95": [
+            0.048647,
+            0.063913
+          ],
+          "events": 204
+        },
+        "monotone_worsening": {
+          "label": "Ordinal worsening without reversal",
+          "estimate": 0.128092,
+          "ci95": [
+            0.117126,
+            0.139243
+          ],
+          "events": 466
+        },
+        "monotone_improvement": {
+          "label": "Ordinal improvement without reversal",
+          "estimate": 0.110775,
+          "ci95": [
+            0.100771,
+            0.120595
+          ],
+          "events": 403
+        },
+        "other_nonmonotone": {
+          "label": "Other non-monotone trajectory",
+          "estimate": 0.001924,
+          "ci95": [
+            0.000555,
+            0.003323
+          ],
+          "events": 7
+        }
+      },
+      "clinical_trajectories": {
+        "any_adjacent_change": {
+          "label": "Any change between adjacent landmarks",
+          "estimate": 0.296866,
+          "ci95": [
+            0.28232,
+            0.311632
+          ],
+          "events": 1080
+        },
+        "any_24_to_72_change": {
+          "label": "Change from 24 to 72 h",
+          "estimate": 0.240792,
+          "ci95": [
+            0.226872,
+            0.255328
+          ],
+          "events": 876
+        },
+        "major_upgrade_to_death_by_72": {
+          "label": "Prediction below death at 24 h and death at 72 h",
+          "estimate": 0.09923,
+          "ci95": [
+            0.089178,
+            0.109211
+          ],
+          "events": 361
+        },
+        "transient_death_upgrade": {
+          "label": "Non-death at 24 h, death at 48 h, below death at 72 h",
+          "estimate": 0.028312,
+          "ci95": [
+            0.023127,
+            0.033801
+          ],
+          "events": 103
+        },
+        "sustained_death_upgrade": {
+          "label": "Non-death at 24 h and death at both 48 and 72 h",
+          "estimate": 0.05525,
+          "ci95": [
+            0.04805,
+            0.062894
+          ],
+          "events": 201
+        },
+        "late_death_upgrade": {
+          "label": "Below death at 24 and 48 h, then death at 72 h",
+          "estimate": 0.04398,
+          "ci95": [
+            0.037293,
+            0.050679
+          ],
+          "events": 160
+        }
+      },
+      "exact_trajectory_counts": {
+        "111": 1758,
+        "222": 562,
+        "000": 238,
+        "122": 190,
+        "211": 158,
+        "112": 143,
+        "221": 102,
+        "121": 97,
+        "011": 64,
+        "110": 60,
+        "001": 44,
+        "100": 43,
+        "212": 41,
+        "101": 30,
+        "010": 25,
+        "200": 19,
+        "022": 11,
+        "220": 11,
+        "002": 10,
+        "210": 10,
+        "202": 8,
+        "012": 4,
+        "020": 3,
+        "102": 3,
+        "021": 2,
+        "120": 1,
+        "201": 1
+      },
+      "transition_matrices": {
+        "24_to_48": {
+          "rows": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "columns": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "counts": [
+            [
+              292,
+              93,
+              16
+            ],
+            [
+              76,
+              1961,
+              288
+            ],
+            [
+              28,
+              209,
+              675
+            ]
+          ]
+        },
+        "48_to_72": {
+          "rows": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "columns": [
+            "home",
+            "facility",
+            "death"
+          ],
+          "counts": [
+            [
+              300,
+              75,
+              21
+            ],
+            [
+              95,
+              1980,
+              188
+            ],
+            [
+              15,
+              201,
+              763
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "interpretation_boundary": [
+    "Prediction trajectories do not estimate patient trajectories.",
+    "The ordinal class order is an analysis assumption.",
+    "The cohort is conditional on observation through 72 hours."
+  ]
+}
