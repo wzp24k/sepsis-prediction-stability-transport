@@ -38,8 +38,8 @@ observed patient transitions.
 
 ## Repository contents
 
-- `src/sepsis/`: cohort construction, modelling, analysis, assembly, and
-  validation code.
+- `src/sepsis/`: cohort construction, modelling, analysis, and result-generation
+  code.
 - `configs/study.json`: fixed study configuration.
 - `tests/`: focused tests for landmark features and causal DG-GRU structure.
 - `results/tables/`: main and supplementary aggregate tables.
@@ -68,7 +68,8 @@ python -m pytest -q
 
 The full manuscript build and manuscript-level validation are retained in the
 private working project and are intentionally excluded from this public code
-repository.
+repository. Manuscript assembly, Word generation, and manuscript-validation
+scripts are also excluded because they contain manuscript content.
 
 ## Data access
 
