@@ -237,7 +237,7 @@ def figure1_three_databases() -> None:
                 fontsize=6.2,
             )
     axis.set_xticks(positions, class_names, rotation=15, ha="right")
-    axis.set_ylabel("Patients (%)")
+    axis.set_ylabel("ICU stays (%)")
     axis.set_ylim(0, 64)
     axis.legend(frameon=False, loc="upper right")
     panel_label(axis, "B")
@@ -317,7 +317,7 @@ def figure3_three_databases() -> None:
             fontsize=6.2,
             color="#7B4F2C",
         )
-    axis.set_title("XGBoost, shared landmarks and patient folds")
+    axis.set_title("XGBoost by validation design")
     axis.set_xlabel("Landmark (hours)")
     axis.set_ylabel("Macro-AUC")
     axis.set_xticks(hours)
@@ -769,6 +769,10 @@ def figure7_transport_recalibration_reassessment() -> None:
         "eicu_to_mimic4": (-10, 10, "right"),
         "eicu_to_mimic3": (8, -11, "left"),
     }
+    display_y_offsets = {
+        "eicu_to_mimic4": 0.00045,
+        "eicu_to_mimic3": -0.00045,
+    }
     short_directions = {
         "mimic4_to_eicu": "M4 -> eICU",
         "eicu_to_mimic4": "eICU -> M4",
@@ -785,9 +789,10 @@ def figure7_transport_recalibration_reassessment() -> None:
         comparison_type = record["comparison_type"]
         x_value = metric["macro_auc"]
         y_value = metric["ece_top_label_10bin"]
+        display_y = y_value + display_y_offsets.get(direction, 0.0)
         axis.scatter(
             x_value,
-            y_value,
+            display_y,
             s=30,
             color=direction_colors[comparison_type],
             marker=direction_markers[comparison_type],
@@ -809,7 +814,7 @@ def figure7_transport_recalibration_reassessment() -> None:
         )
         axis.annotate(
             short_directions[direction],
-            (x_value, y_value),
+            (x_value, display_y),
             xytext=(x_offset, y_offset),
             textcoords="offset points",
             fontsize=5.6,
@@ -2713,9 +2718,9 @@ def table7_recalibration_reassessment() -> None:
     rows = []
     for direction in DIRECTIONS:
         record_72 = transport["recalibration"][direction]["72"]
-        matched_baseline = record_72["curves"]["0"]
         direction_text = direction_label(direction)
         for label_count in ("25", "200"):
+            matched_baseline = record_72["untreated_heldout"][label_count]
             multinomial = record_72["curves"][label_count]
             temperature = record_72["curves_temperature_scaling"][label_count]
             paired = record_72[
@@ -3217,14 +3222,28 @@ def supplementary_s10_recalibration() -> None:
     for direction in DIRECTIONS:
         for hour in ("24", "48", "72"):
             record = transport["recalibration"][direction][hour]
+            baseline = record["curves"]["0"]
+            rows.append(
+                [
+                    direction_label(direction),
+                    hour,
+                    "Untreated reference",
+                    baseline["requested_local_labels"],
+                    f"{baseline['evaluation_n']:,}",
+                    fixed(baseline["macro_auc"]["mean"]),
+                    fixed(baseline["macro_auc"]["p2_5"]),
+                    fixed(baseline["macro_auc"]["p97_5"]),
+                    fixed(baseline["ece_top_label_10bin"]["mean"]),
+                    fixed(baseline["ece_top_label_10bin"]["p2_5"]),
+                    fixed(baseline["ece_top_label_10bin"]["p97_5"]),
+                ]
+            )
             for method, curve_key in (
                 ("Multinomial logistic", "curves"),
                 ("Temperature scaling", "curves_temperature_scaling"),
             ):
                 curves = record[curve_key]
-                for count in ("0", "25", "50", "100", "200"):
-                    if method == "Temperature scaling" and count == "0":
-                        continue
+                for count in ("25", "50", "100", "200"):
                     curve = curves[count]
                     rows.append(
                         [

@@ -125,7 +125,7 @@
     }
   },
   "cohort": {
-    "inclusion": "adult sepsis; MIMIC-IV and MIMIC-III first ICU stay per hospital admission; eICU-CRD first ICU unit visit per patient",
+    "inclusion": "adult sepsis; MIMIC-IV and MIMIC-III first ICU stay per hospital admission; eICU-CRD first ICU unit visit within each hospitalization, with multiple admissions allowed per patient",
     "sepsis_icd9": ["038", "9959", "78552"],
     "sepsis_icd10": ["A40", "A41", "R652"],
     "mimic4_full_stays": 14306,
@@ -268,6 +268,6 @@
     "abstract_word_limit_interpretation": "target maximum is 250 words",
     "local_recalibration_status": "Table 9 and Figure 9B-D report local recalibration; Figure 10A-F reports reassessment; Figure 11A-F reports sensitivity analyses; Figure 8A-D, Table 4, and Table 9 report hospital-held-out validation; Table 5 and Figure 4 report clinically meaningful transitions"
   },
-  "ethics": "each database accessed under its own DUA; no individual-level data shared; code available from the corresponding author on reasonable request",
+  "ethics": "each database accessed under its own DUA; no individual-level data shared; analysis code and aggregate results are public, while source databases require independent credentialed access",
   "random_seed": 20261029
 }

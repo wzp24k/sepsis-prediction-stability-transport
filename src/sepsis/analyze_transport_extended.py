@@ -509,13 +509,46 @@ def aggregate_calibration_rows(rows: list[dict]) -> dict:
     return output
 
 
+def paired_difference_record(differences: list[dict], comparison: str) -> dict:
+    return {
+        "comparison": comparison,
+        "repetitions": len(differences),
+        **{
+            metric: {
+                **percentile_record([float(row[metric]) for row in differences]),
+                "fraction_favoring_first_arm": round(
+                    float(
+                        np.mean(
+                            [
+                                float(row[metric]) > 0
+                                if metric in ("macro_auc", "accuracy")
+                                else float(row[metric]) < 0
+                                for row in differences
+                            ]
+                        )
+                    ),
+                    6,
+                ),
+            }
+            for metric in RECALIBRATION_METRICS
+        },
+    }
+
+
 def run_recalibration_curves(
     direction: str,
     milestone: int,
     probability: np.ndarray,
     y: np.ndarray,
     repeats: int,
-) -> tuple[dict[str, dict], dict[str, dict], dict[str, dict], list[dict]]:
+) -> tuple[
+    dict[str, dict],
+    dict[str, dict],
+    dict[str, dict],
+    dict[str, dict],
+    dict[str, dict],
+    list[dict],
+]:
     """Recalibrate on target labels and evaluate on different target patients."""
     y = np.asarray(y, dtype=int)
     counts = np.bincount(y, minlength=3)
@@ -563,7 +596,11 @@ def run_recalibration_curves(
         method: defaultdict(list) for method in CALIBRATION_METHODS
     }
     request_to_class_counts: dict[int, list[np.ndarray]] = defaultdict(list)
-    request_to_differences: dict[int, list[dict[str, float]]] = defaultdict(list)
+    request_to_untreated_rows: dict[int, list[dict]] = defaultdict(list)
+    request_to_method_differences: dict[int, list[dict]] = defaultdict(list)
+    request_to_untreated_differences = {
+        method: defaultdict(list) for method in CALIBRATION_METHODS
+    }
     for repeat in range(repeats):
         rng = np.random.default_rng(split_seed(direction, milestone, repeat))
         ranked_by_class = [
@@ -627,8 +664,26 @@ def run_recalibration_curves(
                 if method == "temperature_scaling":
                     row["temperature"] = temperature
                 request_to_rows[method][requested_n].append(row)
+            untreated_metrics = basic_metrics(
+                y[evaluation_mask],
+                probability[evaluation_mask],
+            )
+            untreated_row = {
+                "direction": direction,
+                "landmark_hours": milestone,
+                "repeat": repeat,
+                "method": "untreated_heldout",
+                "n_local_labels": requested_n,
+                "evaluation_n": untreated_metrics["n"],
+                **{
+                    metric: untreated_metrics[metric]
+                    for metric in RECALIBRATION_METRICS
+                },
+            }
+            request_to_untreated_rows[requested_n].append(untreated_row)
+            replicate_rows.append(untreated_row)
             request_to_class_counts[requested_n].append(allocation)
-            request_to_differences[requested_n].append(
+            request_to_method_differences[requested_n].append(
                 {
                     metric: (
                         method_metrics["temperature_scaling"][metric]
@@ -637,8 +692,40 @@ def run_recalibration_curves(
                     for metric in RECALIBRATION_METRICS
                 }
             )
+            for method in CALIBRATION_METHODS:
+                request_to_untreated_differences[method][requested_n].append(
+                    {
+                        metric: (
+                            method_metrics[method][metric]
+                            - untreated_metrics[metric]
+                        )
+                        for metric in RECALIBRATION_METRICS
+                    }
+                )
 
+    untreated_curves: dict[str, dict] = {}
     method_differences: dict[str, dict] = {}
+    untreated_differences: dict[str, dict] = {}
+    for requested_n in CALIBRATION_NS[1:]:
+        untreated_rows = request_to_untreated_rows.get(requested_n, [])
+        untreated_curves[str(requested_n)] = {
+            "requested_local_labels": requested_n,
+            "method": "untreated_heldout",
+            **aggregate_calibration_rows(untreated_rows),
+        }
+        untreated_differences[str(requested_n)] = {
+            method: paired_difference_record(
+                request_to_untreated_differences[method][requested_n],
+                f"{method}_minus_untreated_heldout",
+            )
+            for method in CALIBRATION_METHODS
+        }
+        differences = request_to_method_differences[requested_n]
+        method_differences[str(requested_n)] = paired_difference_record(
+            differences,
+            "temperature_scaling_minus_multinomial_logistic",
+        )
+
     for requested_n in CALIBRATION_NS[1:]:
         for method in CALIBRATION_METHODS:
             rows = request_to_rows[method].get(requested_n, [])
@@ -673,37 +760,12 @@ def run_recalibration_curves(
             }
             aggregate[method][str(requested_n)] = record
             replicate_rows.extend(rows)
-
-        differences = request_to_differences.get(requested_n, [])
-        method_differences[str(requested_n)] = {
-            "comparison": "temperature_scaling_minus_multinomial_logistic",
-            "repetitions": len(differences),
-            **{
-                metric: {
-                    **percentile_record(
-                        [float(row[metric]) for row in differences]
-                    ),
-                    "fraction_favoring_temperature_scaling": round(
-                        float(
-                            np.mean(
-                                [
-                                    float(row[metric]) > 0
-                                    if metric in ("macro_auc", "accuracy")
-                                    else float(row[metric]) < 0
-                                    for row in differences
-                                ]
-                            )
-                        ),
-                        6,
-                    ),
-                }
-                for metric in RECALIBRATION_METRICS
-            },
-        }
     return (
         aggregate["multinomial_logistic"],
         aggregate["temperature_scaling"],
         method_differences,
+        untreated_curves,
+        untreated_differences,
         replicate_rows,
     )
 
@@ -920,8 +982,38 @@ def build_report(summary: dict) -> str:
                 f"{comparison['ece_top_label_10bin']['mean']:+.3f} | "
                 f"{comparison['log_loss']['mean']:+.3f} | "
                 f"{comparison['brier_multiclass']['mean']:+.3f} | "
-                f"{comparison['ece_top_label_10bin']['fraction_favoring_temperature_scaling']:.1%} |"
+                f"{comparison['ece_top_label_10bin']['fraction_favoring_first_arm']:.1%} |"
             )
+
+    lines.extend(
+        [
+            "",
+            "### Paired calibrated-minus-untreated comparison at 72 h",
+            "",
+            (
+                "Each calibrated prediction is compared with the untreated "
+                "transport prediction on the identical held-out patients. "
+                "Negative ECE differences favour calibration."
+            ),
+            "",
+            "| Direction | Local labels | Method | Delta ECE | "
+            "2.5th-97.5th percentile |",
+            "|---|---:|---|---:|---:|",
+        ]
+    )
+    for direction in DIRECTIONS:
+        record = summary["recalibration"][direction]["72"]
+        for requested_n in CALIBRATION_NS[1:]:
+            for method in CALIBRATION_METHODS:
+                comparison = record[
+                    "calibrated_minus_untreated_heldout"
+                ][str(requested_n)][method]["ece_top_label_10bin"]
+                lines.append(
+                    f"| {direction} | {requested_n} | {method} | "
+                    f"{comparison['mean']:+.3f} | "
+                    f"{comparison['p2_5']:+.3f} to "
+                    f"{comparison['p97_5']:+.3f} |"
+                )
 
     lines.extend(
         [
@@ -1186,6 +1278,8 @@ def main() -> None:
                     curves,
                     temperature_curves,
                     method_differences,
+                    untreated_curves,
+                    untreated_differences,
                     replicate_rows,
                 ) = run_recalibration_curves(
                     direction,
@@ -1208,6 +1302,10 @@ def main() -> None:
                     "curves_temperature_scaling": temperature_curves,
                     "temperature_scaling_minus_multinomial_logistic": (
                         method_differences
+                    ),
+                    "untreated_heldout": untreated_curves,
+                    "calibrated_minus_untreated_heldout": (
+                        untreated_differences
                     ),
                 }
                 print(
